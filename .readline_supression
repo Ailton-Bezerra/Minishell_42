@@ -1,0 +1,61 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    .readline_supression                               :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/03 17:03:47 by ailbezer          #+#    #+#              #
+#    Updated: 2025/02/03 17:03:49 by ailbezer         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+{
+   <Readline>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   ...
+   fun:readline
+   ...
+}
+{
+   <Readline>
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:xmalloc
+   fun:rl_add_undo
+   fun:rl_insert_text
+   fun:_rl_insert_char
+   fun:rl_insert
+   fun:_rl_dispatch_subseq
+   fun:readline_internal_char
+   fun:readline
+   ...
+}
+{
+   <AddHistory>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   ...
+}
+{
+   <KeySignaForSomeReason>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:rl_make_bare_keymap
+   fun:rl_generic_bind
+   fun:rl_macro_bind
+   fun:rl_parse_and_bind
+   obj:/usr/lib64/libreadline.so.8.2
+   obj:/usr/lib64/libreadline.so.8.2
+   fun:rl_parse_and_bind
+   obj:/usr/lib64/libreadline.so.8.2
+   fun:rl_read_init_file
+   fun:rl_initialize
+}
