@@ -13,6 +13,7 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c errors_and_free.c map.c init.c \
 			parse.c render.c render_utils.c draw_line_utils.c parse_utils.c \
 			colors.c)
 
+
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
