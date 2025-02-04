@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 09:19:47 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/04 10:42:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ int	main(void)
 		printf("%s\n", rl);
 		free(rl);
 	}
+	rl_clear_history();
 	return (0);
 }

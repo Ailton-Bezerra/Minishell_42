@@ -13,8 +13,8 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c)
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
-# --show-leak-kinds=all
-VALGRIND	:= valgrind --leak-check=full --track-origins=yes --suppressions=.readline_supression
+VALGRIND	:= valgrind --leak-check=full --track-origins=yes \
+			--show-leak-kinds=all --suppressions=.readline_supression
 NO_PRINT	:= --no-print-directory
 CYAN		:= \033[1;36m
 GREEN		:= \033[1;32m
@@ -46,6 +46,8 @@ fclean: clean
 	
 re: fclean all
 
+val: libft $(NAME)
+	$(VALGRIND) ./minishell
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)LIBFT$(END) $(CYAN)=======$(END)"
 	@norminette libraries/libft | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/libft/\x1b[1;31m&\x1b[0m/g'
@@ -54,4 +56,4 @@ norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)INCLUDES$(END) $(CYAN)=======$(END)"
 	@norminette includes | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/includes/\x1b[1;36m&\x1b[0m/g'
 
-.PHONY: all clean fclean re libft norm
+.PHONY: all clean fclean re libft norm val
