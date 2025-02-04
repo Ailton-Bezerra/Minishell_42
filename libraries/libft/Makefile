@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
+#    By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/24 09:31:40 by cabo-ram          #+#    #+#              #
-#    Updated: 2024/11/01 12:55:51 by cabo-ram         ###   ########.fr        #
+#    Updated: 2025/02/04 09:39:53 by ailbezer         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,21 +33,19 @@ RM = rm -rf
 all: $(NAME)
 
 $(NAME): $(OBJS)
-#	ar rcs $(NAME) $(OBJS)
 
 bonus: $(OBJS) $(OBJSBONUS)
-#	ar rcs $(NAME) $(OBJS) $(OBJSBONUS)
 	@make OBJS="$(OBJS) $(OBJSBONUS)" --no-print-directory 
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
-	ar rcs $(NAME) $@
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@ar rcs $(NAME) $@
 
 clean:
-	$(RM) $(OBJS) $(OBJSBONUS)
+	@$(RM) $(OBJS) $(OBJSBONUS)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
 
