@@ -3,17 +3,23 @@ name: CI Minishell
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-    - name: Install Dependencies
-      run: sudo apt-get update && sudo apt-get install -y valgrind
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libreadline-dev
+        sudo apt-get install -y valgrind
 
     - name: Build
       run: make
 
-    - name: Run Valgrind
-      run: valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --suppressions=.readline_supression ./minishell
+    - name: Run norm
+      run: make norm
+
+    - name: Run valgrind
+      run: make val
