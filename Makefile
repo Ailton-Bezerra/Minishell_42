@@ -5,7 +5,7 @@ CFLAGS  := -g -Wextra -Wall -Werror #-lreadline
 
 LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
-LIBS    := $(LIBFT)/libft.a -ldl -lglfw -pthread -lm -lreadline
+LIBS    := $(LIBFT)/libft.a -lreadline
 
 SRCS_DIR := src/
 SRCS     := $(addprefix $(SRCS_DIR), main.c)
@@ -40,7 +40,6 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-#@rm -f trace.txt
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@echo "$(GREEN) all!$(END)"
 	
