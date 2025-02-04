@@ -12,9 +12,13 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y libreadline-dev
-        sudo apt-get install -y norminette
-        sudo apt_get install -y valgrind
+        sudo apt-get install -y libreadline-dev python3-pip valgrind
+
+    - name: Install Norminette
+      run: |
+        git clone https://github.com/42School/norminette.git ~/norminette
+        cd ~/norminette
+        sudo python3 -m pip install .
 
     - name: Build
       run: make
