@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/03 12:24:52 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:19:47 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <readline/readline.h>
-#include <readline/history.h>
+#include "../includes/minishell.h"
 
 int	main(void)
 {
@@ -25,7 +22,7 @@ int	main(void)
 		if (!rl)
 		{
 			printf("exiting\n");
-			break;
+			break ;
 		}
 		if (*rl)
 			add_history(rl);

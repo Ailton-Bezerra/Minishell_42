@@ -1,20 +1,15 @@
 NAME		:= minishell
-# NAME_BONUS	:= fdf_bonus
 
 CC      := cc
-CFLAGS  := -g -Wextra -Wall -Werror -lreadline
+CFLAGS  := -g -Wextra -Wall -Werror #-lreadline
 
-LIBFT   := ./libs/libft
+LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
-LIBS    := $(LIBFT)/libft.a -ldl -lglfw -pthread -lm
+LIBS    := $(LIBFT)/libft.a -ldl -lglfw -pthread -lm -lreadline
 
-SRCS_DIR := mandatory/
-SRCS     := $(addprefix $(SRCS_DIR), main.c errors_and_free.c map.c init.c \
-			parse.c render.c render_utils.c draw_line_utils.c parse_utils.c \
-			colors.c)
-
-
-
+SRCS_DIR := src/
+SRCS     := $(addprefix $(SRCS_DIR), main.c)
+			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
@@ -45,7 +40,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@rm -f trace.txt
+#@rm -f trace.txt
 	@make -C $(LIBFT) fclean $(NO_PRINT)
 	@echo "$(GREEN) all!$(END)"
 	
@@ -53,11 +48,9 @@ re: fclean all
 
 norm:
 	@echo "\n$(CYAN)=======$(END) $(GREEN)LIBFT$(END) $(CYAN)=======$(END)"
-	@norminette libs/libft | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/libft/\x1b[1;31m&\x1b[0m/g'
+	@norminette libraries/libft | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/libft/\x1b[1;31m&\x1b[0m/g'
 	@echo "\n$(CYAN)=======$(END) $(GREEN)MANDATORY$(END) $(CYAN)=======$(END)"
-	@norminette mandatory | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/mandatory/\x1b[1;33m&\x1b[0m/g'
-	@echo "\n$(CYAN)=======$(END) $(GREEN)BONUS$(END) $(CYAN)=======$(END)"
-	@norminette bonus | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/bonus/\x1b[1;35m&\x1b[0m/g'
+	@norminette src | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/src/\x1b[1;33m&\x1b[0m/g'
 	@echo "\n$(CYAN)=======$(END) $(GREEN)INCLUDES$(END) $(CYAN)=======$(END)"
 	@norminette includes | sed 's/OK/\x1b[1;32m&\x1b[0m/g' | sed 's/includes/\x1b[1;36m&\x1b[0m/g'
 

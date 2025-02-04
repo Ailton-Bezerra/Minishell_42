@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/03 15:19:54 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/04 09:14:42 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libraries/libft/libft.h"
+# include "../libraries/libft/libft.h"
 
-# define PROMPT "minishell>$ "
+// # define PROMPT "minishell>$ "
 
-void	minishell_loop(void);
+// void	minishell_loop(void);
 
 #endif
