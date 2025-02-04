@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/02/04 12:01:24 by cabo-ram          #+#    #+#              #
+#    Updated: 2025/02/04 12:04:50 by cabo-ram         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME		:= minishell
 
 CC      := cc
@@ -7,8 +19,8 @@ LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
 LIBS    := $(LIBFT)/libft.a -ldl -lglfw -pthread -lm -lreadline
 
-SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c)
+SRCS_DIR := src
+SRCS     := $(addprefix $(SRCS_DIR), main.c parse_token/token.c)
 			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)

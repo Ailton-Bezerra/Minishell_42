@@ -1,32 +1,13 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 11:54:28 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/02/04 11:33:39 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/04 11:33:47 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include <fcntl.h>
-# include <signal.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <string.h>
-# include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include "../libraries/libft/libft.h"
-
-# define PROMPT "minishell>$ "
-
-//parse_token
-	//token.c
-void	parse_quotes(const char *line);
-
-#endif
+#include "../includes/minishell.h"

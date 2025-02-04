@@ -1,35 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 11:53:32 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/04 12:05:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(void)
+void	parse_quotes(const char *line)
 {
-	char	*line;
+	int	i;
+	int	single_quote;
+	int	double_quote;
 
-	while (1)
+	i = 0;
+	single_quote = 0;
+	double_quote = 0;
+	while (line[i])
 	{
-		line = readline(PROMPT);
-		if (!line)
-		{
-			printf("exit\n");
-			break ;
-		}
-		if (*line)
-			add_history(line);
-		// printf("%s\n", line);
-		parse_quotes(line);
-		free(line);
+		if (line[i] == '\'' && !double_quote)
+			single_quote = !single_quote;
+		else if (line[i] == '\"' && !single_quote)
+			double_quote = !double_quote;
+		i++;
 	}
-	rl_clear_history();
-	return (0);
+	if (single_quote || double_quote)
+		printf("Error: unclosed quotes\n");
 }
