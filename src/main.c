@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 17:05:04 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/04 17:44:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*read_input(void)
 	{
 		printf("exiting\n");
 		rl_clear_history();
-		exit(-42);
+		exit(0);
 	}
 	if (*input)
 		add_history(input);
