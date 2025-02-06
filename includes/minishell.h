@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 16:23:02 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:52:01 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,14 @@ typedef struct s_token
 }					t_token;
 
 //============ tokens_utils ===========
+void	add_token(t_token **head, char *content);
+void	print_tokens(t_token *tokens);
 void	free_tokens(t_token *tokens);
-t_token	*tokenizer_input(const char *input);
+// t_token	*tokenizer_input(const char *input);
+
+//============== tokens ==============
+// int		parse_quotes(const char *line, t_token **tokens_head);
+// t_token	*split_tokens(const char *input);
+t_token *tokenize(char *line, t_token *tokens);
 
 #endif

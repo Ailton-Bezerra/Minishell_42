@@ -8,7 +8,7 @@ HEADERS := -I ./include -I $(LIBFT)/include
 LIBS    := $(LIBFT)/libft.a -lreadline
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/token_utils.c)
+SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/token.c tokens/token_utils.c)
 			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)

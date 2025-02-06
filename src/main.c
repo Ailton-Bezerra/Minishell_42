@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 17:44:51 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/06 09:52:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static char	*read_input(void)
 	}
 	if (*input)
 		add_history(input);
-	// printf("%s\n", input);
-	// rl_clear_history();
+
 	return (input);
 }
 
@@ -38,15 +37,8 @@ int	main(void)
 	while (1)
 	{
 		input = read_input();
-		tokens = tokenizer_input(input);
-		// t_token *temp = tokens;
-		// int i = 0;
-		// while(temp)
-		// {	
-		// 	printf("-----------------------------\n");
-		// 	printf("token [%d]: %s\n", i++, temp->value);
-		// 	temp = temp->next;
-		// }
+		tokens = tokenize(input, NULL);
+		print_tokens(tokens);
 		free(input);
 		free_tokens(tokens);
 	}
