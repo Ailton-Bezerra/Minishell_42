@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 12:24:38 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/06 17:12:42 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	process_token(t_token **tokens, char *line, int *i)
 	}
 }
 
-static void	parse_quotes(const char *line)
+static char	*parse_quotes(char *line)
 {
 	int	i;
 	int	single_quote;
@@ -76,14 +76,22 @@ static void	parse_quotes(const char *line)
 		i++;
 	}
 	if (single_quote || double_quote)
+	{
 		printf("Error: unclosed quotes\n");
+		return (NULL);
+	}
+	return ("OK");
 }
 
-t_token	*tokenize(char *line, t_token *tokens)
+t_token	*handle_quotes(char *line, t_token *tokens)
 {
 	int		i;
 
-	parse_quotes(line);
+	if (!parse_quotes(line))
+	{
+		free(line);
+		return (NULL);
+	}
 	i = 0;
 	while (line[i])
 	{
@@ -93,5 +101,6 @@ t_token	*tokenize(char *line, t_token *tokens)
 			break ;
 		process_token(&tokens, line, &i);
 	}
+	free(line);
 	return (tokens);
 }

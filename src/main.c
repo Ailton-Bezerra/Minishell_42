@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 12:30:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:04:59 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@ static char	*read_input(void)
 {
 	char	*input;
 
-	input = readline("MINISHEL > ");
+	input = readline("\033[1;33mMINISHEL > \033[0m");
 	if (!input)
 	{
 		printf("exiting\n");
-		rl_clear_history();
-		exit(0);
+		return (NULL);
 	}
 	if (*input)
 		add_history(input);
-
 	return (input);
 }
 
@@ -37,7 +35,9 @@ int	main(void)
 	while (1)
 	{
 		input = read_input();
-		tokens = tokenize(input, NULL);
+		if (!input)
+			break ;
+		tokens = tokenizer(input);
 		print_tokens(tokens);
 		free(input);
 		free_tokens(tokens);

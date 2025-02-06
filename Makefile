@@ -1,14 +1,15 @@
 NAME		:= minishell
 
 CC      := cc
-CFLAGS  := -g -Wextra -Wall -Werror #-lreadline
+CFLAGS  := -g3 -Wextra -Wall -Werror #-lreadline
 
 LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
 LIBS    := $(LIBFT)/libft.a -lreadline
 
 SRCS_DIR := src/
-SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/token.c tokens/token_utils.c)
+SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list.c \
+				tokens/types.c tokens/free_memory.c tokens/quotes.c debug/print_tokens.c)
 			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
