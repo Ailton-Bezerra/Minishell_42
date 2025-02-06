@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/04 17:44:51 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/06 16:04:59 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,14 @@ static char	*read_input(void)
 {
 	char	*input;
 
-	input = readline("MINISHEL > ");
+	input = readline("\033[1;33mMINISHEL > \033[0m");
 	if (!input)
 	{
 		printf("exiting\n");
-		rl_clear_history();
-		exit(0);
+		return (NULL);
 	}
 	if (*input)
 		add_history(input);
-	// printf("%s\n", input);
-	// rl_clear_history();
 	return (input);
 }
 
@@ -38,15 +35,10 @@ int	main(void)
 	while (1)
 	{
 		input = read_input();
-		tokens = tokenizer_input(input);
-		// t_token *temp = tokens;
-		// int i = 0;
-		// while(temp)
-		// {	
-		// 	printf("-----------------------------\n");
-		// 	printf("token [%d]: %s\n", i++, temp->value);
-		// 	temp = temp->next;
-		// }
+		if (!input)
+			break ;
+		tokens = tokenizer(input);
+		print_tokens(tokens);
 		free(input);
 		free_tokens(tokens);
 	}
