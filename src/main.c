@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 10:38:54 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:16:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int	main(void)
 		if (!input)
 			break ;
 		tokens = tokenizer(input);
+		if (tokens)
+		{
+			if (!internal_command(tokens))
+				execute_pipe(tokens, NULL);
+		}
 		print_tokens(tokens);
 		free(input);
 		free_tokens(tokens);
