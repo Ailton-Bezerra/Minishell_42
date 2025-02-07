@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 17:17:03 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:29:47 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 // # define PROMPT "minishell>$ "
 
 // void	minishell_loop(void);
+
+# define YELLOW "\001\033[1;33m\002"
+# define END "\001\033[0m\002"
 
 enum e_token
 {

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 16:04:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 10:38:54 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ static char	*read_input(void)
 {
 	char	*input;
 
-	input = readline("\033[1;33mMINISHEL > \033[0m");
+	input = readline(YELLOW "MINISHEL > " END);
 	if (!input)
 	{
 		printf("exiting\n");
 		return (NULL);
 	}
-	if (*input)
+	if (*input && input)
 		add_history(input);
 	return (input);
 }
