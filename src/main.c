@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 10:38:54 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 16:25:19 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*read_input(void)
 {
 	char	*input;
 
-	input = readline(YELLOW "MINISHEL > " END);
+	input = readline(YELLOW "MINISHELL > " END);
 	if (!input)
 	{
 		printf("exiting\n");
@@ -38,8 +38,13 @@ int	main(void)
 		if (!input)
 			break ;
 		tokens = tokenizer(input);
-		print_tokens(tokens);
+		if (!tokens)
+		{
+			free(input);
+			continue ;
+		}
 		free(input);
+		print_tokens(tokens);
 		free_tokens(tokens);
 	}
 	rl_clear_history();

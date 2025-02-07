@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 10:29:47 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:21:11 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libraries/libft/libft.h"
+# include "tokens.h"
 
 // # define PROMPT "minishell>$ "
 
@@ -29,25 +30,6 @@
 
 # define YELLOW "\001\033[1;33m\002"
 # define END "\001\033[0m\002"
-
-enum e_token
-{
-	WORD,
-	PIPE,
-	APPEND,
-	TRUNC,
-	INPUT,
-	HERE_DOC,
-};
-
-typedef struct s_token
-{
-	char			*value;
-	enum e_token	type;
-	// bool			command;
-	// struct s_token	*prev;
-	struct s_token	*next;
-}					t_token;
 
 // ============== tokens/tokenizer ==============
 t_token			*tokenizer(const char *input);
@@ -57,7 +39,8 @@ t_token			*new_token_node(char *content);
 void			add_token(t_token **head, char *content);
 
 // ============== tokens/types ==============
-enum e_token	define_types(char *type);
+enum e_token	define_type(char *type);
+void			command_type(t_token *tokens);
 
 // ============== debug/print_tokens ==============
 void			print_tokens(t_token *token);
@@ -69,5 +52,8 @@ char			*ft_substr_free(char *s, unsigned int start, size_t end);
 
 // ============== tokens/quotes ==============
 t_token			*handle_quotes(char *line, t_token *tokens);
+
+// ============== tokens/sintax ==============
+int				chek_sintax(t_token *tokens);
 
 #endif
