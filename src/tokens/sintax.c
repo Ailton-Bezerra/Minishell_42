@@ -6,39 +6,51 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:49:27 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/07 16:55:47 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 11:07:21 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int chek_sintax(t_token *tokens)
+static int	check_redirect(enum e_token type, t_token *next)
 {
-	t_token *tmp;
-	t_token *first;
+	if (((type == APPEND && next && next->type != WORD))
+		|| (type == APPEND && !next))
+		return (printf("syntax error near unexpected token `>>'\n"), 0);
+	else if ((type == TRUNC && next && next->type != WORD)
+		|| (type == TRUNC && !next))
+		return (printf("syntax error near unexpected token `>'\n"), 0);
+	else if (((type == HERE_DOC && next && next->type != WORD))
+		|| (type == HERE_DOC && !next))
+		return (printf("syntax error near unexpected token `<<'\n"), 0);
+	else if (((type == INPUT && next && next->type != WORD))
+		|| (type == INPUT && !next))
+		return (printf("syntax error near unexpected token `<'\n"), 0);
+	return (1);
+}
+
+static int	check_pipe(enum e_token type, t_token *next, t_token *first)
+{
+	if ((((type == PIPE && next && next->type != WORD))
+			|| (type == PIPE && !next)) || first->type == PIPE)
+		return (printf("syntax error near unexpected token `|'\n"), 0);
+	return (1);
+}
+
+int	chek_sintax(t_token *tokens)
+{
+	t_token	*tmp;
+	t_token	*first;
 
 	first = tokens;
 	tmp = tokens;
 	while (tmp)
 	{
-		if (((tmp->type == APPEND && tmp->next && tmp->next->type != WORD))
-			|| (tmp->type == APPEND && !tmp->next))
-			return (printf("syntax error near unexpected token `>>'\n"));
-		else if ((tmp->type == TRUNC && tmp->next
-				&& tmp->next->type != WORD) 
-				|| (tmp->type == TRUNC && !tmp->next))
-			return (printf("syntax error near unexpected token `>'\n"));
-		else if ((((tmp->type == PIPE && tmp->next && tmp->next->next != WORD))
-				|| (tmp->type == PIPE && !tmp->next)) || first->type == PIPE)
-			return (printf("syntax error near unexpected token `|'\n"));
-		else if (((tmp->type == HERE_DOC && tmp->next
-				&& tmp->next->next != WORD))
-				|| (tmp->type == HERE_DOC && !tmp->next))
-			return(printf("syntax error near unexpected token `<<'\n"));
-		else if (((tmp->type == INPUT && tmp->next && tmp->next->type != WORD))
-				|| (tmp->type == INPUT && !tmp->next))
-			return (printf("syntax error near unexpected token `<'\n"));
+		if (!check_redirect(tmp->type, tmp->next))
+			return (0);
+		else if (!check_pipe(tmp->type, tmp->next, first))
+			return (0);
 		tmp = tmp->next;
 	}
-	return (0);
+	return (1);
 }

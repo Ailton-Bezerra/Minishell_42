@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/07 18:15:42 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 11:05:41 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,14 @@ static void	add_space(char **str, char **new_str, size_t *i, int flag)
 	*i = 0;
 }
 
+/**
+ * @brief   Separates special symbols by adding spaces around them.
+ * 
+ * @param   input  The input string containing commands and operators.
+ * 
+ * @return  A new string where the operators '<<', '>>', '<', '>', and '|'
+ *          are separated by spaces or NULL in case of malloc failure.
+ */
 static char	*separe_simbols(const char *input)
 {
 	size_t	i;
@@ -56,7 +64,7 @@ t_token	*tokenizer(const char *input)
 
 	input_norm = separe_simbols(input);
 	token_list = handle_quotes(input_norm, NULL);
-	if (chek_sintax(token_list) != 0)
+	if (!chek_sintax(token_list))
 		return (free_tokens(token_list), NULL);
 	command_type(token_list);
 	return (token_list);

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 18:21:11 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 09:38:54 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_token			*new_token_node(char *content);
 void			add_token(t_token **head, char *content);
 
 // ============== tokens/types ==============
-enum e_token	define_type(char *type);
+enum e_token	define_types(char *type);
 void			command_type(t_token *tokens);
 
 // ============== debug/print_tokens ==============

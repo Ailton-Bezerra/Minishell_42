@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 17:12:42 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 10:37:43 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ static void	add_token_from_line(t_token **tokens, char *line, int start,
 	free(token_str);
 }
 
+/**
+ * @brief   Processes a token from the input line and adds it to the token list.
+ * 
+ * @param   tokens  Pointer to the list of tokens.
+ * @param   line    The input string being tokenized.
+ * @param   i       Pointer to the current index in the input string.
+ * 
+ * @return  None. The function updates the token list by extracting tokens 
+ *          based on spaces and quotes.
+ */
 static void	process_token(t_token **tokens, char *line, int *i)
 {
 	int		start;
@@ -58,6 +68,14 @@ static void	process_token(t_token **tokens, char *line, int *i)
 	}
 }
 
+/**
+ * @brief   Checks for unclosed single or double quotes in a string.
+ * 
+ * @param   line  The input string to be analyzed.
+ * 
+ * @return  Returns "OK" if all quotes are properly closed.
+ *			returns NULL & error message if there are unclosed quotes.
+ */
 static char	*parse_quotes(char *line)
 {
 	int	i;
