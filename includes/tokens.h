@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:10:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/07 18:20:45 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 17:12:45 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ enum e_token
 	OPTION,
 	FD,
 };
+
+typedef struct s_expand
+{
+	int		quote;
+	int		double_quote;
+	char	*var_value;
+	int		var_len;
+	int		index;
+}			t_expand;
 
 typedef struct s_token
 {

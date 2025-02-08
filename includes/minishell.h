@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/08 09:38:54 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/08 13:47:32 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,7 @@ t_token			*handle_quotes(char *line, t_token *tokens);
 
 // ============== tokens/sintax ==============
 int				chek_sintax(t_token *tokens);
+
+char			*handle_expansion(char *input);
 
 #endif
