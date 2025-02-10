@@ -1,7 +1,7 @@
 NAME		:= minishell
 
 CC      := cc
-CFLAGS  := -g3 -Wextra -Wall -Werror #-lreadline
+CFLAGS  := -g -Wextra -Wall -Werror #-lreadline
 
 LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include

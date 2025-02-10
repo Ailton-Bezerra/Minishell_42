@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) minishell",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/minishell",
-            "args": ["echo", "Hello World!"],
+            "args": [],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],

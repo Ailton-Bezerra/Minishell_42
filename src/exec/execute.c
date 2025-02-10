@@ -6,17 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 18:40:54 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:35:49 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// void	error(void)
-// {
-// 	perror("Error");
-// 	exit(EXIT_FAILURE);
-// }
 
 void	free_array(char **arr)
 {
@@ -75,26 +69,32 @@ void	execute_command(t_token *tokens, char **envp)
 	cmd = args[0];
 	if (!cmd)
 	{
-		free(args);
+		free_array(args);
 		return ;
 	}
 	if (builtin(cmd))
 	{
-		execute_builtin(&cmd);
-		free(args);
+		execute_builtin(args, envp);
+		free_array(args);
 		return ;
 	}
-	path = get_path(cmd, envp);
+	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| ft_strncmp(cmd, "../", 3) == 0)
+		path = ft_strdup(cmd);
+	else
+		path = get_path(cmd, envp);
 	if (!path)
 	{
 		ft_putstr_fd("Error: Missing argument\n", 2);
-		free(args);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd("\n", 2);
+		free_array(args);
 		return ;
 	}
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("Error");
+		perror("fork");
 		free(path);
 		free_array(args);
 		return ;
@@ -103,7 +103,7 @@ void	execute_command(t_token *tokens, char **envp)
 	{
 		if (execve(path, args, envp) == -1)
 		{
-			perror("Error");
+			perror("execve");
 			free(path);
 			free_array(args);
 			exit(EXIT_FAILURE);
@@ -113,21 +113,4 @@ void	execute_command(t_token *tokens, char **envp)
 		waitpid(pid, NULL, 0);
 	free(path);
 	free_array(args);
-}
-
-int	internal_command(t_token *tokens)
-{
-	if (!tokens || !tokens->value)
-		return (0);
-	if (ft_strncmp(tokens->value, "exit", 4) == 0)
-		exit(EXIT_SUCCESS);
-	else if (ft_strncmp(tokens->value, "cd", 2) == 0)
-	{
-		if (!tokens->next || tokens->next->type != WORD)
-			ft_putstr_fd("Error: Missing argument\n", 2);
-		else if (chdir(tokens->next->value) != 0)
-			perror("Error");
-		return (1);
-	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 18:16:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:29:56 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*read_input(void)
 	return (input);
 }
 
-int	main(void)
+int	main(int ac, char **av, char **envp)
 {
 	char	*input;
 	t_token	*tokens;
@@ -40,10 +40,10 @@ int	main(void)
 		tokens = tokenizer(input);
 		if (tokens)
 		{
-			if (!internal_command(tokens))
-				execute_pipe(tokens, NULL);
+			if (!internal_command(tokens, envp))
+				execute_pipe(tokens, envp);
 		}
-		print_tokens(tokens);
+		// print_tokens(tokens);
 		free(input);
 		free_tokens(tokens);
 	}

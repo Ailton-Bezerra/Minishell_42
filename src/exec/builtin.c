@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 18:41:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:32:30 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,102 +22,83 @@ int	builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(char **cmd)
+void	ft_echo(char **cmd)
 {
-	int		i;
-	char	cwd[1024];
+	int	i;
 
 	i = 1;
-	if (!ft_strncmp(cmd[0], "echo", 4))
+	while (cmd[i])
 	{
-		while (cmd[i])
-		{
-			printf("%s", cmd[i]);
-			if (cmd[i + 1])
-				printf(" ");
-			i++;
-		}
-		printf("\n");
+		printf("%s", cmd[i]);
+		if (cmd[i + 1])
+			printf(" ");
+		i++;
 	}
-	else if (!ft_strncmp(cmd[0], "pwd", 3))
+	printf("\n");
+}
+
+void	ft_cd(char **cmd)
+{
+	if (!cmd[1])
 	{
-		getcwd(cwd, sizeof(cwd));
+		if (chdir(getenv("HOME")) != 0)
+			perror("cd");
+		else
+		{
+			if (chdir(cmd[1]) != 0)
+				perror("cd");
+		}
+	}
+}
+
+void	ft_pwd(void)
+{
+	char	cwd[1024];
+
+	if (getcwd(cwd, sizeof(cwd)))
 		printf("%s\n", cwd);
-	}
+	else
+		perror("pwd");
 }
 
-static char	**get_directories(char **envp)
+// void	ft_export(char **cmd)
+// {
+
+// }
+
+// void	ft_unset(char **cmd)
+// {
+
+// }
+
+void	ft_env(char **envp)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	if (envp[i] == NULL)
-		return (NULL);
-	return (ft_split(envp[i] + 5, ':'));
-}
-
-static void	free_split(char **split)
-{
-	int	i;
-
-	i = 0;
-	while (split && split[i])
-		free(split[i++]);
-	free(split);
-}
-
-char	*get_path(char *cmd, char **envp)
-{
-	char	**valid_path;
-	char	*fullpath;
-	char	*part_path;
-	int		i;
-
-	valid_path = get_directories(envp);
-	if (valid_path == NULL)
-		return (NULL);
-	i = 0;
-	while (valid_path[i])
+	while (envp[i])
 	{
-		part_path = ft_strjoin(valid_path[i], "/");
-		fullpath = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(fullpath, F_OK | X_OK) == 0)
-		{
-			free_split(valid_path);
-			return (fullpath);
-		}
-		free(fullpath);
+		printf("%s\n", envp[i]);
 		i++;
 	}
-	free_split(valid_path);
-	return (NULL);
 }
 
-void	execute(char *av, char **envp)
+void	execute_builtin(char **cmd, char **envp)
 {
-	char	**cmd;
-	char	*path;
-	int		i;
-
-	cmd = ft_split(av, ' ');
-	path = get_path(cmd[0], envp);
-	i = 0;
-	if (path == NULL)
-	{
-		while (cmd[i])
-			free (cmd[i++]);
-		free (cmd);
-		error();
-	}
-	if (execve(path, cmd, envp) == -1)
-		error();
-}
-
-void	error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
+	if (!cmd[0])
+		return ;
+	if (!ft_strncmp(cmd[0], "echo", 4))
+		ft_echo(cmd);
+	else if (!ft_strncmp(cmd[0], "cd", 2))
+		ft_cd(cmd);
+	else if (!ft_strncmp(cmd[0], "pwd", 3))
+		ft_pwd();
+	// else if (!ft_strncmp(&cmd[0], "export", 6))
+	// 	ft_export(cmd);
+	// else if (!ft_strncmp(cmd[0], "unset", 5))
+	// 	ft_unset(cmd);
+	else if (!ft_strncmp(cmd[0], "env", 3))
+		ft_env(envp);
+	else if (!ft_strncmp(cmd[0], "exit", 4))
+		exit(EXIT_SUCCESS);
 }

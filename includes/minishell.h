@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/07 18:11:25 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/10 17:37:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,28 @@ typedef struct s_token
 
 // ============== exec/builtin.c ==============
 int				builtin(char *cmd);
-void			execute_builtin(char **cmd);
-char			*get_path(char *cmd, char **envp);
-void			execute(char *av, char **envp);
-void			error(void);
+void			ft_echo(char **cmd);
+void			ft_cd(char **cmd);
+void			ft_pwd(void);
+// void			ft_export(char **cmd);
+// void			ft_unset(char **cmd);
+void			ft_env(char **envp);
+void			execute_builtin(char **cmd, char **envp);
 
 // ============== exec/execute_pipe.c ==============
 void			execute_pipe(t_token *tokens, char **envp);
 
 // ============== exec/execute.c ==============
-// void			error(void);
 void			free_array(char **arr);
 void			execute_command(t_token *tokens, char **envp);
-int				internal_command(t_token *tokens);
+
+// ============== exec/ext_command.c ==============
+char			*get_path(char *cmd, char **envp);
+void			execute(char *av, char **envp);
+void			error(void);
+
+// ============== exec/int_command.c ==============
+int				internal_command(t_token *tokens, char **envp);
 
 // ============== tokens/tokenizer ==============
 t_token			*tokenizer(const char *input);
