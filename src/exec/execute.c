@@ -6,66 +6,86 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/10 17:35:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/10 18:30:19 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_array(char **arr)
+static int	count_args(t_token *tokens)
 {
-	int	i;
+	int	count;
 
-	i = 0;
-	if (!arr)
-		return ;
-	while (arr[i])
+	count = 0;
+	while (tokens && tokens->type == WORD)
 	{
-		free(arr[i]);
-		i++;
+		count++;
+		tokens = tokens->next;
 	}
-	free(arr);
+	return (count);
 }
 
-void	execute_command(t_token *tokens, char **envp)
+static char	**get_args(t_token *tokens, int count)
 {
-	pid_t	pid;
 	char	**args;
 	int		i;
-	t_token	*temp;
-	char	*cmd;
-	char	*path;
 
-	if (!tokens || !tokens->value)
-		return ;
 	i = 0;
-	temp = tokens;
-	while (temp && temp->type == WORD)
-	{
-		i++;
-		temp = temp->next;
-	}
-	args = malloc(sizeof(char *) * (i + 1));
+	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 	{
 		perror("Error");
 		return ;
 	}
-	temp = tokens;
-	i = 0;
-	while (temp && temp->type == WORD)
+	while (tokens && tokens->type == WORD)
 	{
-		args[i] = ft_strdup(temp->value);
+		args[i] = ft_strdup(tokens->value);
 		if (!args[i])
 		{
 			perror("Error");
 			free_array(args);
 			return ;
 		}
-		temp = temp->next;
+		tokens = tokens->next;
 		i++;
 	}
-	args[i] = NULL;
+	args[count] = NULL;
+	return (args);
+}
+
+static char	*get_command_path(char *cmd, char **envp)
+{
+	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| ft_strncmp(cmd, "../", 3) == 0)
+		return (ft_strdup(cmd));
+	return (get_path(cmd, envp));
+}
+
+static void	execute_child_process(char *path, char **av, char **envp)
+{
+	if (execve(path, av, envp) == -1)
+	{
+		perror("execve");
+		free(path);
+		free_array(av);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	execute_command(t_token *tokens, char **envp)
+{
+	pid_t	pid;
+	int		arg_count;
+	char	**args;
+	char	*cmd;
+	char	*path;
+
+	if (!tokens || !tokens->value)
+		return ;
+	arg_count = count_args(tokens);
+	args = get_args(tokens, arg_count);
+	if (!args)
+		return ;
 	cmd = args[0];
 	if (!cmd)
 	{
@@ -78,11 +98,7 @@ void	execute_command(t_token *tokens, char **envp)
 		free_array(args);
 		return ;
 	}
-	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
-		|| ft_strncmp(cmd, "../", 3) == 0)
-		path = ft_strdup(cmd);
-	else
-		path = get_path(cmd, envp);
+	path = get_command_path(cmd, envp);
 	if (!path)
 	{
 		ft_putstr_fd("Error: Missing argument\n", 2);
@@ -100,15 +116,7 @@ void	execute_command(t_token *tokens, char **envp)
 		return ;
 	}
 	else if (pid == 0)
-	{
-		if (execve(path, args, envp) == -1)
-		{
-			perror("execve");
-			free(path);
-			free_array(args);
-			exit(EXIT_FAILURE);
-		}
-	}
+		execute_child_process(path, args, envp);
 	else
 		waitpid(pid, NULL, 0);
 	free(path);
