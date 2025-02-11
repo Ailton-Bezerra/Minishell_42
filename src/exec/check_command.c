@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   int_command.c                                      :+:      :+:    :+:   */
+/*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/10 17:35:09 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:05:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,14 @@
 int	internal_command(t_token *tokens, char **envp)
 {
 	char	**args;
-	int		i;
-	t_token	*temp;
+	int		arg_count;
 
-	i = 0;
-	temp = tokens;
 	if (!tokens || !tokens->value)
 		return (0);
-	while (temp && temp->type == WORD)
-	{
-		i++;
-		temp = temp->next;
-	}
-	args = malloc(sizeof(char *) * (i + 1));
+	arg_count = count_args(tokens);
+	args = get_args(tokens, arg_count);
 	if (!args)
-	{
-		perror("Error");
 		return (1);
-	}
-	temp = tokens;
-	i = 0;
-	while (temp && temp->type == WORD)
-	{
-		args[i] = ft_strdup(temp->value);
-		if (!args[i])
-		{
-			perror("Error");
-			free_array(args);
-			return (1);
-		}
-		temp = temp->next;
-		i++;
-	}
-	args[i] = NULL;
 	if (builtin(args[0]))
 	{
 		execute_builtin(args, envp);

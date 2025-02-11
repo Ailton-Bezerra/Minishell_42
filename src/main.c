@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/10 17:29:56 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/11 09:52:11 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	main(int ac, char **av, char **envp)
 	char	*input;
 	t_token	*tokens;
 
+	(void)ac;
+	(void)av;
 	while (1)
 	{
 		input = read_input();

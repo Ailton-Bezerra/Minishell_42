@@ -1,57 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute.c                                          :+:      :+:    :+:   */
+/*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/10 18:30:19 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:00:04 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	count_args(t_token *tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens && tokens->type == WORD)
-	{
-		count++;
-		tokens = tokens->next;
-	}
-	return (count);
-}
-
-static char	**get_args(t_token *tokens, int count)
-{
-	char	**args;
-	int		i;
-
-	i = 0;
-	args = malloc(sizeof(char *) * (count + 1));
-	if (!args)
-	{
-		perror("Error");
-		return ;
-	}
-	while (tokens && tokens->type == WORD)
-	{
-		args[i] = ft_strdup(tokens->value);
-		if (!args[i])
-		{
-			perror("Error");
-			free_array(args);
-			return ;
-		}
-		tokens = tokens->next;
-		i++;
-	}
-	args[count] = NULL;
-	return (args);
-}
 
 static char	*get_command_path(char *cmd, char **envp)
 {
@@ -65,20 +24,48 @@ static void	execute_child_process(char *path, char **av, char **envp)
 {
 	if (execve(path, av, envp) == -1)
 	{
-		perror("execve");
+		perror("execve error");
 		free(path);
 		free_array(av);
 		exit(EXIT_FAILURE);
 	}
 }
 
+static void	fork_error(char *path, char **args)
+{
+	perror("fork error");
+	free(path);
+	free_array(args);
+}
+
+static void	handle_external_command(char *cmd, char **args, char **envp)
+{
+	char	*path;
+	pid_t	pid;
+
+	path = get_command_path(cmd, envp);
+	if (!path)
+	{
+		print_error(cmd);
+		free_array(args);
+		return ;
+	}
+	pid = fork();
+	if (pid < 0)
+		fork_error(path, args);
+	else if (pid == 0)
+		execute_child_process(path, args, envp);
+	else
+		waitpid(pid, NULL, 0);
+	free(path);
+	free_array(args);
+}
+
 void	execute_command(t_token *tokens, char **envp)
 {
-	pid_t	pid;
 	int		arg_count;
 	char	**args;
 	char	*cmd;
-	char	*path;
 
 	if (!tokens || !tokens->value)
 		return ;
@@ -96,29 +83,7 @@ void	execute_command(t_token *tokens, char **envp)
 	{
 		execute_builtin(args, envp);
 		free_array(args);
-		return ;
 	}
-	path = get_command_path(cmd, envp);
-	if (!path)
-	{
-		ft_putstr_fd("Error: Missing argument\n", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd("\n", 2);
-		free_array(args);
-		return ;
-	}
-	pid = fork();
-	if (pid < 0)
-	{
-		perror("fork");
-		free(path);
-		free_array(args);
-		return ;
-	}
-	else if (pid == 0)
-		execute_child_process(path, args, envp);
 	else
-		waitpid(pid, NULL, 0);
-	free(path);
-	free_array(args);
+		handle_external_command(cmd, args, envp);
 }
