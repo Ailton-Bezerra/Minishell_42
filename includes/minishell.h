@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/11 16:02:42 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:01:41 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,45 @@ typedef struct s_token
 	struct s_token	*next;
 }					t_token;
 
+typedef struct s_env_list
+{
+	char				**var;
+	int					count;
+	struct s_env_list	*next;
+}				t_env_list;
+
+// ============== /builtin/builtin.c ==============
+int				builtin(char *cmd);
+void			execute_builtin(char **cmd, t_env_list *env_list);
+
+// ============== /builtin/cd.c ==============
+void			ft_cd(char **cmd);
+
+// ============== /builtin/echo.c ==============
+void			ft_echo(char **cmd);
+
+// ============== /builtin/env.c ==============
+void			ft_env(char **envp);
+
+// ============== /builtin/export_utils.c ==============
+int				check_valid_env_name(const char *arg);
+void			free_var(char *var_name, char *var_value);
+void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
+
+// ============== /builtin/export.c ==============
+int				ft_export(t_env_list *env, char *arg);
+
+// ============== /builtin/pwd.c ==============
+void			ft_pwd(void);
+
+// ============== /builtin/unset.c ==============
+// void			ft_unset(char **cmd);
+
+// ============== /builtin/builtin.c ==============
+t_env_list		*convert_envp_to_env_list(char **envp);
+
 // ============== exec/check_command.c ==============
-int				internal_command(t_token *tokens, char **envp);
+int				internal_command(t_token *tokens, t_env_list *env_list);
 
 // ============== exec/execute_command.c ==============
 void			execute_command(t_token *tokens, char **envp);
@@ -71,15 +108,6 @@ void			free_array(char **arr);
 void			error(void);
 void			print_error(char *cmd);
 
-// ============== /builtin/builtin.c ==============
-int				builtin(char *cmd);
-void			ft_echo(char **cmd);
-void			ft_cd(char **cmd);
-void			ft_pwd(void);
-// void			ft_export(char **cmd);
-// void			ft_unset(char **cmd);
-void			ft_env(char **envp);
-void			execute_builtin(char **cmd, char **envp);
 
 // ============== tokens/tokenizer ==============
 t_token			*tokenizer(const char *input);
@@ -100,6 +128,7 @@ char			*ft_strjoin_free(char *s1, char *s2);
 char			*ft_substr_free(char *s, unsigned int start, size_t end);
 
 // ============== tokens/quotes ==============
+char			*ft_strndup(const char *s, size_t n);
 t_token			*handle_quotes(char *line, t_token *tokens);
 
 #endif

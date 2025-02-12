@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/06 17:12:42 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/11 18:26:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*ft_strndup(const char *s, size_t n)
+char	*ft_strndup(const char *s, size_t n)
 {
 	char	*new;
 

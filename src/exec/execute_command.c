@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/11 16:00:04 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:35:09 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,21 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 
 void	execute_command(t_token *tokens, char **envp)
 {
-	int		arg_count;
-	char	**args;
-	char	*cmd;
+	int			arg_count;
+	char		**args;
+	char		*cmd;
+	t_env_list	*env_list;
 
+	printf("Converting envp to env_list\n");
+	env_list = convert_envp_to_env_list(envp);
+	if (!env_list)
+		return ;
+	printf("Checking tokens\n");
 	if (!tokens || !tokens->value)
 		return ;
+	printf("Counting args\n");
 	arg_count = count_args(tokens);
+	printf("Getting args\n");
 	args = get_args(tokens, arg_count);
 	if (!args)
 		return ;
@@ -79,11 +87,16 @@ void	execute_command(t_token *tokens, char **envp)
 		free_array(args);
 		return ;
 	}
+	printf("Checking if builtin\n");
 	if (builtin(cmd))
 	{
-		execute_builtin(args, envp);
+		printf("Executing builtin\n");
+		execute_builtin(args, env_list);
 		free_array(args);
 	}
 	else
+	{
+		printf("Handling external command\n");
 		handle_external_command(cmd, args, envp);
+	}
 }

@@ -1,36 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command.c                                    :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 16:27:29 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/02/12 12:46:52 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/12 12:47:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	internal_command(t_token *tokens, t_env_list *env_list)
+void	ft_pwd(void)
 {
-	char	**args;
-	int		arg_count;
+	char	cwd[1024];
 
-	if (!tokens || !tokens->value)
-		return (0);
-	arg_count = count_args(tokens);
-	args = get_args(tokens, arg_count);
-	if (!args)
-		return (1);
-	if (builtin(args[0]))
-	{
-		// printf("internal command\n");
-		execute_builtin(args, env_list);
-		free_array(args);
-		return (1);
-	}
-	free_array(args);
-	// printf("external command\n");
-	return (0);
+	if (getcwd(cwd, sizeof(cwd)))
+		printf("%s\n", cwd);
+	else
+		perror("pwd");
 }

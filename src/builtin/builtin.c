@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/11 09:28:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:47:26 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,68 +22,7 @@ int	builtin(char *cmd)
 	return (0);
 }
 
-void	ft_echo(char **cmd)
-{
-	int	i;
-
-	i = 1;
-	while (cmd[i])
-	{
-		printf("%s", cmd[i]);
-		if (cmd[i + 1])
-			printf(" ");
-		i++;
-	}
-	printf("\n");
-}
-
-void	ft_cd(char **cmd)
-{
-	if (!cmd[1])
-	{
-		if (chdir(getenv("HOME")) != 0)
-			perror("cd");
-		else
-		{
-			if (chdir(cmd[1]) != 0)
-				perror("cd");
-		}
-	}
-}
-
-void	ft_pwd(void)
-{
-	char	cwd[1024];
-
-	if (getcwd(cwd, sizeof(cwd)))
-		printf("%s\n", cwd);
-	else
-		perror("pwd");
-}
-
-// void	ft_export(char **cmd)
-// {
-
-// }
-
-// void	ft_unset(char **cmd)
-// {
-
-// }
-
-void	ft_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-	{
-		printf("%s\n", envp[i]);
-		i++;
-	}
-}
-
-void	execute_builtin(char **cmd, char **envp)
+void	execute_builtin(char **cmd, t_env_list *env_list)
 {
 	if (!cmd[0])
 		return ;
@@ -93,12 +32,17 @@ void	execute_builtin(char **cmd, char **envp)
 		ft_cd(cmd);
 	else if (!ft_strncmp(cmd[0], "pwd", 3))
 		ft_pwd();
-	// else if (!ft_strncmp(&cmd[0], "export", 6))
-	// 	ft_export(cmd);
+	else if (!ft_strncmp(cmd[0], "export", 6))
+	{
+		if (cmd[1])
+			ft_export(env_list, cmd[1]);
+		else
+			ft_export(env_list, NULL);
+	}
 	// else if (!ft_strncmp(cmd[0], "unset", 5))
 	// 	ft_unset(cmd);
 	else if (!ft_strncmp(cmd[0], "env", 3))
-		ft_env(envp);
+		ft_env(&env_list->var);
 	else if (!ft_strncmp(cmd[0], "exit", 4))
 		exit(EXIT_SUCCESS);
 }

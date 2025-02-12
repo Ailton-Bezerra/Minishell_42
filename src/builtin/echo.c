@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command.c                                    :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 16:27:29 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/02/12 12:46:08 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/12 12:46:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	internal_command(t_token *tokens, t_env_list *env_list)
+void	ft_echo(char **cmd)
 {
-	char	**args;
-	int		arg_count;
+	int	i;
 
-	if (!tokens || !tokens->value)
-		return (0);
-	arg_count = count_args(tokens);
-	args = get_args(tokens, arg_count);
-	if (!args)
-		return (1);
-	if (builtin(args[0]))
+	i = 1;
+	while (cmd[i])
 	{
-		// printf("internal command\n");
-		execute_builtin(args, env_list);
-		free_array(args);
-		return (1);
+		printf("%s", cmd[i]);
+		if (cmd[i + 1])
+			printf(" ");
+		i++;
 	}
-	free_array(args);
-	// printf("external command\n");
-	return (0);
+	printf("\n");
 }
