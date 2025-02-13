@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 18:02:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:24:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,33 +88,21 @@ int	ft_export(t_env_list *env, char *arg)
 	char	*value;
 
 	if (!check_valid_env_name(arg))
-	{
-		printf("nome da variavel invalido\n");
 		return (1);
-	}
 	if (!separate_key_and_value(arg, &key, &value))
-	{
-		printf("nao foi possivel separar a key e o value\n");
 		return (1);
-	}
 	i = find_env(env, key);
 	free(key);
 	free(value);
 	if (i != -1)
 	{
 		if (!update_var(env, i, arg))
-		{
-			printf("nao foi possivel atualizar a variavel\n");
 			return (1);
-		}
 	}
 	else
 	{
 		if (!add_new_var(env, arg))
-		{
-			printf("nao foi possivel adicionar a variavel\n");
 			return (1);
-		}
 	}
 	return (0);
 }

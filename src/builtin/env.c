@@ -6,20 +6,20 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:52 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 16:38:43 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:39:52 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_env(char **envp)
+void	ft_env(t_env_list *env_list)
 {
 	int	i;
 
 	i = 0;
-	while (envp[i])
+	while (i < env_list->count)
 	{
-		printf("%s\n", envp[i]);
+		printf("%s\n", env_list->var[i]);
 		i++;
 	}
 }

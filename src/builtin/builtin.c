@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 16:47:26 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/13 13:04:17 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,13 @@ void	execute_builtin(char **cmd, t_env_list *env_list)
 		else
 			ft_export(env_list, NULL);
 	}
-	// else if (!ft_strncmp(cmd[0], "unset", 5))
-	// 	ft_unset(cmd);
+	else if (!ft_strncmp(cmd[0], "unset", 5))
+	{
+		if (cmd[1])
+			ft_unset(&env_list, cmd[1]);
+	}
 	else if (!ft_strncmp(cmd[0], "env", 3))
-		ft_env(&env_list->var);
+		ft_env(env_list);
 	else if (!ft_strncmp(cmd[0], "exit", 4))
 		exit(EXIT_SUCCESS);
 }

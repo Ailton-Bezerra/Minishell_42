@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 18:01:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/13 12:09:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void			ft_cd(char **cmd);
 void			ft_echo(char **cmd);
 
 // ============== /builtin/env.c ==============
-void			ft_env(char **envp);
+void			ft_env(t_env_list *env_list);
 
 // ============== /builtin/export_utils.c ==============
 int				check_valid_env_name(const char *arg);
@@ -83,7 +83,7 @@ int				ft_export(t_env_list *env, char *arg);
 void			ft_pwd(void);
 
 // ============== /builtin/unset.c ==============
-// void			ft_unset(char **cmd);
+void			ft_unset(t_env_list **env, const char *var);
 
 // ============== /builtin/builtin.c ==============
 t_env_list		*convert_envp_to_env_list(char **envp);
