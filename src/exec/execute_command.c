@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 12:46:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:09:56 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,17 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	free_array(args);
 }
 
-static void	**prepare_command(t_token *tokens, char **envp,
+static char	**prepare_command(t_token *tokens, char **envp,
 	t_env_list **env_list)
 {
 	int			arg_count;
 	char		**args;
-	t_env_list	*env_list;
 
-	env_list = convert_envp_to_env_list(envp);
-	if (!env_list)
-		return ;
+	*env_list = convert_envp_to_env_list(envp);
+	if (!*env_list)
+		return (NULL);
 	if (!tokens || !tokens->value)
-		return ;
+		return (NULL);
 	arg_count = count_args(tokens);
 	args = get_args(tokens, arg_count);
 	return (args);
