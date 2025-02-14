@@ -6,25 +6,26 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 18:12:27 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:36:16 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env_list	*convert_envp_to_env_list(char **envp)
+static int	count_envp(char **envp)
 {
-	t_env_list	*env_list;
-	t_env_list	*current;
-	t_env_list	*new;
-	int			count;
-	int			i;
+	int	count;
 
-	env_list = NULL;
-	current = NULL;
 	count = 0;
 	while (envp[count])
 		count++;
+	return (count);
+}
+
+static t_env_list	*allocate_env_list(int count)
+{
+	t_env_list	*new;
+
 	new = malloc(sizeof(t_env_list));
 	if (!new)
 	{
@@ -38,6 +39,13 @@ t_env_list	*convert_envp_to_env_list(char **envp)
 		free(new);
 		return (NULL);
 	}
+	return (new);
+}
+
+static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
+{
+	int	i;
+
 	i = 0;
 	while (i < count)
 	{
@@ -49,13 +57,31 @@ t_env_list	*convert_envp_to_env_list(char **envp)
 				free(new->var[i]);
 			free_array(new->var);
 			free(new);
-			return (NULL);
+			return (-1);
 		}
 		i++;
 	}
 	new->var[count] = NULL;
 	new->count = count;
 	new->next = NULL;
+	return (0);
+}
+
+t_env_list	*convert_envp_to_env_list(char **envp)
+{
+	t_env_list	*env_list;
+	t_env_list	*current;
+	t_env_list	*new;
+	int			count;
+
+	env_list = NULL;
+	current = NULL;
+	count = count_envp(envp);
+	new = allocate_env_list(count_envp(envp));
+	if (!new)
+		return (NULL);
+	if (copy_envp_to_node(new, envp, count) == -1)
+		return (NULL);
 	if (!env_list)
 		env_list = new;
 	else

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/13 12:09:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:42:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void			ft_echo(char **cmd);
 // ============== /builtin/env.c ==============
 void			ft_env(t_env_list *env_list);
 
+// ============== /builtin/exit.c ==============
+void			ft_exit(char *cmd);
+
 // ============== /builtin/export_utils.c ==============
 int				check_valid_env_name(const char *arg);
 void			free_var(char *var_name, char *var_value);
@@ -87,6 +90,10 @@ void			ft_unset(t_env_list **env, const char *var);
 
 // ============== /builtin/builtin.c ==============
 t_env_list		*convert_envp_to_env_list(char **envp);
+
+// ============== exec/check_command_utils.c ==============
+char			*get_command_path(char *cmd, char **envp);
+void			fork_error(char *path, char **args);
 
 // ============== exec/check_command.c ==============
 int				internal_command(t_token *tokens, t_env_list *env_list);
@@ -107,7 +114,6 @@ char			**get_args(t_token *tokens, int count);
 void			free_array(char **arr);
 void			error(void);
 void			print_error(char *cmd);
-
 
 // ============== tokens/tokenizer ==============
 t_token			*tokenizer(const char *input);

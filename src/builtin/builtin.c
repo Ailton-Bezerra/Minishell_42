@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/13 13:04:17 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:30:34 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,5 +47,5 @@ void	execute_builtin(char **cmd, t_env_list *env_list)
 	else if (!ft_strncmp(cmd[0], "env", 3))
 		ft_env(env_list);
 	else if (!ft_strncmp(cmd[0], "exit", 4))
-		exit(EXIT_SUCCESS);
+		ft_exit(cmd);
 }

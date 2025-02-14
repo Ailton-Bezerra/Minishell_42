@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_command.c                                    :+:      :+:    :+:   */
+/*   execute_command_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 12:37:33 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/02/14 12:38:43 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/14 12:42:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	internal_command(t_token *tokens, t_env_list *env_list)
+char	*get_command_path(char *cmd, char **envp)
 {
-	char	**args;
-	int		arg_count;
+	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| ft_strncmp(cmd, "../", 3) == 0)
+		return (ft_strdup(cmd));
+	return (get_path(cmd, envp));
+}
 
-	if (!tokens || !tokens->value)
-		return (0);
-	arg_count = count_args(tokens);
-	args = get_args(tokens, arg_count);
-	if (!args)
-		return (1);
-	if (builtin(args[0]))
-	{
-		execute_builtin(args, env_list);
-		free_array(args);
-		return (1);
-	}
+void	fork_error(char *path, char **args)
+{
+	perror("fork error");
+	free(path);
 	free_array(args);
-	return (0);
 }
