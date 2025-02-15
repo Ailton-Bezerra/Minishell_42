@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/15 14:15:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:42:04 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,14 @@ static t_env_list	*allocate_env_list(int count)
 
 void	free_env_list(t_env_list *env_list)
 {
-	int	i;
+	t_env_list	*temp;
 
-	i = 0;
-	if (env_list)
+	while (env_list)
 	{
-		if (env_list->var)
-		{
-			while (env_list->var[i])
-			{
-				free(env_list->var[i]);
-				i++;
-			}
-			free(env_list->var);
-		}
-	free(env_list);
+		temp = env_list->next;
+		free_array(env_list->var);
+		free(env_list);
+		env_list = temp;
 	}
 }
 

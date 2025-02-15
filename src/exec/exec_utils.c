@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 17:22:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:42:56 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,20 @@ char	**get_args(t_token *tokens, int count)
 	char	**args;
 	int		i;
 
-	i = 0;
 	args = malloc(sizeof(char *) * (count + 1));
 	if (!args)
 	{
 		perror("Error");
 		return (NULL);
 	}
+	i = 0;
 	while (tokens && tokens->type == WORD)
 	{
 		args[i] = ft_strdup(tokens->value);
 		if (!args[i])
 		{
 			perror("Error");
-			while (i > 0)
-				free(args[--i]);
-			free(args);
+			free_array(args);
 			return (NULL);
 		}
 		tokens = tokens->next;
