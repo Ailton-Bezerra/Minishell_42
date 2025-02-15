@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 12:38:28 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/14 17:22:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ char	**get_args(t_token *tokens, int count)
 		if (!args[i])
 		{
 			perror("Error");
-			free_array(args);
+			while (i > 0)
+				free(args[--i]);
+			free(args);
 			return (NULL);
 		}
 		tokens = tokens->next;

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 16:24:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:31:36 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char **envp)
 		free(input);
 		free_tokens(tokens);
 	}
+	free_env_list(env_list);
 	rl_clear_history();
 	return (0);
 }
