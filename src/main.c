@@ -12,19 +12,14 @@
 
 #include "../includes/minishell.h"
 
-static char	*read_input(void)
+static int	read_input(char **input)
 {
-	char	*input;
-
-	input = readline(YELLOW "MINISHEL > " END);
-	if (!input)
-	{
-		printf("exiting\n");
-		return (NULL);
-	}
+	*input = readline(YELLOW "MINISHELL > " END);
+	if (!*input)
+		return (printf("exiting\n"), 0);
 	if (*input && input)
-		add_history(input);
-	return (input);
+		add_history(*input);
+	return (1);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -40,8 +35,7 @@ int	main(int ac, char **av, char **envp)
 		return (1);
 	while (1)
 	{
-		input = read_input();
-		if (!input)
+		if (!read_input(&input))
 			break ;
 		tokens = tokenizer(input);
 		if (tokens)
@@ -51,8 +45,8 @@ int	main(int ac, char **av, char **envp)
 		}
 		// print_tokens(tokens);
 		free(input);
+		print_tokens(tokens);
 		free_tokens(tokens);
 	}
 	rl_clear_history();
-	return (0);
 }

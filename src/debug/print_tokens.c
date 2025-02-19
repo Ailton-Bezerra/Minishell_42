@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:08:56 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/06 15:18:35 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/07 18:19:52 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 static char	*get_type(enum e_token type)
 {
-	static char	*ctype[6] = {"WORD", "PIPE",
+	static char	*ctype[9] = {"WORD", "PIPE",
 		"APPEND", "TRUNC",
-		"INPUT", "HERE_DOC"};
+		"INPUT", "HERE_DOC", "COMMAND",
+		"OPTION", "FD"};
 
 	return (ft_strdup(ctype[type]));
 }

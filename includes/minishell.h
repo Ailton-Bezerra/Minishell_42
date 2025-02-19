@@ -24,6 +24,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "../libraries/libft/libft.h"
+# include "tokens.h"
 
 // # define PROMPT "minishell>$ "
 
@@ -124,6 +125,7 @@ void			add_token(t_token **head, char *content);
 
 // ============== tokens/types ==============
 enum e_token	define_types(char *type);
+void			command_type(t_token *tokens);
 
 // ============== debug/print_tokens ==============
 void			print_tokens(t_token *token);
@@ -136,5 +138,10 @@ char			*ft_substr_free(char *s, unsigned int start, size_t end);
 // ============== tokens/quotes ==============
 char			*ft_strndup(const char *s, size_t n);
 t_token			*handle_quotes(char *line, t_token *tokens);
+
+// ============== tokens/sintax ==============
+int				chek_sintax(t_token *tokens);
+
+char			*handle_expansion(char *input);
 
 #endif
