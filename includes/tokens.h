@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:10:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/08 17:12:45 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:03:01 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_token
 {
 	char			*value;
 	enum e_token	type;
-	// struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
 

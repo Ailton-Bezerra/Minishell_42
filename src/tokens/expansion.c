@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:55:11 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/19 10:38:40 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:12:38 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,18 @@ static char	*expand_variable(char *result, t_expand *ex)
 
 char	*handle_expansion(char *input)
 {
-    t_expand	ex;
+	t_expand	ex;
 
-    ex_init(&ex);
-    while (input[ex.index])
-    {
-        if ((input[ex.index] == '\'' && !ex.double_quote) || (input[ex.index] == '\"' && !ex.quote))
-            change_quote_flag(input, &ex, &ex.index);
-        else if (input[ex.index] == '$' && !ex.quote)
-            input = expand_variable(input, &ex);
-        else
-            ex.index++;
-    }
+	ex_init(&ex);
+	while (input[ex.index])
+	{
+		if ((input[ex.index] == '\'' && !ex.double_quote)
+			|| (input[ex.index] == '\"' && !ex.quote))
+			change_quote_flag(input, &ex, &ex.index);
+		else if (input[ex.index] == '$' && !ex.quote)
+			input = expand_variable(input, &ex);
+		else
+			ex.index++;
+	}
 	return (input);
 }

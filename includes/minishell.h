@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 10:55:40 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:47:19 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@
 t_token			*tokenizer(const char *input);
 
 // ============== tokens/token_list ==============
-t_token			*new_token_node(char *content /*, char quote*/);
-void			add_token(t_token **head, char *content/*, char quote*/);
+t_token			*new_token_node(char *content);
+void			add_token(t_token **head, char *content);
+void			process_token(t_token **tokens, char *line, int *i);
 
 // ============== tokens/types ==============
 enum e_token	define_types(char *type);
@@ -44,13 +45,12 @@ void			print_tokens(t_token *token);
 
 // ============== tokens/quotes ==============
 t_token			*handle_quotes(char *line, t_token *tokens);
-char			*strip_outer_quotes(char *str);
+char			*remove_outer_quotes(char *input, int single_q, int double_q);
 
 // ============== tokens/sintax ==============
 int				chek_sintax(t_token *tokens);
 
 // ============== tokens/expansion ==============
 char			*handle_expansion(char *input);
-
 
 #endif

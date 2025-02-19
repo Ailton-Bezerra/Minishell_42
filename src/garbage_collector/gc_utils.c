@@ -12,11 +12,11 @@
 
 #include "../../includes/garbage_collector.h"
 
-void    gc_cleanup(void)
+void	gc_cleanup(void)
 {
-	t_garbage_node  **garbage_list;
-	t_garbage_node  *cur;
-	t_garbage_node  *tmp;
+	t_garbage_node	**garbage_list;
+	t_garbage_node	*cur;
+	t_garbage_node	*tmp;
 
 	cur = NULL;
 	tmp = NULL;
@@ -26,7 +26,7 @@ void    gc_cleanup(void)
 	{
 		tmp = cur;
 		cur = cur->next;
-		if (tmp->ptr )
+		if (tmp->ptr)
 		{
 			free(tmp->ptr);
 			tmp->ptr = NULL;

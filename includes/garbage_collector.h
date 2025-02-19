@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GARBAGE_COLLECTOR_h
-#define GARBAGE_COLLECTOR_h
+#ifndef GARBAGE_COLLECTOR_H
+# define GARBAGE_COLLECTOR_H
 
 # include <stdlib.h>
 
 typedef struct s_garbage_node
 {
-    void					*ptr;
-    struct s_garbage_node	*next;
+	void					*ptr;
+	struct s_garbage_node	*next;
 }							t_garbage_node;
 
 t_garbage_node	**get_garbage_list(void);

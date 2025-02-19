@@ -12,19 +12,19 @@
 
 #include "../../includes/garbage_collector.h"
 
-t_garbage_node  **get_garbage_list(void)
+t_garbage_node	**get_garbage_list(void)
 {
-	static t_garbage_node *garbage_list;
+	static t_garbage_node	*garbage_list;
 
 	return (&garbage_list);
 }
 
-void    init_garbage_collector(void)
+void	init_garbage_collector(void)
 {
 	t_garbage_node	**garbage_list;
 
 	garbage_list = get_garbage_list();
-	*garbage_list = NULL; 
+	*garbage_list = NULL;
 }
 
 void	*gc_malloc(size_t size)
@@ -74,10 +74,10 @@ t_garbage_node	*gc_dealocate_node(t_garbage_node **garbage_list, void *ptr)
 
 int	gc_dealocate(void *ptr)
 {
-	t_garbage_node **garbage_list;
-	t_garbage_node *node_to_free;
+	t_garbage_node	**garbage_list;
+	t_garbage_node	*node_to_free;
 
-	if(!ptr)
+	if (!ptr)
 		return (0);
 	garbage_list = get_garbage_list();
 	node_to_free = gc_dealocate_node(garbage_list, ptr);
