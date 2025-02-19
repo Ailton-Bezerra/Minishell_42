@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:45:47 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/07 18:17:21 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/14 11:48:34 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,17 @@ void	command_type(t_token *tokens)
 	temp = tokens;
 	while (temp)
 	{
-		if (temp->type == WORD && !command)
+		if (temp->type == WORD && !command && temp->value[0] != '\0')
 		{
 			temp->type = COMMAND;
 			command = 1;
 		}
-		if (temp->type == PIPE && temp->next && temp->next->type == WORD)
+		else if (temp->type == PIPE && temp->next && temp->next->type == WORD
+			&& temp->next->value[0] != '\0')
 			temp->next->type = COMMAND;
+		else if (temp->type == PIPE && temp->next && temp->next->next
+			&& temp->next->type == WORD && temp->next->value[0] == '\0')
+			temp->next->next->type = COMMAND;
 		temp = temp->next;
 	}
 }

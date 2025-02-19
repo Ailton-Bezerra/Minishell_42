@@ -6,66 +6,43 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/08 10:37:43 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:48:19 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*ft_strndup(const char *s, size_t n)
-{
-	char	*new;
-
-	new = malloc(n + 1);
-	if (!new)
-		return (NULL);
-	ft_memcpy(new, s, n);
-	new[n] = '\0';
-	return (new);
-}
-
-static void	add_token_from_line(t_token **tokens, char *line, int start,
-	int end)
-{
-	char	*token_str;
-
-	token_str = ft_strndup(&line[start], end - start);
-	add_token(tokens, token_str);
-	free(token_str);
-}
-
-/**
- * @brief   Processes a token from the input line and adds it to the token list.
- * 
- * @param   tokens  Pointer to the list of tokens.
- * @param   line    The input string being tokenized.
- * @param   i       Pointer to the current index in the input string.
- * 
- * @return  None. The function updates the token list by extracting tokens 
- *          based on spaces and quotes.
- */
 static void	process_token(t_token **tokens, char *line, int *i)
 {
-	int		start;
-	char	quote;
-
-	start = *i;
-	if (line[*i] == '\'' || line[*i] == '\"')
-	{
-		quote = line[(*i)++];
-		start = *i;
-		while (line[*i] && line[*i] != quote)
-			(*i)++;
-		add_token_from_line(tokens, line, start, *i);
-		(*i)++;
-	}
-	else
-	{
-		while (line[*i] && line[*i] != ' ' && line[*i] != '\''
-			&& line[*i] != '\"')
-			(*i)++;
-		add_token_from_line(tokens, line, start, *i);
-	}
+    char	*final_str;
+    char	quote;
+    char	*temp_str;
+    int		start;
+	
+    final_str = ft_strdup("");
+	quote = 0;
+    while (line[*i] && !ft_strchr(" \t\n", line[*i]))
+    {
+        if (line[*i] == '\'' || line[*i] == '\"')
+        {
+            quote = line[*i];
+            start = *i;
+            (*i)++;
+            while (line[*i] && line[*i] != quote)
+                (*i)++;
+            temp_str = ft_substr(line, start, *i - start);
+            final_str = ft_strjoin(final_str, temp_str);
+            // if (line[*i] == quote)
+            (*i)++;
+        }
+        else
+        {
+            temp_str = ft_substr(line, *i, 1);
+            final_str = ft_strjoin(final_str, temp_str);
+            (*i)++;
+        }
+    }
+    add_token(tokens, final_str/*, quote*/);
 }
 
 /**
@@ -98,7 +75,7 @@ static char	*parse_quotes(char *line)
 		printf("Error: unclosed quotes\n");
 		return (NULL);
 	}
-	return ("OK");
+	return (line);
 }
 
 t_token	*handle_quotes(char *line, t_token *tokens)
@@ -106,10 +83,7 @@ t_token	*handle_quotes(char *line, t_token *tokens)
 	int		i;
 
 	if (!parse_quotes(line))
-	{
-		free(line);
 		return (NULL);
-	}
 	i = 0;
 	while (line[i])
 	{
@@ -119,6 +93,5 @@ t_token	*handle_quotes(char *line, t_token *tokens)
 			break ;
 		process_token(&tokens, line, &i);
 	}
-	free(line);
 	return (tokens);
 }

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/08 15:48:04 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:44:50 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ static void	main_loop(void)
 	{
 		if (!read_input(&input))
 			break ;
+		gc_track(input);
 		tokens = tokenizer(input);
 		if (!tokens)
 		{
-			free(input);
+			// gc_dealocate(input);
+			gc_cleanup();
 			continue ;
 		}
-		free(input);
+		gc_dealocate(input);
 		print_tokens(tokens);
-		free_tokens(tokens);
+		gc_cleanup();
 	}
 	rl_clear_history();
 }

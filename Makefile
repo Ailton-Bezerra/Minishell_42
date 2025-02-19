@@ -9,8 +9,9 @@ LIBS    := $(LIBFT)/libft.a -lreadline
 
 SRCS_DIR := src/
 SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list.c \
-				tokens/types.c tokens/free_memory.c tokens/quotes.c debug/print_tokens.c\
-				tokens/sintax.c tokens/expansion.c)
+				tokens/types.c tokens/quotes.c debug/print_tokens.c\
+				tokens/sintax.c tokens/expansion.c garbage_collector/garbage_collector.c\
+				garbage_collector/gc_utils.c)
 			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)

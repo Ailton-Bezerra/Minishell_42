@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/08 13:47:09 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/19 10:51:02 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	add_space(char **str, char **new_str, size_t *i, int flag)
 {	
-	*new_str = ft_strjoin_free(*new_str, ft_substr(*str, 0, *i));
-	*new_str = ft_strjoin_free(*new_str, ft_strdup(" "));
-	*new_str = ft_strjoin_free(*new_str, ft_substr(*str, *i, flag));
-	*new_str = ft_strjoin_free(*new_str, ft_strdup(" "));
-	*str = ft_substr_free(*str, *i + flag, ft_strlen(*str) - *i);
+	*new_str = ft_strjoin(*new_str, ft_substr(*str, 0, *i));
+	*new_str = ft_strjoin(*new_str, ft_strdup(" "));
+	*new_str = ft_strjoin(*new_str, ft_substr(*str, *i, flag));
+	*new_str = ft_strjoin(*new_str, ft_strdup(" "));
+	*str = ft_substr(*str, *i + flag, ft_strlen(*str) - *i);
 	*i = 0;
 }
 
@@ -53,7 +53,7 @@ static char	*separe_simbols(const char *input)
 		else
 			i++;
 	}
-	new_str = ft_strjoin_free(new_str, str);
+	new_str = ft_strjoin(new_str, str);
 	return (new_str);
 }
 
@@ -63,10 +63,9 @@ t_token	*tokenizer(const char *input)
 	char	*input_norm;	
 
 	input_norm = separe_simbols(input);
-	input_norm = handle_expansion(input_norm);
 	token_list = handle_quotes(input_norm, NULL);
 	if (!chek_sintax(token_list))
-		return (free_tokens(token_list), NULL);
+		return (NULL);
 	command_type(token_list);
 	return (token_list);
 }
