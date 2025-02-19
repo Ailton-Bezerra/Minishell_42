@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/15 14:42:04 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:05:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	free_env_list(t_env_list *env_list)
 	while (env_list)
 	{
 		temp = env_list->next;
-		free_array(env_list->var);
+		free_array(env_list->var, env_list->count);
 		free(env_list);
 		env_list = temp;
 	}
@@ -66,9 +66,9 @@ static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
 		if (!new->var[i])
 		{
 			perror("Erro de alocação de memória");
-			while (i-- > 0)
-				free(new->var[i]);
-			free_array(new->var);
+			// while (i-- > 0)
+			// 	free(new->var[i]);
+			free_array(new->var, i);
 			free(new);
 			return (-1);
 		}
