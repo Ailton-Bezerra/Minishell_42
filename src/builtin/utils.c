@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 11:55:52 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:44:15 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static t_env_list	*allocate_env_list(int count)
 	if (!new->var)
 	{
 		perror("Erro de alocação de memória");
-		// free(new);
 		return (NULL);
 	}
 	return (new);
@@ -53,10 +52,6 @@ static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
 		if (!new->var[i])
 		{
 			perror("Erro de alocação de memória");
-			// while (i-- > 0)
-			// 	free(new->var[i]);
-			// free_array(new->var);
-			// free(new);
 			return (-1);
 		}
 		i++;

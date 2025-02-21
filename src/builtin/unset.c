@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:48:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 11:55:22 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:43:29 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static void	shift_env_var(t_env_list *curr, int i)
 {
 	int	j;
 
-	// free (curr->var[i]);
 	j = i;
 	while (j < curr->count - 1)
 	{

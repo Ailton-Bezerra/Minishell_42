@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 11:40:55 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:43:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ static int	update_var(t_env_list *env, int i, const char *arg)
 {
 	if (!env || !env->var || !arg)
 		return (0);
-	// free(env->var[i]);
 	env->var[i] = gc_malloc(ft_strlen(arg) + 1);
 	if (!env->var[i])
 		return (0);
@@ -89,8 +88,6 @@ int	ft_export(t_env_list *env, char *arg)
 	if (!separate_key_and_value(arg, &key, &value))
 		return (1);
 	i = find_env(env, key);
-	// free(key);
-	// free(value);
 	if (i != -1)
 	{
 		if (!update_var(env, i, arg))

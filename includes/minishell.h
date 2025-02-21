@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 12:06:08 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:48:00 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_env_list
 
 typedef struct s_minishell
 {
-	t_env_list *env_list;
+	t_env_list	*env_list;
 }				t_minishell;
 
 // ============== /builtin/builtin.c ==============
@@ -99,35 +99,38 @@ void			free_array(char **arr);
 void			error(void);
 void			print_error(char *cmd);
 
-// ============== tokens/tokenizer ==============
+// ============== tokens/tokenizer.c ==============
 t_token			*tokenizer(const char *input);
 
-// ============== tokens/token_list ==============
+// ============== tokens/token_list.c ==============
 t_token			*new_token_node(char *content);
 void			add_token(t_token **head, char *content);
 void			process_token(t_token **tokens, char *line, int *i);
 
-// ============== tokens/types ==============
+// ============== tokens/types.c ==============
 enum e_token	define_types(char *type);
 void			command_type(t_token *tokens);
 
-// ============== debug/print_tokens ==============
+// ============== debug/print_tokens.c ==============
 void			print_tokens(t_token *token);
 
-// ============== tokens/quotes ==============
+// ============== tokens/quotes.c ==============
 char			*ft_strndup(const char *s, size_t n);
 t_token			*handle_quotes(char *line, t_token *tokens);
 char			*remove_outer_quotes(char *input, int single_q, int double_q);
 
-// ============== tokens/sintax ==============
+// ============== tokens/sintax.c ==============
 int				chek_sintax(t_token *tokens);
 
-// ============== tokens/expansion ==============
+// ============== tokens/expansion.c ==============
 char			*handle_expansion(char *input);
 
-t_minishell		*get_minishell(void);
-void			init_minishell(t_env_list *env_list);
+// ============== tokens/ft_getenv.c ==============
 char			*ft_getenv(t_env_list *env, const char *name);
 char			*get_value(const char *var);
+
+// ============== main.c ==============
+t_minishell		*get_minishell(void);
+void			init_minishell(t_env_list *env_list);
 
 #endif

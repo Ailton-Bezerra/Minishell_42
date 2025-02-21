@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 12:34:02 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:42:14 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	child_process(t_token *cmd1, char **envp, int fd[2])
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	execute_command(cmd1, envp);
-	// free_tokens(cmd1);
 	exit(1);
 }
 
@@ -73,7 +72,6 @@ void	execute_pipe(t_token *tokens, char **envp)
 	if (!pipe_token)
 	{
 		execute_command(cmd1, envp);
-		// gc_cleanup();
 		return ;
 	}
 	tokens->value = NULL;

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 12:47:25 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:43:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ static void	execute_child_process(char *path, char **av, char **envp)
 	if (execve(path, av, envp) == -1)
 	{
 		perror("execve error");
-		// free(path);
-		// free_array(av);
 		gc_cleanup();
 		rl_clear_history();
 		exit(EXIT_FAILURE);
@@ -34,7 +32,6 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	if (!path)
 	{
 		print_error(cmd);
-		// free_array(args);
 		return ;
 	}
 	pid = fork();
@@ -44,8 +41,6 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 		execute_child_process(path, args, envp);
 	else
 		waitpid(pid, NULL, 0);
-	// free(path);
-	// free_array(args);
 }
 
 static char	**prepare_command(t_token *tokens, char **envp,
@@ -75,15 +70,9 @@ void	execute_command(t_token *tokens, char **envp)
 		return ;
 	cmd = args[0];
 	if (!cmd)
-	{
-		// free_array(args);
 		return ;
-	}
 	if (builtin(cmd))
-	{
 		execute_builtin(args, env_list);
-		// free_array(args);
-	}
 	else
 		handle_external_command(cmd, args, envp);
 }

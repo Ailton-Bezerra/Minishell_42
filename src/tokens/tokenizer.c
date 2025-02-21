@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/20 12:34:41 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:39:15 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,8 @@ t_token	*tokenizer(const char *input)
 	char	*input_norm;	
 
 	input_norm = separe_simbols(input);
-	// gc_dealocate((void *)input);
 	token_list = handle_quotes(input_norm, NULL);
 	if (!chek_sintax(token_list))
 		return (NULL);
-	// command_type(token_list);
 	return (token_list);
 }

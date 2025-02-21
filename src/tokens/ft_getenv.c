@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:32:10 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/21 11:56:16 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:38:26 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,3 @@ char	*ft_getenv(t_env_list *env, const char *name)
 	}
 	return (NULL);
 }
-
-// char *ft_getenv(char *var)
-// {
-// 	t_minishell *ms;
-	
-// 	ms = get_minishell;
-	
-// 	ft_export(ms->env_list, var);
-// }
