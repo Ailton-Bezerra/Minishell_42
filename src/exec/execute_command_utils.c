@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   execute_command_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 11:47:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 10:41:42 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/02/14 12:38:43 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/20 12:57:50 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*get_command_path(char *cmd, char **envp)
 {
-	char			*ns;
-	unsigned int	i;
+	if (cmd[0] == '/' || ft_strncmp(cmd, "./", 2) == 0
+		|| ft_strncmp(cmd, "../", 3) == 0)
+		return (ft_strdup(cmd));
+	return (get_path(cmd, envp));
+}
 
-	ns = (char *)gc_malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (ns == NULL)
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s))
-	{
-		ns[i] = (*f)(i, s[i]);
-		i++;
-	}
-	ns[i] = '\0';
-	return (ns);
+void	fork_error(char *path, char **args)
+{
+	perror("fork error");
+	free(path);
+	free_array(args);
 }

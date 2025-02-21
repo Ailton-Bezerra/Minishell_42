@@ -6,11 +6,26 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 11:17:53 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:31:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+t_minishell	*get_minishell(void)
+{
+	static t_minishell minishell;
+
+	return (&minishell);
+}
+
+void	init_minishell(t_env_list *env_list)
+{
+	t_minishell *minishell;
+
+	minishell = get_minishell();
+	minishell->env_list = env_list;
+}
 
 static int	read_input(char **input)
 {
@@ -22,32 +37,34 @@ static int	read_input(char **input)
 	return (1);
 }
 
-static void	main_loop(void)
+int	main(int ac, char **av, char **envp)
 {
-	char	*input;
-	t_token	*tokens;
+	char		*input;
+	t_token		*tokens;
+	t_env_list	*env_list;
 
-	input = NULL;
+	(void)ac;
+	(void)av;
+	env_list = convert_envp_to_env_list(envp);
+	if (!env_list)
+		return (1);
+	init_minishell(env_list);
 	while (1)
 	{
 		if (!read_input(&input))
 			break ;
 		gc_track(input);
 		tokens = tokenizer(input);
-		if (!tokens)
-		{
-			gc_cleanup();
-			continue ;
-		}
-		gc_dealocate(input);
 		print_tokens(tokens);
-		gc_cleanup();
+		if (tokens)
+		{
+			if (!internal_command(tokens, env_list))
+			{
+				execute_pipe(tokens, envp);
+				gc_cleanup();
+			}
+		}
 	}
+	gc_cleanup();
 	rl_clear_history();
-}
-
-int	main(void)
-{
-	main_loop();
-	return (0);
 }

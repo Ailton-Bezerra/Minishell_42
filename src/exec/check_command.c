@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   check_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/15 11:47:26 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 10:41:42 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/02/20 10:15:58 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+int	internal_command(t_token *tokens, t_env_list *env_list)
 {
-	char			*ns;
-	unsigned int	i;
+	char	**args;
+	int		arg_count;
 
-	ns = (char *)gc_malloc(sizeof(char) * (ft_strlen(s) + 1));
-	if (ns == NULL)
-		return (NULL);
-	i = 0;
-	while (i < ft_strlen(s))
+	if (!tokens || !tokens->value)
+		return (0);
+	arg_count = count_args(tokens);
+	args = get_args(tokens, arg_count);
+	if (!args)
+		return (1);
+	if (builtin(args[0]))
 	{
-		ns[i] = (*f)(i, s[i]);
-		i++;
+		execute_builtin(args, env_list);
+		// free_array(args);
+		return (1);
 	}
-	ns[i] = '\0';
-	return (ns);
+	// free_array(args);
+	return (0);
 }
