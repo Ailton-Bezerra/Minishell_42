@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:38:43 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 12:42:22 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:08:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,5 @@ void	fork_error(char *path, char **args)
 {
 	perror("fork error");
 	free(path);
-	free_array(args);
+	free_array(args, 0);
 }

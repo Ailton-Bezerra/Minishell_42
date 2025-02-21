@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/15 14:42:56 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:38:28 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**get_args(t_token *tokens, int count)
 		if (!args[i])
 		{
 			perror("Error");
-			free_array(args);
+			free_array(args, i);
 			return (NULL);
 		}
 		tokens = tokens->next;
@@ -53,15 +53,22 @@ char	**get_args(t_token *tokens, int count)
 	return (args);
 }
 
-void	free_array(char **arr)
+void	free_array(char **arr, int index)
 {
 	int	i;
 
-	i = 0;
 	if (!arr)
 		return ;
-	while (arr[i])
-		free(arr[i++]);
+	i = 0;
+	while (i < index)
+	{
+		if (arr[i] != NULL)
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+		}
+		i++;
+	}
 	free(arr);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 15:09:56 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:36:03 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	execute_child_process(char *path, char **av, char **envp)
 	{
 		perror("execve error");
 		free(path);
-		free_array(av);
+		free_array(av, 0);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -32,7 +32,7 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	if (!path)
 	{
 		print_error(cmd);
-		free_array(args);
+		free_array(args, 0);
 		return ;
 	}
 	pid = fork();
@@ -43,7 +43,7 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	else
 		waitpid(pid, NULL, 0);
 	free(path);
-	free_array(args);
+	free_array(args, 0);
 }
 
 static char	**prepare_command(t_token *tokens, char **envp,
@@ -59,6 +59,8 @@ static char	**prepare_command(t_token *tokens, char **envp,
 		return (NULL);
 	arg_count = count_args(tokens);
 	args = get_args(tokens, arg_count);
+	if (!args)
+		return (NULL);
 	return (args);
 }
 
@@ -70,17 +72,21 @@ void	execute_command(t_token *tokens, char **envp)
 
 	args = prepare_command(tokens, envp, &env_list);
 	if (!args)
+	{
+		printf("Error: Arguments preparation failed\n");
 		return ;
+	}
 	cmd = args[0];
 	if (!cmd)
 	{
-		free_array(args);
+		printf("Error: Command is NULL\n");
+		free_array(args, 0);
 		return ;
 	}
 	if (builtin(cmd))
 	{
 		execute_builtin(args, env_list);
-		free_array(args);
+		free_array(args, 0);
 	}
 	else
 		handle_external_command(cmd, args, envp);

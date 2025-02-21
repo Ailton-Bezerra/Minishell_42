@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/15 13:55:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/19 12:25:10 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int				internal_command(t_token *tokens, t_env_list *env_list);
 // ============== exec/exec_utils.c ==============
 int				count_args(t_token *tokens);
 char			**get_args(t_token *tokens, int count);
-void			free_array(char **arr);
+void			free_array(char **arr, int index);
 void			error(void);
 void			print_error(char *cmd);
 
@@ -117,7 +117,14 @@ char			*get_path(char *cmd, char **envp);
 void			execute(char *av, char **envp);
 
 // ============== exec/pipe.c ==============
-void			execute_pipe(t_token *tokens, char **envp);
+t_token			*find_pipe(t_token *tokens);
+void			child_process(t_token *tokens, char **envp, int input_fd,
+					int fd[2]);
+void			parent_process(t_token *tokens, char **envp, int output_fd,
+					int fd[2]);
+void			run_pipeline(t_token *tokens, char **envp, int input_fd,
+					int output_fd);
+void			process_pipes(t_token *tokens, char **envp);
 
 // ============== tokens/tokenizer ==============
 t_token			*tokenizer(const char *input);

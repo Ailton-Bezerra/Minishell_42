@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/15 14:49:29 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:43:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	env_list = convert_envp_to_env_list(envp);
 	if (!env_list)
+	{
 		return (1);
+	}
 	while (1)
 	{
 		input = read_input();
@@ -47,11 +49,12 @@ int	main(int ac, char **av, char **envp)
 		if (tokens)
 		{
 			if (!internal_command(tokens, env_list))
-				execute_pipe(tokens, envp);
+				process_pipes(tokens, envp);
+			free_tokens(tokens);
 		}
 		// print_tokens(tokens);
 		free(input);
-		free_tokens(tokens);
+		// free_tokens(tokens);
 	}
 	free_env_list(env_list);
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 12:37:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/19 14:42:45 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	internal_command(t_token *tokens, t_env_list *env_list)
 	arg_count = count_args(tokens);
 	args = get_args(tokens, arg_count);
 	if (!args)
-		return (1);
+		return (0);
 	if (builtin(args[0]))
 	{
 		execute_builtin(args, env_list);
-		free_array(args);
+		free_array(args, arg_count);
 		return (1);
 	}
-	free_array(args);
+	free_array(args, arg_count);
 	return (0);
 }
