@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 12:36:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:46:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	free_array(args, 0);
 }
 
-static char	**prepare_command(t_token *tokens, char **envp,
-	t_env_list **env_list)
+static char	**prepare_command(t_token *tokens, t_env_list **env_list)
 {
 	int			arg_count;
 	char		**args;
 
-	*env_list = convert_envp_to_env_list(envp);
 	if (!*env_list)
 		return (NULL);
 	if (!tokens || !tokens->value)
@@ -70,7 +68,7 @@ void	execute_command(t_token *tokens, char **envp)
 	char		*cmd;
 	t_env_list	*env_list;
 
-	args = prepare_command(tokens, envp, &env_list);
+	args = prepare_command(tokens, &env_list);
 	if (!args)
 	{
 		printf("Error: Arguments preparation failed\n");
@@ -79,7 +77,6 @@ void	execute_command(t_token *tokens, char **envp)
 	cmd = args[0];
 	if (!cmd)
 	{
-		printf("Error: Command is NULL\n");
 		free_array(args, 0);
 		return ;
 	}

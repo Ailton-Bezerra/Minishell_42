@@ -6,25 +6,35 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 14:43:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:46:53 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*read_input(void)
+t_minishell	*get_minishell(void)
 {
-	char	*input;
+	static t_minishell	minishell;
 
-	input = readline(YELLOW "MINISHEL > " END);
-	if (!input)
-	{
-		printf("exiting\n");
-		return (NULL);
-	}
+	return (&minishell);
+}
+
+void	init_minishell(t_env_list *env_list)
+{
+	t_minishell	*minishell;
+
+	minishell = get_minishell();
+	minishell->env_list = env_list;
+}
+
+static int	read_input(char **input)
+{
+	*input = readline(YELLOW "MINISHELL > " END);
+	if (!*input)
+		return (printf("exiting\n"), 0);
 	if (*input && input)
-		add_history(input);
-	return (input);
+		add_history(*input);
+	return (1);
 }
 
 int	main(int ac, char **av, char **envp)
@@ -37,26 +47,24 @@ int	main(int ac, char **av, char **envp)
 	(void)av;
 	env_list = convert_envp_to_env_list(envp);
 	if (!env_list)
-	{
 		return (1);
-	}
+	init_minishell(env_list);
 	while (1)
 	{
-		input = read_input();
-		if (!input)
+		if (!read_input(&input))
 			break ;
+		gc_track(input);
 		tokens = tokenizer(input);
+		print_tokens(tokens);
 		if (tokens)
 		{
 			if (!internal_command(tokens, env_list))
+			{
 				process_pipes(tokens, envp);
-			free_tokens(tokens);
+				gc_cleanup();
+			}
 		}
-		// print_tokens(tokens);
-		free(input);
-		// free_tokens(tokens);
 	}
-	free_env_list(env_list);
+	gc_cleanup();
 	rl_clear_history();
-	return (0);
 }

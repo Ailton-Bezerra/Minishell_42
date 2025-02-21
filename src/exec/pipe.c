@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 12:35:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:47:27 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 t_token	*find_pipe(t_token *tokens)
 {
 	while (tokens && tokens->type != PIPE)
+		tokens = tokens->next;
+	if (tokens)
 		tokens = tokens->next;
 	return (tokens);
 }
@@ -28,18 +30,22 @@ void	child_process(t_token *tokens, char **envp, int input_fd,
 	close(fd[1]);
 	printf("Executing command in child process\n");
 	execute_command(tokens, envp);
-	free_tokens(tokens);
-	exit (EXIT_SUCCESS);
+	gc_cleanup();
+	// free_tokens(cmd1);
+	exit(1);
 }
 
 void	parent_process(t_token *tokens, char **envp, int output_fd,
 	int fd[2])
 {
+	t_token	*next_cmd;
+
 	close(fd[1]);
 	waitpid(-1, NULL, 0);
 	if (tokens->next)
 	{
 		printf("Running next command in pipeline\n");
+		next_cmd = find_pipe(tokens);
 		run_pipeline(tokens->next, envp, fd[0], output_fd);
 	}
 	else
@@ -93,6 +99,7 @@ void	process_pipes(t_token *tokens, char **envp)
 	{
 		printf("No pipe found, executing single command\n");
 		execute_command(tokens, envp);
+		// gc_cleanup();
 		return ;
 	}
 	printf("Pipe found, running pipeline\n");

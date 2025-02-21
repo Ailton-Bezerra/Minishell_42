@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/16 14:05:21 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:38:06 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ static t_env_list	*allocate_env_list(int count)
 {
 	t_env_list	*new;
 
-	new = malloc(sizeof(t_env_list));
+	new = gc_malloc(sizeof(t_env_list));
 	if (!new)
 	{
 		perror("Erro de alocação de memória");
 		return (NULL);
 	}
-	new->var = malloc(sizeof(char *) * (count + 1));
+	new->var = gc_malloc(sizeof(char *) * (count + 1));
 	if (!new->var)
 	{
 		perror("Erro de alocação de memória");
-		free(new);
+		// free(new);
 		return (NULL);
 	}
 	return (new);
@@ -68,8 +68,8 @@ static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
 			perror("Erro de alocação de memória");
 			// while (i-- > 0)
 			// 	free(new->var[i]);
-			free_array(new->var, i);
-			free(new);
+			// free_array(new->var);
+			// free(new);
 			return (-1);
 		}
 		i++;

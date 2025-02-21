@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 14:38:28 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:25:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	**get_args(t_token *tokens, int count)
 	char	**args;
 	int		i;
 
-	args = malloc(sizeof(char *) * (count + 1));
+	i = 0;
+	args = gc_malloc(sizeof(char *) * (count + 1));
 	if (!args)
 	{
 		perror("Error");
@@ -43,7 +44,7 @@ char	**get_args(t_token *tokens, int count)
 		if (!args[i])
 		{
 			perror("Error");
-			free_array(args, i);
+			// free_array(args);
 			return (NULL);
 		}
 		tokens = tokens->next;

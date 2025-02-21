@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_path.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:58 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/11 15:54:19 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:45:23 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,15 @@ static char	**get_directories(char **envp)
 	return (ft_split(envp[i] + 5, ':'));
 }
 
-static void	free_split(char **split)
-{
-	int	i;
+// static void	free_split(char **split)
+// {
+// 	int	i;
 
-	i = 0;
-	while (split && split[i])
-		free(split[i++]);
-	free(split);
-}
+// 	i = 0;
+// 	while (split && split[i])
+// 		free(split[i++]);
+// 	free(split);
+// }
 
 char	*get_path(char *cmd, char **envp)
 {
@@ -49,16 +49,16 @@ char	*get_path(char *cmd, char **envp)
 	{
 		part_path = ft_strjoin(valid_path[i], "/");
 		fullpath = ft_strjoin(part_path, cmd);
-		free(part_path);
+		// free(part_path);
 		if (access(fullpath, F_OK | X_OK) == 0)
 		{
-			free_split(valid_path);
+			// free_split(valid_path);
 			return (fullpath);
 		}
-		free(fullpath);
+		// free(fullpath);
 		i++;
 	}
-	free_split(valid_path);
+	// free_split(valid_path);
 	return (NULL);
 }
 

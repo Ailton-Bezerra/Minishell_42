@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:16:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/10/23 15:27:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:41:42 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*ft_memsst(char const *s, size_t i, size_t j)
 	char	*sst;
 	size_t	n;
 
-	sst = (char *)malloc(sizeof(char) * (i - j + 1));
+	sst = (char *)gc_malloc(sizeof(char) * (i - j + 1));
 	if (sst == NULL)
 		return (NULL);
 	n = 0;
@@ -59,7 +59,7 @@ char	**ft_split(char const *s, char c)
 
 	i = 0;
 	k = 0;
-	memalloc = (char **)malloc(sizeof(char *) * (ft_scount(s, c) + 1));
+	memalloc = (char **)gc_malloc(sizeof(char *) * (ft_scount(s, c) + 1));
 	if (memalloc == NULL)
 		return (NULL);
 	while (s[i] != '\0')

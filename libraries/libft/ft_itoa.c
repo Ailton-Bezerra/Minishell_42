@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 18:17:10 by cabo-ram          #+#    #+#             */
-/*   Updated: 2024/10/25 16:52:49 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:41:42 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*memalloc(int length)
 {
 	char	*str;
 
-	str = (char *)malloc(sizeof(char) * (length + 1));
+	str = (char *)gc_malloc(sizeof(char) * (length + 1));
 	if (str == NULL)
 		return (NULL);
 	str[length] = '\0';

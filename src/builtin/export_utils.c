@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/12 15:30:03 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/20 10:50:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,10 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	size_t	copy_size;
 
 	if (new_size == 0)
-	{
-		free(ptr);
 		return (NULL);
-	}
-	new_ptr = malloc(new_size);
+	new_ptr = gc_malloc(new_size);
 	if (!new_ptr)
-	{
-		free(ptr);
 		return (NULL);
-	}
 	if (ptr)
 	{
 		if (old_size < new_size)
@@ -52,7 +46,6 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 		else
 			copy_size = new_size;
 		ft_memcpy(new_ptr, ptr, copy_size);
-		free(ptr);
 	}
 	return (new_ptr);
 }

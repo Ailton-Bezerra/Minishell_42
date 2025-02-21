@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/13 12:24:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 11:40:55 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ static int	separate_key_and_value(const char *arg, char **key, char **value)
 	*key = ft_strndup(arg, name_len);
 	*value = ft_strdup(equal_sign + 1);
 	if (!*key || !*value)
-	{
-		free_var(*key, *value);
 		return (0);
-	}
 	return (1);
 }
 
@@ -54,8 +51,8 @@ static int	update_var(t_env_list *env, int i, const char *arg)
 {
 	if (!env || !env->var || !arg)
 		return (0);
-	free(env->var[i]);
-	env->var[i] = malloc(ft_strlen(arg) + 1);
+	// free(env->var[i]);
+	env->var[i] = gc_malloc(ft_strlen(arg) + 1);
 	if (!env->var[i])
 		return (0);
 	ft_strlcpy(env->var[i], arg, ft_strlen(arg) + 1);
@@ -73,7 +70,7 @@ static int	add_new_var(t_env_list *env, const char *arg)
 	if (!new_var)
 		return (0);
 	env->var = new_var;
-	env->var[env->count] = malloc(ft_strlen(arg) + 1);
+	env->var[env->count] = gc_malloc(ft_strlen(arg) + 1);
 	if (!env->var[env->count])
 		return (0);
 	ft_strlcpy(env->var[env->count], arg, ft_strlen(arg) + 1);
@@ -92,8 +89,8 @@ int	ft_export(t_env_list *env, char *arg)
 	if (!separate_key_and_value(arg, &key, &value))
 		return (1);
 	i = find_env(env, key);
-	free(key);
-	free(value);
+	// free(key);
+	// free(value);
 	if (i != -1)
 	{
 		if (!update_var(env, i, arg))

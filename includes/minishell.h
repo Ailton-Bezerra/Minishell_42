@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 12:25:10 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 12:23:09 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,32 +24,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include "../libraries/libft/libft.h"
-
-// # define PROMPT "minishell>$ "
-
-// void	minishell_loop(void);
+# include "tokens.h"
+# include "garbage_collector.h"
 
 # define YELLOW "\001\033[1;33m\002"
 # define END "\001\033[0m\002"
-
-enum e_token
-{
-	WORD,
-	PIPE,
-	APPEND,
-	TRUNC,
-	INPUT,
-	HERE_DOC,
-};
-
-typedef struct s_token
-{
-	char			*value;
-	enum e_token	type;
-	// bool			command;
-	// struct s_token	*prev;
-	struct s_token	*next;
-}					t_token;
 
 typedef struct s_env_list
 {
@@ -61,6 +40,11 @@ typedef struct s_env_list
 // ============== /builtin/builtin_utils.c ==============
 void			free_env_list(t_env_list *env_list);
 t_env_list		*convert_envp_to_env_list(char **envp);
+
+typedef struct s_minishell
+{
+	t_env_list	*env_list;
+}				t_minishell;
 
 // ============== /builtin/builtin.c ==============
 int				builtin(char *cmd);
@@ -132,20 +116,29 @@ t_token			*tokenizer(const char *input);
 // ============== tokens/token_list ==============
 t_token			*new_token_node(char *content);
 void			add_token(t_token **head, char *content);
+void			process_token(t_token **tokens, char *line, int *i);
 
 // ============== tokens/types ==============
 enum e_token	define_types(char *type);
+void			command_type(t_token *tokens);
 
 // ============== debug/print_tokens ==============
 void			print_tokens(t_token *token);
 
-// ============== tokens/free_memory ==============
-void			free_tokens(t_token *tokens);
-char			*ft_strjoin_free(char *s1, char *s2);
-char			*ft_substr_free(char *s, unsigned int start, size_t end);
-
 // ============== tokens/quotes ==============
 char			*ft_strndup(const char *s, size_t n);
 t_token			*handle_quotes(char *line, t_token *tokens);
+char			*remove_outer_quotes(char *input, int single_q, int double_q);
+
+// ============== tokens/sintax ==============
+int				chek_sintax(t_token *tokens);
+
+// ============== tokens/expansion ==============
+char			*handle_expansion(char *input);
+
+t_minishell		*get_minishell(void);
+void			init_minishell(t_env_list *env_list);
+char			*ft_getenv(t_env_list *env, const char *name);
+char			*get_value(const char *var);
 
 #endif
