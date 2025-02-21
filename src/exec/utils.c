@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 12:57:17 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:42:22 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ char	**get_args(t_token *tokens, int count)
 		if (!args[i])
 		{
 			perror("Error");
-			// free_array(args);
 			return (NULL);
 		}
 		tokens = tokens->next;
