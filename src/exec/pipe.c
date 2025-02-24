@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:47:27 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:39:15 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,42 @@ t_token	*find_pipe(t_token *tokens)
 void	child_process(t_token *tokens, char **envp, int input_fd,
 	int fd[2])
 {
+	t_token		*cmd_tokens;
+	t_env_list	*env_list;
+
+	cmd_tokens = get_cmd_tokens(tokens);
+	env_list = NULL;
 	close (fd[0]);
 	dup2(input_fd, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	printf("Executing command in child process\n");
-	execute_command(tokens, envp);
-	gc_cleanup();
-	// free_tokens(cmd1);
+	execute_command(cmd_tokens, env_list, envp);
 	exit(1);
 }
 
 void	parent_process(t_token *tokens, char **envp, int output_fd,
 	int fd[2])
 {
-	t_token	*next_cmd;
+	t_token		*next_cmd;
+	t_token		*cmd_tokens;
+	t_env_list	*env_list;
 
+	next_cmd = find_pipe(tokens);
+	env_list = NULL;
 	close(fd[1]);
 	waitpid(-1, NULL, 0);
-	if (tokens->next)
+	if (next_cmd)
 	{
 		printf("Running next command in pipeline\n");
-		next_cmd = find_pipe(tokens);
-		run_pipeline(tokens->next, envp, fd[0], output_fd);
+		cmd_tokens = get_cmd_tokens(next_cmd);
+		run_pipeline(cmd_tokens, envp, fd[0], output_fd);
 	}
 	else
 	{
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		printf("Executing final command in parent process\n");
-		execute_command(tokens, envp);
+		execute_command(tokens, env_list, envp);
 	}
 }
 
@@ -86,7 +92,7 @@ void	run_pipeline(t_token *tokens, char **envp, int input_fd,
 	}
 }
 
-void	process_pipes(t_token *tokens, char **envp)
+void	process_pipes(t_token *tokens, t_env_list *env_list, char **envp)
 {
 	int		input_fd;
 	int		output_fd;
@@ -97,9 +103,7 @@ void	process_pipes(t_token *tokens, char **envp)
 	output_fd = STDOUT_FILENO;
 	if (!pipe_token)
 	{
-		printf("No pipe found, executing single command\n");
-		execute_command(tokens, envp);
-		// gc_cleanup();
+		execute_command(tokens, env_list, envp);
 		return ;
 	}
 	printf("Pipe found, running pipeline\n");

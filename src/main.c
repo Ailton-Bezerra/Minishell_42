@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 12:46:53 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:17:44 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	main(int ac, char **av, char **envp)
 		{
 			if (!internal_command(tokens, env_list))
 			{
-				process_pipes(tokens, envp);
-				gc_cleanup();
+				process_pipes(tokens, env_list, envp);
 			}
+			gc_dealocate(input);
 		}
 	}
 	gc_cleanup();

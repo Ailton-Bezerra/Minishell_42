@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 12:23:09 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:36:46 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void			ft_unset(t_env_list **env, const char *var);
 
 // ============== exec/check_command_utils.c ==============
 char			*get_command_path(char *cmd, char **envp);
-void			fork_error(char *path, char **args);
 
 // ============== exec/check_command.c ==============
 int				internal_command(t_token *tokens, t_env_list *env_list);
@@ -92,9 +91,12 @@ void			print_error(char *cmd);
 
 // ============== exec/execute_command_utils.c ==============
 char			*get_command_path(char *cmd, char **envp);
+void			fork_error(char *path, char **args);
+t_token			*get_cmd_tokens(t_token *tokens);
 
 // ============== exec/execute_command.c ==============
-void			execute_command(t_token *tokens, char **envp);
+void			execute_command(t_token *tokens, t_env_list *env_list,
+					char **envp);
 
 // ============== exec/find_path.c ==============
 char			*get_path(char *cmd, char **envp);
@@ -108,37 +110,40 @@ void			parent_process(t_token *tokens, char **envp, int output_fd,
 					int fd[2]);
 void			run_pipeline(t_token *tokens, char **envp, int input_fd,
 					int output_fd);
-void			process_pipes(t_token *tokens, char **envp);
+void			process_pipes(t_token *tokens, t_env_list *env_list, char **envp);
 
-// ============== tokens/tokenizer ==============
+// ============== tokens/tokenizer.c ==============
 t_token			*tokenizer(const char *input);
 
-// ============== tokens/token_list ==============
+// ============== tokens/token_list.c ==============
 t_token			*new_token_node(char *content);
 void			add_token(t_token **head, char *content);
 void			process_token(t_token **tokens, char *line, int *i);
 
-// ============== tokens/types ==============
+// ============== tokens/types.c ==============
 enum e_token	define_types(char *type);
 void			command_type(t_token *tokens);
 
-// ============== debug/print_tokens ==============
+// ============== debug/print_tokens.c ==============
 void			print_tokens(t_token *token);
 
-// ============== tokens/quotes ==============
+// ============== tokens/quotes.c ==============
 char			*ft_strndup(const char *s, size_t n);
 t_token			*handle_quotes(char *line, t_token *tokens);
 char			*remove_outer_quotes(char *input, int single_q, int double_q);
 
-// ============== tokens/sintax ==============
+// ============== tokens/sintax.c ==============
 int				chek_sintax(t_token *tokens);
 
-// ============== tokens/expansion ==============
+// ============== tokens/expansion.c ==============
 char			*handle_expansion(char *input);
 
-t_minishell		*get_minishell(void);
-void			init_minishell(t_env_list *env_list);
+// ============== tokens/ft_getenv.c ==============
 char			*ft_getenv(t_env_list *env, const char *name);
 char			*get_value(const char *var);
+
+// ============== main.c ==============
+t_minishell		*get_minishell(void);
+void			init_minishell(t_env_list *env_list);
 
 #endif

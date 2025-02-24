@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 12:25:33 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:25:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ char	**get_args(t_token *tokens, int count)
 		if (!args[i])
 		{
 			perror("Error");
-			// free_array(args);
 			return (NULL);
 		}
 		tokens = tokens->next;
@@ -81,7 +80,7 @@ void	error(void)
 
 void	print_error(char *cmd)
 {
-	ft_putstr_fd("Error: Missing argument\n", 2);
+	ft_putstr_fd("minishell: \n", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2);
+	ft_putstr_fd(": command not found\n", 2);
 }

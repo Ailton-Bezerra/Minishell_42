@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 10:41:42 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:38:59 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,50 +23,6 @@ char	*ft_strndup(const char *s, size_t n)
 	new[n] = '\0';
 	return (new);
 }
-
-// static void	add_token_from_line(t_token **tokens, char *line, int start,
-// 	int end)
-// {
-// 	char	*token_str;
-
-// 	token_str = ft_strndup(&line[start], end - start);
-// 	add_token(tokens, token_str);
-// 	free(token_str);
-// }
-
-// /**
-//  * @brief   Processes a token from the input line and adds it to the token list.
-//  * 
-//  * @param   tokens  Pointer to the list of tokens.
-//  * @param   line    The input string being tokenized.
-//  * @param   i       Pointer to the current index in the input string.
-//  * 
-//  * @return  None. The function updates the token list by extracting tokens 
-//  *          based on spaces and quotes.
-//  */
-// static void	process_token(t_token **tokens, char *line, int *i)
-// {
-// 	int		start;
-// 	char	quote;
-
-// 	start = *i;
-// 	if (line[*i] == '\'' || line[*i] == '\"')
-// 	{
-// 		quote = line[(*i)++];
-// 		start = *i;
-// 		while (line[*i] && line[*i] != quote)
-// 			(*i)++;
-// 		add_token_from_line(tokens, line, start, *i);
-// 		(*i)++;
-// 	}
-// 	else
-// 	{
-// 		while (line[*i] && line[*i] != ' ' && line[*i] != '\''
-// 			&& line[*i] != '\"')
-// 			(*i)++;
-// 		add_token_from_line(tokens, line, start, *i);
-// 	}
-// }
 
 /**
  * @brief   Checks for unclosed single or double quotes in a string.
