@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/25 12:53:02 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:58:30 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,7 @@ void	execute_command(t_token *tokens, char **envp)
 	if (!cmd)
 		return ;
 	if (builtin(cmd))
-	{
-		if (!ft_strncmp(args[1], ">", 1))
-			handle_output_redirection(args[2], 0);
 		execute_builtin(args, env_list);
-	}
 	else
 	{
 		cmd_signal();

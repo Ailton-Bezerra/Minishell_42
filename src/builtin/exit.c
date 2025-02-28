@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:23:19 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/24 10:54:21 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:54:54 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_exit(char **cmd)
 	if (cmd[1])
 		exit_cmd = ft_atoi(cmd[1]);
 	gc_cleanup();
+	close_fds();
 	rl_clear_history();
 	exit(exit_cmd);
 }
