@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:55:11 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/23 11:47:48 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:34:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ static char	*change_to_value(const char *input, int *var_len)
 	int			end_var;
 	char		*var;
 	char		*var_value;
-	t_minishell	*ms;
 
-	ms = get_minishell();
 	end_var = 1;
 	while (input[end_var]
 		&& (ft_isalnum(input[end_var]) || input[end_var] == '_'))
@@ -30,7 +28,7 @@ static char	*change_to_value(const char *input, int *var_len)
 		return (NULL);
 	}
 	var = ft_substr(input, 1, end_var - 1);
-	var_value = ft_getenv(ms->env_list, var);
+	var_value = ft_getenv(get_ms()->env_list, var);
 	if (var_value)
 		var_value = get_value(var_value);
 	if (!var_value)

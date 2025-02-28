@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 10:50:05 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:59:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	check_valid_env_name(const char *arg)
 {
 	if (!arg || *arg == '=')
 	{
+		// erro?
 		ft_putstr_fd("Error: identifier not valid\n", 2);
 		return (0);
 	}

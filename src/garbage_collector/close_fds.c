@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   close_fds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/14 12:23:19 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 10:54:54 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/02/27 12:36:14 by ailbezer          #+#    #+#             */
+/*   Updated: 2025/02/27 12:38:09 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	ft_exit(char **cmd)
+void	close_fds(void)
 {
-	int	exit_cmd;
-
-	exit_cmd = 0;
-	if (cmd[1])
-		exit_cmd = ft_atoi(cmd[1]);
-	gc_cleanup();
-	close_fds();
-	rl_clear_history();
-	exit(exit_cmd);
+	int	i;
+	i = 0;
+	while (i <= 1024)
+		close(i++);
 }

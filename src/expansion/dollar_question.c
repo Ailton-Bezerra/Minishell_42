@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 10:27:38 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/23 11:54:31 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:34:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@ char	*expand_exit_status(char *token)
 	char		*exit;
 	char		*new_tkn;
 	char		*pos;
-	t_minishell	*ms;
 
 	if (!token)
 		return (NULL);
-	ms = get_minishell();
-	exit = ft_itoa(ms->exit_status);
+	exit = ft_itoa(get_ms()->exit_status);
 	if (!exit)
 		return (token);
 	pos = ft_strnstr(token, "$?", ft_strlen(token));

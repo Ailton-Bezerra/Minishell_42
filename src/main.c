@@ -6,13 +6,13 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/24 18:17:44 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:51:25 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_minishell	*get_minishell(void)
+t_minishell	*get_ms(void)
 {
 	static t_minishell	minishell;
 
@@ -21,11 +21,8 @@ t_minishell	*get_minishell(void)
 
 void	init_minishell(t_env_list *env_list)
 {
-	t_minishell	*minishell;
-
-	minishell = get_minishell();
-	minishell->env_list = env_list;
-	minishell->exit_status = 0;
+	get_ms()->env_list = env_list;
+	get_ms()->exit_status = 0;
 }
 
 static int	read_input(char **input)
@@ -45,6 +42,7 @@ static void	main_loop(t_env_list *env_list, char **envp)
 
 	while (1)
 	{
+		receive_signal();
 		if (!read_input(&input))
 			break ;
 		gc_track(input);
@@ -73,6 +71,7 @@ int	main(int ac, char **av, char **envp)
 	init_minishell(env_list);
 	main_loop(env_list, envp);
 	gc_cleanup();
+	close_fds();
 	rl_clear_history();
 	return (0);
 }
