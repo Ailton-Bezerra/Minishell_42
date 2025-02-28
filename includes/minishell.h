@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 10:24:46 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:46:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@
 # include "garbage_collector.h"
 
 # define YELLOW "\001\033[1;33m\002"
-# define END "\001\033[0m\002"
+# define CYAN	"\001\033[0;36m\002"
+# define END	"\001\033[0m\002"
 
 typedef struct s_env_list
 {
@@ -151,10 +152,20 @@ char			*ft_getenv(t_env_list *env, const char *name);
 char			*get_value(const char *var);
 
 // ============== main.c ==============
-t_minishell		*get_minishell(void);
+t_minishell		*get_ms(void);
 void			init_minishell(t_env_list *env_list);
 
 // ============== dolar_question.c ==============
 char			*expand_exit_status(char *token);
+
+// ============== signal.c ==============
+void			receive_signal(void);
+void			cmd_signal(void);
+
+// ============== output.c ==============
+int				handle_output_redirection(char *filename, int append);
+
+
+void	close_fds(void);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/27 14:27:32 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:49:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,5 +85,8 @@ void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
 		// free_array(args);
 	}
 	else
+	{
+		cmd_signal();
 		handle_external_command(cmd, args, envp);
+	}
 }
