@@ -25,6 +25,7 @@ void	init_minishell(t_env_list *env_list)
 
 	minishell = get_minishell();
 	minishell->env_list = env_list;
+	minishell->exit_status = 0;
 }
 
 static int	read_input(char **input)
@@ -37,18 +38,11 @@ static int	read_input(char **input)
 	return (1);
 }
 
-int	main(int ac, char **av, char **envp)
+static void	main_loop(t_env_list *env_list, char **envp)
 {
 	char		*input;
 	t_token		*tokens;
-	t_env_list	*env_list;
 
-	(void)ac;
-	(void)av;
-	env_list = convert_envp_to_env_list(envp);
-	if (!env_list)
-		return (1);
-	init_minishell(env_list);
 	while (1)
 	{
 		if (!read_input(&input))
@@ -65,6 +59,20 @@ int	main(int ac, char **av, char **envp)
 			gc_dealocate(input);
 		}
 	}
+}
+
+int	main(int ac, char **av, char **envp)
+{
+	t_env_list	*env_list;
+
+	(void)ac;
+	(void)av;
+	env_list = convert_envp_to_env_list(envp);
+	if (!env_list)
+		return (1);
+	init_minishell(env_list);
+	main_loop(env_list, envp);
 	gc_cleanup();
 	rl_clear_history();
+	return (0);
 }

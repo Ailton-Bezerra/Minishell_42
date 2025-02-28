@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 15:36:46 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/23 11:55:29 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_env_list		*convert_envp_to_env_list(char **envp);
 typedef struct s_minishell
 {
 	t_env_list	*env_list;
+	int			exit_status;
 }				t_minishell;
 
 // ============== /builtin/builtin.c ==============
@@ -145,5 +146,8 @@ char			*get_value(const char *var);
 // ============== main.c ==============
 t_minishell		*get_minishell(void);
 void			init_minishell(t_env_list *env_list);
+
+// ============== dolar_question.c ==============
+char			*expand_exit_status(char *token);
 
 #endif
