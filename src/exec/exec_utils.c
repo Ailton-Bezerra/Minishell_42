@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:42:22 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:25:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**get_args(t_token *tokens, int count)
 		perror("Error");
 		return (NULL);
 	}
+	i = 0;
 	while (tokens && tokens->type == WORD)
 	{
 		args[i] = ft_strdup(tokens->value);
@@ -52,15 +53,22 @@ char	**get_args(t_token *tokens, int count)
 	return (args);
 }
 
-void	free_array(char **arr)
+void	free_array(char **arr, int index)
 {
 	int	i;
 
-	i = 0;
 	if (!arr)
 		return ;
-	while (arr[i])
-		free(arr[i++]);
+	i = 0;
+	while (i < index)
+	{
+		if (arr[i] != NULL)
+		{
+			free(arr[i]);
+			arr[i] = NULL;
+		}
+		i++;
+	}
 	free(arr);
 }
 
@@ -72,7 +80,7 @@ void	error(void)
 
 void	print_error(char *cmd)
 {
-	ft_putstr_fd("Error: Missing argument\n", 2);
+	ft_putstr_fd("minishell: \n", 2);
 	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd("\n", 2);
+	ft_putstr_fd(": command not found\n", 2);
 }

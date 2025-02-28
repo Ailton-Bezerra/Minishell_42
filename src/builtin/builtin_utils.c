@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:44:15 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 14:57:51 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,19 @@ static t_env_list	*allocate_env_list(int count)
 	return (new);
 }
 
+void	free_env_list(t_env_list *env_list)
+{
+	t_env_list	*temp;
+
+	while (env_list)
+	{
+		temp = env_list->next;
+		free_array(env_list->var, env_list->count);
+		free(env_list);
+		env_list = temp;
+	}
+}
+
 static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
 {
 	int	i;
@@ -72,11 +85,14 @@ t_env_list	*convert_envp_to_env_list(char **envp)
 	env_list = NULL;
 	current = NULL;
 	count = count_envp(envp);
-	new = allocate_env_list(count_envp(envp));
+	new = allocate_env_list(count);
 	if (!new)
 		return (NULL);
 	if (copy_envp_to_node(new, envp, count) == -1)
+	{
+		free_env_list(new);
 		return (NULL);
+	}
 	if (!env_list)
 		env_list = new;
 	else

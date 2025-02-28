@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/23 10:45:58 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:17:44 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ static void	main_loop(t_env_list *env_list, char **envp)
 		if (tokens)
 		{
 			if (!internal_command(tokens, env_list))
-				execute_pipe(tokens, envp);
+			{
+				process_pipes(tokens, env_list, envp);
+			}
 			gc_dealocate(input);
 		}
 	}
