@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/27 10:37:09 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:46:48 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(char **cmd, t_env_list *env_list)
+void	execute_builtin(char **cmd, t_env_list *env_list, int ac, char **av)
 {
 	if (!cmd[0])
 		return ;
@@ -45,7 +45,7 @@ void	execute_builtin(char **cmd, t_env_list *env_list)
 			ft_unset(&env_list, cmd[1]);
 	}
 	else if (!ft_strncmp(cmd[0], "env", 3))
-		ft_env(env_list);
+		ft_env(env_list, ac, av);
 	else if (!ft_strncmp(cmd[0], "exit", 4))
 		ft_exit(cmd);
 }
