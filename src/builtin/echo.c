@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:46:08 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/14 11:19:24 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:25:04 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_echo(char **cmd)
 	int		i;
 
 	i = 1;
+	get_ms()->exit_status = 0;
 	if (cmd[1] && check_flag(cmd[1]))
 		i++;
 	while (cmd[i])

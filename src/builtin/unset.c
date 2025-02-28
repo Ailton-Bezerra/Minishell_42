@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:48:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:43:29 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:26:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	remove_env_var(t_env_list **env, const char *var)
 
 void	ft_unset(t_env_list **env, const char *var)
 {
+	get_ms()->exit_status = 0;
 	if (!validate_unset_args(env, var))
 		return ;
 	remove_env_var(env, var);
