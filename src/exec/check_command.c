@@ -6,13 +6,13 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:34:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:58:00 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:26:00 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	internal_command(t_token *tokens, t_env_list *env_list)
+int	internal_command(t_token *tokens, t_env_list *env_list, int ac, char *av)
 {
 	char	**args;
 	int		arg_count;
@@ -25,7 +25,7 @@ int	internal_command(t_token *tokens, t_env_list *env_list)
 		return (0);
 	if (builtin(args[0]))
 	{
-		execute_builtin(args, env_list);
+		execute_builtin(args, env_list, ac, &av);
 		return (1);
 	}
 	return (0);

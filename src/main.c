@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/24 18:17:44 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/27 14:25:45 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int ac, char **av, char **envp)
 		print_tokens(tokens);
 		if (tokens)
 		{
-			if (!internal_command(tokens, env_list))
+			if (!internal_command(tokens, env_list, ac, *av))
 			{
 				process_pipes(tokens, env_list, envp);
 			}
