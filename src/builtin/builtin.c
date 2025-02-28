@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/19 17:45:12 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:37:09 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	execute_builtin(char **cmd, t_env_list *env_list)
 	else if (!ft_strncmp(cmd[0], "export", 6))
 	{
 		if (cmd[1])
-			ft_export(env_list, cmd[1]);
+			get_ms()->exit_status = ft_export(env_list, cmd[1]);
 		else
-			ft_export(env_list, NULL);
+			get_ms()->exit_status = ft_export(env_list, NULL);
 	}
 	else if (!ft_strncmp(cmd[0], "unset", 5))
 	{
