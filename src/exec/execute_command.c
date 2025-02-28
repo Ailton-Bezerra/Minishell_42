@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 10:58:30 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:49:12 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
 {
 	char		**args;
 	char		*cmd;
+	int			ac;
+	char		*av;
 
 	args = prepare_command(tokens);
 	if (!args)
@@ -79,7 +81,7 @@ void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
 		// free_array(args);
 		return ;
 	if (builtin(cmd))
-		execute_builtin(args, env_list);
+		execute_builtin(args, env_list, ac, &av);
 		// free_array(args);
 	}
 	else
