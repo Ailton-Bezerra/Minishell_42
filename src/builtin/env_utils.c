@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 15:02:37 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 10:01:36 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:19:33 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_env_list(t_env_list *env_list)
 {
-	int			i;
+	int	i;
 
 	i = 0;
 	while (i < env_list->count)

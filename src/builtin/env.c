@@ -6,12 +6,11 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:52 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 09:58:17 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:19:50 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 void	ft_add_env_vars(t_env_list *env_temp, int ac, char **av)
 {
