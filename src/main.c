@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/27 14:25:45 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 10:25:28 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	read_input(char **input)
 	if (*input && input)
 		add_history(*input);
 	return (1);
-}
+} builtin/env_utils.
 
 static void	main_loop(t_env_list *env_list, char **envp)
 {
