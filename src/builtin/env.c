@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:52 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:47:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:25:22 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,8 @@ void	ft_add_env_vars(t_env_list *env_temp)
 	int		i;
 	char	*equal_sign;
 
-	
-	// if (get_minishell()->tokens->next == WORD && ft_strchr(tokens->next, "="))
-	// 		export(env_list, tokens->next);
 	i = 0;
+	get_ms()->exit_status = 0;
 	while (i < env_list->count)
 	{
 		equal_sign = ft_strchr(av[i], '=');

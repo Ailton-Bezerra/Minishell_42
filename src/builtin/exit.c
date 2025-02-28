@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:23:19 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 10:54:54 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/28 11:24:27 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	ft_exit(char **cmd)
 {
 	int	exit_cmd;
-
+	
+	get_ms()->exit_status = 0;
 	exit_cmd = 0;
 	if (cmd[1])
 		exit_cmd = ft_atoi(cmd[1]);
