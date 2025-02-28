@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:49:51 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:23:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ t_minishell	*get_ms(void)
 void	init_minishell(t_env_list *env_list)
 {
 	get_ms()->env_list = env_list;
+	get_ms()->tokens = NULL;
 	get_ms()->exit_status = 0;
 }
 
@@ -47,6 +48,7 @@ static void	main_loop(t_env_list *env_list, char **envp)
 			break ;
 		gc_track(input);
 		tokens = tokenizer(input);
+		get_ms()->tokens = tokens;
 		print_tokens(tokens);
 		if (tokens)
 		{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:46:31 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/02/28 15:26:27 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,13 @@ t_env_list		*convert_envp_to_env_list(char **envp);
 typedef struct s_minishell
 {
 	t_env_list	*env_list;
+	t_token		*tokens;
 	int			exit_status;
 }				t_minishell;
 
 // ============== /builtin/builtin.c ==============
 int				builtin(char *cmd);
-void			execute_builtin(char **cmd, t_env_list *env_list, int ac, char **av);
+void			execute_builtin(char **cmd, t_env_list *env_list);
 
 // ============== /builtin/cd.c ==============
 void			ft_cd(char **cmd);
@@ -65,8 +66,8 @@ int				ft_add_to_env(t_env_list *env, const char *arg);
 void			exec_with_env(t_env_list *env, char **cmd);
 
 // ============== /builtin/env.c ==============
-void			ft_add_env_vars(t_env_list *env_temp, int ac, char **av);
-void			ft_env(t_env_list *env_list, int ac, char **av);
+void			ft_add_env_vars(t_env_list *env_temp);
+void			ft_env(t_env_list *env_list);
 
 // ============== /builtin/exit.c ==============
 void			ft_exit(char **cmd);
@@ -89,7 +90,7 @@ void			ft_unset(t_env_list **env, const char *var);
 char			*get_command_path(char *cmd, char **envp);
 
 // ============== exec/check_command.c ==============
-int				internal_command(t_token *tokens, t_env_list *env_list, int ac, char *av);
+int				internal_command(t_token *tokens, t_env_list *env_list);
 
 // ============== exec/exec_utils.c ==============
 int				count_args(t_token *tokens);
