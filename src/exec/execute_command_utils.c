@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:38:43 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/20 12:57:50 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/02/21 15:24:46 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,15 @@ void	fork_error(char *path, char **args)
 {
 	perror("fork error");
 	free(path);
-	free_array(args);
+	free_array(args, 0);
+}
+
+t_token	*get_cmd_tokens(t_token *tokens)
+{
+	t_token	*cmd_tokens;
+
+	cmd_tokens = tokens;
+	while (tokens && tokens->type != PIPE)
+		tokens = tokens->next;
+	return (cmd_tokens);
 }
