@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 15:26:27 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:27:15 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,27 +31,27 @@
 # define CYAN	"\001\033[0;36m\002"
 # define END	"\001\033[0m\002"
 
-typedef struct s_env_list
+typedef struct s_env
 {
 	char				**var;
 	int					count;
-	struct s_env_list	*next;
-}				t_env_list;
+}				t_env;
 
 // ============== /builtin/builtin_utils.c ==============
-void			free_env_list(t_env_list *env_list);
-t_env_list		*convert_envp_to_env_list(char **envp);
+t_env		*init_env(char **envp);
 
 typedef struct s_minishell
 {
-	t_env_list	*env_list;
+	t_env	*env_list;
 	t_token		*tokens;
 	int			exit_status;
+	int			input_save;
+	int			output_save;
 }				t_minishell;
 
 // ============== /builtin/builtin.c ==============
 int				builtin(char *cmd);
-void			execute_builtin(char **cmd, t_env_list *env_list);
+void			execute_builtin(char **cmd, t_env *env_list);
 
 // ============== /builtin/cd.c ==============
 void			ft_cd(char **cmd);
@@ -59,15 +59,8 @@ void			ft_cd(char **cmd);
 // ============== /builtin/echo.c ==============
 void			ft_echo(char **cmd);
 
-// ============== /builtin/env_utils.c ==============
-void			print_env_list(t_env_list *env_list);
-void			copy_env_list(t_env_list *dest, t_env_list *src);
-int				ft_add_to_env(t_env_list *env, const char *arg);
-void			exec_with_env(t_env_list *env, char **cmd);
-
 // ============== /builtin/env.c ==============
-void			ft_add_env_vars(t_env_list *env_temp);
-void			ft_env(t_env_list *env_list);
+void			ft_env(t_env *env_list, char **cmd);
 
 // ============== /builtin/exit.c ==============
 void			ft_exit(char **cmd);
@@ -78,19 +71,19 @@ void			free_var(char *var_name, char *var_value);
 void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // ============== /builtin/export.c ==============
-int				ft_export(t_env_list *env, char *arg);
+int				ft_export(t_env *env, char *arg);
 
 // ============== /builtin/pwd.c ==============
 void			ft_pwd(void);
 
 // ============== /builtin/unset.c ==============
-void			ft_unset(t_env_list **env, const char *var);
+void			ft_unset(t_env **env, const char *var);
 
 // ============== exec/check_command_utils.c ==============
 char			*get_command_path(char *cmd, char **envp);
 
 // ============== exec/check_command.c ==============
-int				internal_command(t_token *tokens, t_env_list *env_list);
+int				redirects(t_token *tokens, t_env *env_list);
 
 // ============== exec/exec_utils.c ==============
 int				count_args(t_token *tokens);
@@ -105,8 +98,8 @@ void			fork_error(char *path, char **args);
 t_token			*get_cmd_tokens(t_token *tokens);
 
 // ============== exec/execute_command.c ==============
-void			execute_command(t_token *tokens, t_env_list *env_list,
-					char **envp);
+void			execute_command(t_token *tokens, t_env *env_list,
+					char **t_env);
 
 // ============== exec/find_path.c ==============
 char			*get_path(char *cmd, char **envp);
@@ -120,7 +113,7 @@ void			parent_process(t_token *tokens, char **envp, int output_fd,
 					int fd[2]);
 void			run_pipeline(t_token *tokens, char **envp, int input_fd,
 					int output_fd);
-void			process_pipes(t_token *tokens, t_env_list *env_list, char **envp);
+void			process_pipes(t_token *tokens, t_env *env_list, char **envp);
 
 // ============== tokens/tokenizer.c ==============
 t_token			*tokenizer(const char *input);
@@ -149,12 +142,12 @@ int				chek_sintax(t_token *tokens);
 char			*handle_expansion(char *input);
 
 // ============== tokens/ft_getenv.c ==============
-char			*ft_getenv(t_env_list *env, const char *name);
+char			*ft_getenv(t_env *env, const char *name);
 char			*get_value(const char *var);
 
 // ============== main.c ==============
 t_minishell		*get_ms(void);
-void			init_minishell(t_env_list *env_list);
+void			init_minishell(t_env *env_list);
 
 // ============== dolar_question.c ==============
 char			*expand_exit_status(char *token);
@@ -166,7 +159,8 @@ void			cmd_signal(void);
 // ============== output.c ==============
 int				handle_output_redirection(char *filename, int append);
 
-
+int	save_original_stdin(int *saved);
+int	save_original_stdout(int *saved);
 void	close_fds(void);
 
 #endif

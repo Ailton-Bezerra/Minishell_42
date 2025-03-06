@@ -6,13 +6,12 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:46:28 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:24:56 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/06 11:31:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// naõ sei em que momento ele retorna com sucesso
 void	ft_cd(char **cmd)
 {
 	const char	*path;

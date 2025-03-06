@@ -6,46 +6,42 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 15:28:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:19:46 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	execute_child_process(char *path, char **av, char **envp)
+static void	execute_child_process(char *path, char **args, char **envp)
 {
-	if (execve(path, av, envp) == -1)
+	if (execve(path, args, envp) == -1)
 	{
 		perror("execve error");
-		// free(path);
-		// free_array(av);
 		gc_cleanup();
+		close_fds();
 		rl_clear_history();
 		exit(EXIT_FAILURE);
 	}
 }
 
-static void	handle_external_command(char *cmd, char **args, char **envp)
+static void	handle_external_command(char *cmd, char **args, char **t_env)
 {
 	char	*path;
 	pid_t	pid;
-
-	path = get_command_path(cmd, envp);
+		
+	path = get_command_path(cmd, t_env);
 	if (!path)
 	{
 		print_error(cmd);
-		// free_array(args);
 		return ;
 	}
 	pid = fork();
 	if (pid < 0)
 		fork_error(path, args);
 	else if (pid == 0)
-		execute_child_process(path, args, envp);
+		execute_child_process(path, args, t_env);
 	else
 		waitpid(pid, NULL, 0);
-	// free(path);
-	// free_array(args);
 }
 
 static char	**prepare_command(t_token *tokens)
@@ -62,7 +58,7 @@ static char	**prepare_command(t_token *tokens)
 	return (args);
 }
 
-void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
+void	execute_command(t_token *tokens, t_env *env_list, char **t_env)
 {
 	char		**args;
 	char		*cmd;
@@ -75,16 +71,12 @@ void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
 	}
 	cmd = args[0];
 	if (!cmd)
-	{
-		// free_array(args);
 		return ;
 	if (builtin(cmd))
 		execute_builtin(args, env_list);
-		// free_array(args);
-	}
 	else
 	{
 		cmd_signal();
-		handle_external_command(cmd, args, envp);
+		handle_external_command(cmd, args, t_env);
 	}
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new_check_command.c                                :+:      :+:    :+:   */
+/*   n2_check_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,21 @@
 
 #include "../../includes/minishell.h"
 
-// static int	save_original_stdout(int *saved)
-// {
-// 	*saved = dup(STDOUT_FILENO);
-// 	if (*saved == -1)
-// 		perror("minishell: dup");
-// 	return (*saved != -1);
-// }
+int	save_original_stdin(int *saved)
+{
+	*saved = dup(STDIN_FILENO);
+	if (*saved == -1)
+		perror("minishell: dup");
+	return (*saved != -1);
+}
+
+int	save_original_stdout(int *saved)
+{
+	*saved = dup(STDOUT_FILENO);
+	if (*saved == -1)
+		perror("minishell: dup");
+	return (*saved != -1);
+}
 
 static int	apply_redirection(t_token *token)
 {
@@ -43,19 +51,19 @@ static int	apply_redirection(t_token *token)
 
 static void	remove_redirection(t_token **t, t_token *prev, t_token *curr)
 {
-	t_token *file;
-	
+	t_token	*file;
+
 	file = curr->next;
 	if (prev)
 		prev->next = file->next;
-	else 
+	else
 		*t = file->next;
 }
 
-static int process_redirections(t_token **tokens)
+static int	process_redirections(t_token **tokens)
 {
 	t_token	*curr;
-	t_token *prev;
+	t_token	*prev;
 
 	prev = NULL;
 	curr = *tokens;
@@ -80,32 +88,13 @@ static int process_redirections(t_token **tokens)
 	return (1);
 }
 
-// static void	restore_original_stdout(int saved)
-// {
-// 	if (saved != -1)
-// 	{
-// 		dup2(saved, STDOUT_FILENO);
-// 		close(saved);
-// 	}
-// }
-
-int internal_command(t_token *t, t_env *env)
+int redirects(t_token *t, t_env *env)
 {
-	int	saved;
-	char **args;
 	int status;
 
 	status = 0;
-	if (!save_original_stdout(&saved) || !process_redirections(&t))
-		return (restore_original_stdout(saved), 1);
-	args = get_args(t, count_args(t));
-	if (!args)
-		return (restore_original_stdout(saved), 1);
-	if (builtin(args[0]))
-	{
-		execute_builtin(args, env);
-		restore_original_stdout(saved);
+	(void)env;
+	if (!process_redirections(&t))
 		return (1);
-	}
-	return (restore_original_stdout(saved), 0);
+	return (0);
 }

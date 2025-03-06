@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/27 12:53:54 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	separate_key_and_value(const char *arg, char **key, char **value)
 	return (1);
 }
 
-static int	find_env(t_env_list *env, const char *name)
+static int	find_env(t_env *env, const char *name)
 {
 	int	name_len;
 	int	i;
@@ -47,7 +47,7 @@ static int	find_env(t_env_list *env, const char *name)
 	return (-1);
 }
 
-static int	update_var(t_env_list *env, int i, const char *arg)
+static int	update_var(t_env *env, int i, const char *arg)
 {
 	if (!env || !env->var || !arg)
 		return (0);
@@ -58,7 +58,7 @@ static int	update_var(t_env_list *env, int i, const char *arg)
 	return (1);
 }
 
-static int	add_new_var(t_env_list *env, const char *arg)
+static int	add_new_var(t_env *env, const char *arg)
 {
 	char	**new_var;
 
@@ -77,12 +77,14 @@ static int	add_new_var(t_env_list *env, const char *arg)
 	return (1);
 }
 
-int	ft_export(t_env_list *env, char *arg)
+int	ft_export(t_env *env, char *arg)
 {
 	int		i;
 	char	*key;
 	char	*value;
 
+	if (!arg)
+		arg = NULL;
 	if (!check_valid_env_name(arg, "export"))
 		return (1);
 	if (!separate_key_and_value(arg, &key, &value))

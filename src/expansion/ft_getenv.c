@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/21 11:32:10 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/21 14:38:26 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_value(const char *var)
 	return (value);
 }
 
-char	*ft_getenv(t_env_list *env, const char *name)
+char	*ft_getenv(t_env *env, const char *name)
 {
 	int	name_len;
 	int	i;

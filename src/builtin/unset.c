@@ -6,13 +6,13 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:48:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:26:05 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/06 15:58:34 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	validate_unset_args(t_env_list **env, const char *var)
+static int	validate_unset_args(t_env **env, const char *var)
 {
 	if (!env || !*env || !var || !*var)
 	{
@@ -22,7 +22,7 @@ static int	validate_unset_args(t_env_list **env, const char *var)
 	return (1);
 }
 
-static void	shift_env_var(t_env_list *curr, int i)
+static void	shift_env_var(t_env *curr, int i)
 {
 	int	j;
 
@@ -36,32 +36,32 @@ static void	shift_env_var(t_env_list *curr, int i)
 	curr->count--;
 }
 
-static void	remove_env_var(t_env_list **env, const char *var)
+static void	remove_env_var(t_env **env, const char *var)
 {
-	t_env_list	*curr;
+	t_env	*curr;
 	size_t		len;
 	int			i;
 
 	curr = *env;
 	len = ft_strlen(var);
-	while (curr)
+	// while (curr)
+	// {
+	i = 0;
+	while (i < curr->count)
 	{
-		i = 0;
-		while (i < curr->count)
+		if (ft_strncmp(curr->var[i], var, len) == 0
+			&& curr->var[i][len] == '=')
 		{
-			if (ft_strncmp(curr->var[i], var, len) == 0
-				&& curr->var[i][len] == '=')
-			{
-				shift_env_var(curr, i);
-				return ;
-			}
-			i++;
+			shift_env_var(curr, i);
+			return ;
 		}
-		curr = curr->next;
+		i++;
 	}
+	// 	curr = curr->next;
+	// }
 }
 
-void	ft_unset(t_env_list **env, const char *var)
+void	ft_unset(t_env **env, const char *var)
 {
 	get_ms()->exit_status = 0;
 	if (!validate_unset_args(env, var))

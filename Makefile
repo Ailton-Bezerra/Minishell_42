@@ -1,7 +1,7 @@
 NAME		:= minishell
 
 CC      := cc
-CFLAGS  := -g -Wextra -Wall -Werror #-lreadline
+CFLAGS  := -g3 -Wextra -Wall -Werror #-lreadline
 
 LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
@@ -18,7 +18,8 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list
 				exec/execute_command.c exec/find_path.c exec/pipe.c exec/exec_utils.c \
 				garbage_collector/garbage_collector.c garbage_collector/gc_utils.c\
 				expansion/ft_getenv.c expansion/dollar_question.c signals/signal.c \
-				redirects/output.c redirects/new_check_command.c garbage_collector/close_fds.c)
+				redirects/output.c redirects/n2_check_command.c garbage_collector/close_fds.c\
+				)
 			
 DIR_OBJ			:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)

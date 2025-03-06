@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 16:19:27 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:57:51 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:04:04 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static int	count_envp(char **envp)
 	return (count);
 }
 
-static t_env_list	*allocate_env_list(int count)
+static t_env	*allocate_env_node(int count)
 {
-	t_env_list	*new;
+	t_env	*new;
 
-	new = gc_malloc(sizeof(t_env_list));
+	new = gc_malloc(sizeof(t_env));
 	if (!new)
 	{
 		perror("Erro de alocação de memória");
@@ -41,20 +41,20 @@ static t_env_list	*allocate_env_list(int count)
 	return (new);
 }
 
-void	free_env_list(t_env_list *env_list)
-{
-	t_env_list	*temp;
+// void	free_env_list(t_env_list *env_list)
+// {
+// 	t_env_list	*temp;
 
-	while (env_list)
-	{
-		temp = env_list->next;
-		free_array(env_list->var, env_list->count);
-		free(env_list);
-		env_list = temp;
-	}
-}
+// 	while (env_list)
+// 	{
+// 		temp = env_list->next;
+// 		free_array(env_list->var, env_list->count);
+// 		free(env_list);
+// 		env_list = temp;
+// 	}
+// }
 
-static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
+static int	copy_envp_to_node(t_env *new, char **envp, int count)
 {
 	int	i;
 
@@ -71,32 +71,33 @@ static int	copy_envp_to_node(t_env_list *new, char **envp, int count)
 	}
 	new->var[count] = NULL;
 	new->count = count;
-	new->next = NULL;
+	// new->next = NULL;
 	return (0);
 }
 
-t_env_list	*convert_envp_to_env_list(char **envp)
+t_env	*init_env(char **envp)
 {
-	t_env_list	*env_list;
-	t_env_list	*current;
-	t_env_list	*new;
+	// t_env_list	*env_list;
+	// t_env_list	*current;
+	t_env	*new;
 	int			count;
 
-	env_list = NULL;
-	current = NULL;
+	// env_list = NULL;
+	// current = NULL;
 	count = count_envp(envp);
-	new = allocate_env_list(count);
+	new = allocate_env_node(count);
 	if (!new)
 		return (NULL);
-	if (copy_envp_to_node(new, envp, count) == -1)
-	{
-		free_env_list(new);
-		return (NULL);
-	}
-	if (!env_list)
-		env_list = new;
-	else
-		current->next = new;
-	current = new;
-	return (env_list);
+	copy_envp_to_node(new, envp, count);
+	// if (copy_envp_to_node(new, envp, count) == -1)
+	// {
+	// 	free_env_list(new);
+	// 	return (NULL);
+	// }
+	// if (!env_list)
+	// 	env_list = new;
+	// else
+	// 	current->next = new;
+	// current = new;
+	return (new);
 }
