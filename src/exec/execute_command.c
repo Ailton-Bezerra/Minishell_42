@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 15:28:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/05 11:20:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,21 @@ static void	handle_external_command(char *cmd, char **args, char **envp)
 	if (!path)
 	{
 		print_error(cmd);
-		// free_array(args);
+		// free_array(args, 0);
 		return ;
 	}
 	pid = fork();
 	if (pid < 0)
+	{
 		fork_error(path, args);
+		return ;
+	}
 	else if (pid == 0)
 		execute_child_process(path, args, envp);
 	else
 		waitpid(pid, NULL, 0);
 	// free(path);
-	// free_array(args);
+	// free_array(args, 0);
 }
 
 static char	**prepare_command(t_token *tokens)
@@ -75,12 +78,12 @@ void	execute_command(t_token *tokens, t_env_list *env_list, char **envp)
 	}
 	cmd = args[0];
 	if (!cmd)
-	{
 		// free_array(args);
 		return ;
 	if (builtin(cmd))
+	{
 		execute_builtin(args, env_list);
-		// free_array(args);
+		// free_array(args, 0);
 	}
 	else
 	{

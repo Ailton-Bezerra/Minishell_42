@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 15:26:27 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:38:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/types.h>
@@ -161,6 +162,8 @@ char			*expand_exit_status(char *token);
 
 // ============== signal.c ==============
 void			receive_signal(void);
+void			ctrl_c(int sig);
+void			ctrl_backslash(int sig);
 void			cmd_signal(void);
 
 // ============== output.c ==============

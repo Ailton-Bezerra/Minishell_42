@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 15:39:15 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/05 12:06:35 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_token	*find_pipe(t_token *tokens)
 void	child_process(t_token *tokens, char **envp, int input_fd,
 	int fd[2])
 {
+	printf("Child process started\n");
 	t_token		*cmd_tokens;
 	t_env_list	*env_list;
 
@@ -34,12 +35,14 @@ void	child_process(t_token *tokens, char **envp, int input_fd,
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
 	execute_command(cmd_tokens, env_list, envp);
-	exit(1);
+	printf("Child process finished\n");
+	exit(EXIT_SUCCESS);
 }
 
 void	parent_process(t_token *tokens, char **envp, int output_fd,
 	int fd[2])
 {
+	printf("Parent process started\n");
 	t_token		*next_cmd;
 	t_token		*cmd_tokens;
 	t_env_list	*env_list;
@@ -47,7 +50,7 @@ void	parent_process(t_token *tokens, char **envp, int output_fd,
 	next_cmd = find_pipe(tokens);
 	env_list = NULL;
 	close(fd[1]);
-	waitpid(-1, NULL, 0);
+	// waitpid(-1, NULL, 0);
 	if (next_cmd)
 	{
 		printf("Running next command in pipeline\n");
@@ -60,7 +63,9 @@ void	parent_process(t_token *tokens, char **envp, int output_fd,
 		close(fd[0]);
 		printf("Executing final command in parent process\n");
 		execute_command(tokens, env_list, envp);
+		waitpid(-1, NULL, 0);
 	}
+	printf("Parent process finished\n");
 }
 
 void	run_pipeline(t_token *tokens, char **envp, int input_fd,
@@ -108,4 +113,5 @@ void	process_pipes(t_token *tokens, t_env_list *env_list, char **envp)
 	}
 	printf("Pipe found, running pipeline\n");
 	run_pipeline(tokens, envp, input_fd, output_fd);
+	while (waitpid(-1, NULL, 0) > 0);
 }
