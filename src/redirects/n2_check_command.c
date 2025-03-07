@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:19:01 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/07 15:43:07 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,9 @@ int redirects(t_token *t, t_env *env)
 	status = 0;
 	(void)env;
 	if (!process_redirections(&t))
+	{
+		get_ms()->exit_status = 1;
 		return (1);
+	}
 	return (0);
 }

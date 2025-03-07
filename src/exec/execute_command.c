@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 16:19:46 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/07 15:25:00 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	execute_child_process(char *path, char **args, char **envp)
 		gc_cleanup();
 		close_fds();
 		rl_clear_history();
-		exit(EXIT_FAILURE);
+		exit(127);
 	}
 }
 
@@ -28,6 +28,7 @@ static void	handle_external_command(char *cmd, char **args, char **t_env)
 {
 	char	*path;
 	pid_t	pid;
+	int		status;
 		
 	path = get_command_path(cmd, t_env);
 	if (!path)
@@ -41,7 +42,11 @@ static void	handle_external_command(char *cmd, char **args, char **t_env)
 	else if (pid == 0)
 		execute_child_process(path, args, t_env);
 	else
-		waitpid(pid, NULL, 0);
+	{
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			get_ms()->exit_status = WEXITSTATUS(status);
+	}
 }
 
 static char	**prepare_command(t_token *tokens)

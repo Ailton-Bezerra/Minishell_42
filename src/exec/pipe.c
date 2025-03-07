@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 16:17:42 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 16:17:18 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:52:18 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ void	child_process(t_token *tokens, char **envp, int input_fd,
 	gc_cleanup();
 	close_fds();
 	rl_clear_history();
-	exit(1);
+	exit(get_ms()->exit_status);
+	// exit(1);
+	// get_ms()->exit_status;
 }
 
 void	parent_process(t_token *tokens, char **envp, int output_fd,
@@ -81,7 +83,9 @@ void	run_pipeline(t_token *tokens, char **envp, int input_fd,
 	if (pid == 0)
 		child_process(tokens, envp, input_fd, fd);
 	else
+	{
 		parent_process(tokens, envp, output_fd, fd);
+	}
 }
 
 void	process_pipes(t_token *tokens, t_env *env_list, char **t_env)

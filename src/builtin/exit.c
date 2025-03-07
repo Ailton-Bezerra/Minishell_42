@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:23:19 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 12:25:38 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/07 17:20:49 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,29 @@
 
 void	ft_exit(char **cmd)
 {
-	int	exit_cmd;
+	int	i;
 
-	get_ms()->exit_status = 0;
-	exit_cmd = 0;
+	i = 0;
 	if (cmd[1])
-		exit_cmd = ft_atoi(cmd[1]);
+	{
+		while (cmd[1][i])
+		{
+			if (!ft_isdigit(cmd[1][i++]))
+			{
+				get_ms()->exit_status = 2;
+				ft_putstr_fd("exit: ", 2);
+				ft_putstr_fd(cmd[1], 2);
+				ft_putstr_fd(": numeric argument required\n", 2);
+				gc_cleanup();
+				close_fds();
+				rl_clear_history();
+				exit(get_ms()->exit_status);		
+			}
+		}
+		get_ms()->exit_status = ft_atoi(cmd[1]);
+	}
 	gc_cleanup();
 	close_fds();
 	rl_clear_history();
-	exit(exit_cmd);
+	exit(get_ms()->exit_status);
 }
