@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:19:01 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/07 15:43:07 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/12 11:36:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,31 @@ static int	apply_redirection(t_token *token)
 
 	filename = token->next->value;
 	fd = -1;
-	if (token->type == APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (token->type == TRUNC)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+	if (token->type == APPEND || token->type == TRUNC)
 	{
-		perror("minishell");
-		close(fd);
-		return (0);
+		// handle_output_redirection(filename, 1);
+		if (token->type == APPEND)
+			handle_output_redirection(filename, 1);
+		// 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else if (token->type == TRUNC)
+			handle_output_redirection(filename, 0);
+		// 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		// if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+		// {
+		// 	perror("minishell");
+		// 	close(fd);
+		// 	return (0);
+		// }
+	} 
+	else if (token->type == INPUT)
+	{
+		fd = open(filename, O_RDONLY);
+		if (fd == -1 || dup2(fd, STDIN_FILENO) == -1)
+		{
+			perror("minishell");
+			close(fd);
+			return (0);
+		}
 	}
 	close(fd);
 	return (1);
@@ -69,7 +85,7 @@ static int	process_redirections(t_token **tokens)
 	curr = *tokens;
 	while (curr)
 	{
-		if (curr->type == TRUNC || curr->type == APPEND)
+		if (curr->type == TRUNC || curr->type == APPEND || curr->type == INPUT)
 		{
 			if (!apply_redirection(curr))
 				return (0);

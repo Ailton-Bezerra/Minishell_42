@@ -11,17 +11,16 @@ SRCS_DIR := src/
 SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list.c \
 				tokens/types.c tokens/quotes.c \
 				builtin/builtin.c builtin/cd.c builtin/env.c \
-				tokens/sintax.c expansion/expansion.c debug/print_tokens.c \
+				tokens/sintax.c expansion/expansion.c debug/print_lists.c \
 				 builtin/echo.c builtin/exit.c \
 				builtin/export_utils.c builtin/export.c builtin/pwd.c builtin/unset.c \
 				exec/execute_command_utils.c builtin/builtin_utils.c \
 				exec/execute_command.c exec/find_path.c exec/pipe.c exec/exec_utils.c \
 				garbage_collector/garbage_collector.c garbage_collector/gc_utils.c\
 				expansion/ft_getenv.c expansion/dollar_question.c signals/signal.c \
-				redirects/output.c redirects/n2_check_command.c garbage_collector/close_fds.c\
-				)
-			
-DIR_OBJ			:= .objs
+				redirects/output.c redirects/n2_check_command.c garbage_collector/close_fds.c \
+				redirects/here_doc.c redirects/here_doc_utils.c redirects/here_doc_list.c exec.c)
+DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
 VALGRIND	:= valgrind --leak-check=full --track-origins=yes --track-fds=yes\

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/07 14:52:43 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/18 12:24:43 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,37 @@
 
 typedef struct s_env
 {
-	char				**var;
-	int					count;
+	char		**var;
+	int			count;
 }				t_env;
 
 // ============== /builtin/builtin_utils.c ==============
 t_env		*init_env(char **envp);
 
+typedef struct s_here_doc_list
+{
+	char					*filename;
+	struct s_here_doc_list	*next;
+}							t_hd_list;
+
+typedef struct s_here_doc
+{
+	int			start_fd;
+	int			cmd_index;
+	t_hd_list	**arr_hds;
+}				t_hd;
+
 typedef struct s_minishell
 {
-	t_env	*env_list;
+	t_env		*env_list;
 	t_token		*tokens;
+	t_hd		*hd;
 	int			exit_status;
 	int			input_save;
 	int			output_save;
+	
 }				t_minishell;
+
 
 // ============== /builtin/builtin.c ==============
 int				builtin(char *cmd);
@@ -140,6 +156,8 @@ int				chek_sintax(t_token *tokens);
 
 // ============== tokens/expansion.c ==============
 char			*handle_expansion(char *input);
+void			ex_init(t_expand *ex);
+char			*expand_variable(char *result, t_expand *ex);
 
 // ============== tokens/ft_getenv.c ==============
 char			*ft_getenv(t_env *env, const char *name);
@@ -155,6 +173,8 @@ char			*expand_exit_status(char *token);
 // ============== signal.c ==============
 void			receive_signal(void);
 void			cmd_signal(void);
+void			ctrl_backslash(int sig);
+void			ctrl_c(int sig);
 
 // ============== output.c ==============
 int				handle_output_redirection(char *filename, int append);
@@ -162,5 +182,24 @@ int				handle_output_redirection(char *filename, int append);
 int	save_original_stdin(int *saved);
 int	save_original_stdout(int *saved);
 void	close_fds(void);
+
+// ============== here_doc.c ==============
+void	execute_hd(t_token *tokens);
+char	*delimiter(t_token *tokens);
+void	check_hd(t_token *tokens);
+
+// ============== here_doc_utils.c ==============
+char			*handle_expansion_hd(char *input);
+void			hd_eof(char *delimiter);
+void			ctrl_c_hd(int sig);
+
+// ============== here_doc_list.c ==============
+t_hd			*init_hd(t_token *tokens);
+t_hd_list		*new_hd_node(char *filename);
+t_hd_list 		*last_hd_node(t_hd_list *head);
+void			append_hd(char *filename, t_hd_list **head);
+
+int				count_pipes(t_token *tokens);
+int				delimiter_quotes(char *dlmt);
 
 #endif

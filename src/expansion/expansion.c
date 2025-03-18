@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:55:11 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/27 10:34:51 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/14 15:57:29 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	*change_to_value(const char *input, int *var_len)
 	return (var_value);
 }
 
-static void	ex_init(t_expand *ex)
+void	ex_init(t_expand *ex)
 {
 	ex->quote = 0;
 	ex->double_quote = 0;
@@ -58,7 +58,7 @@ static void	change_quote_flag(char *result, t_expand *ex, int *i)
 	}
 }
 
-static char	*expand_variable(char *result, t_expand *ex)
+char	*expand_variable(char *result, t_expand *ex)
 {
 	char	*new_str;
 	size_t	new_len;

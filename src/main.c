@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/07 15:14:57 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/17 12:59:15 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_minishell(t_env *env_list)
 	get_ms()->env_list = env_list;
 	get_ms()->tokens = NULL;
 	get_ms()->exit_status = 0;
+	get_ms()->hd = init_hd(get_ms()->tokens);
 	get_ms()->input_save = dup(STDIN_FILENO);
 	get_ms()->output_save = dup(STDOUT_FILENO);
 }
@@ -50,7 +51,6 @@ static void	main_loop(t_env *env_list)
 		receive_signal();
 		if (!read_input(&input))
 			break ;
-		gc_track(input);
 		tokens = tokenizer(input);
 		get_ms()->tokens = tokens;
 		print_tokens(tokens);
@@ -58,11 +58,13 @@ static void	main_loop(t_env *env_list)
 		{
 			if (!redirects(tokens, env_list))
 			{
-				process_pipes(tokens, env_list, t_env);
-				dup2(get_ms()->input_save, STDIN_FILENO);
-				dup2(get_ms()->output_save, STDOUT_FILENO);
+				check_hd(tokens);
+				// process_pipes(tokens, env_list, t_env);
+				// dup2(get_ms()->input_save, STDIN_FILENO);
+				// dup2(get_ms()->output_save, STDOUT_FILENO);
 			}
-			// gc_dealocate(input);
+			// print_hdlist();
+			free(input);
 		}
 	}
 }
