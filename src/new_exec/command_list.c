@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   here_doc_list.c                                    :+:      :+:    :+:   */
+/*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 10:36:05 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/19 12:09:01 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/03/19 12:07:57 by cabo-ram          #+#    #+#             */
+/*   Updated: 2025/03/19 12:50:32 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_hd	*init_hd(t_token *tokens)
+t_command	*new_cmd_node(char **args, int pipe_in, int pipe_out)
 {
-	int 		cmd_qtd;
-	t_hd		*hd;
+	t_command	*new;
 
-	cmd_qtd = count_pipes(tokens) + 1;
-	hd = gc_malloc(sizeof(t_hd));
-	hd->arr_hds = gc_malloc(sizeof(t_hd_list) * cmd_qtd);
-	hd->cmd_index = 0;
-	hd->start_fd = 0;
-	return (hd);
-}
-
-t_hd_list	*new_hd_node(char *filename)
-{
-	t_hd_list *new;
-
-	new = gc_malloc(sizeof(t_hd_list));
-	new->filename = filename;
+	new = gc_malloc(sizeof(t_command));
+	new->args = args;
+	if (builtin(args[0]))
+		new->path = "builtin";
+	else
+		new->path = get_command_path(args[0], get_ms()->env_list->var);
+	new->pipe_in = pipe_in;
+	new->pipe_out = pipe_out;
 	new->next = NULL;
 	return (new);
 }
 
-t_hd_list *last_hd_node(t_hd_list *head)
+t_command	*last_cmd_node(t_command *head)
 {
 	if (!head)
 		return (NULL);
@@ -44,12 +37,13 @@ t_hd_list *last_hd_node(t_hd_list *head)
 	return (head);
 }
 
-void	append_hd(char *filename, t_hd_list **head)
+void	append_cmd(char **args, t_command **head, int pipe_in, int pipe_out)
 {
-	t_hd_list *new;
-	new = new_hd_node(filename);
+	t_command	*new;
+
+	new = new_cmd_node(args, pipe_in, pipe_out);
 	if (!*head)
 		*head = new;
 	else
-		last_hd_node(*head)->next = new;
+		last_cmd_node(*head)->next = new;
 }

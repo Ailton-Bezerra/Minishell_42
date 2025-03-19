@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:30:40 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/07 15:25:00 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:48:22 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	handle_external_command(char *cmd, char **args, char **t_env)
 	}
 }
 
-static char	**prepare_command(t_token *tokens)
+char	**prepare_command(t_token *tokens)
 {
 	int			arg_count;
 	char		**args;

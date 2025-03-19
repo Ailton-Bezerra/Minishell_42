@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/19 15:01:55 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	ft_export(t_env *env, char *arg)
 
 	if (!arg)
 		arg = NULL;
+	if (arg == "export")
+		ft_xp(env->var);
 	if (!check_valid_env_name(arg, "export"))
 		return (1);
 	if (!separate_key_and_value(arg, &key, &value))

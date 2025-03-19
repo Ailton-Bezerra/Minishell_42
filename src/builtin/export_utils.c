@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:48:15 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/19 11:34:02 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,19 @@ void	free_var(char *var_name, char *var_value)
 	perror("Erro de alocação de memória");
 	free(var_name);
 	free(var_value);
+}
+
+void	free_env_list(t_env *env_list)
+{
+	t_env	*temp;
+
+	while (env_list)
+	{
+		temp = env_list;
+		env_list = env_list->next;
+		free(temp->var);
+		free(temp);
+	}
 }
 
 void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)

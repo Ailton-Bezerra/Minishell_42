@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:31:58 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/24 18:14:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/19 10:49:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,22 @@ char	*get_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute(char *av, char **envp)
-{
-	char	**cmd;
-	char	*path;
-	int		i;
+// void	execute(char *av, char **envp)
+// {
+// 	char	**cmd;
+// 	char	*path;
+// 	int		i;
 
-	cmd = ft_split(av, ' ');
-	path = get_path(cmd[0], envp);
-	i = 0;
-	if (path == NULL)
-	{
-		while (cmd[i])
-			free (cmd[i++]);
-		free (cmd);
-		error();
-	}
-	if (execve(path, cmd, envp) == -1)
-		error();
-}
+// 	cmd = ft_split(av, ' ');
+// 	path = get_path(cmd[0], envp);
+// 	i = 0;
+// 	if (path == NULL)
+// 	{
+// 		while (cmd[i])
+// 			free (cmd[i++]);
+// 		free (cmd);
+// 		error();
+// 	}
+// 	if (execve(path, cmd, envp) == -1)
+// 		error();
+// }
