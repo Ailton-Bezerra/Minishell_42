@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:49:27 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/18 14:35:39 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:01:12 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,20 +40,18 @@ static int	check_pipe(enum e_token type, t_token *next, t_token *first)
 int	chek_sintax(t_token *tokens)
 {
 	t_token	*tmp;
-	int		hd;
 
 	tmp = tokens;
 	while (tmp)
 	{
-		if (tmp->type == HERE_DOC)
-			hd = 1;
 		if (!check_redirect(tmp->type, tmp->next))
 			return (0);
 		else if (!check_pipe(tmp->type, tmp->next, tokens))
 			return (0);
-		if (ft_strchr(tmp->value, '$') && !hd)
+		if (ft_strchr(tmp->value, '$') && tmp->prev && tmp->prev->type != HERE_DOC)
 			tmp->value = handle_expansion(tmp->value);
-		tmp->value = remove_outer_quotes(tmp->value, 0, 0);
+		if (tmp->prev && tmp->prev->type != HERE_DOC)
+			tmp->value = remove_outer_quotes(tmp->value, 0, 0);
 		tmp = tmp->next;
 	}
 	return (1);

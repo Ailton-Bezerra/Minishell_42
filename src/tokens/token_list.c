@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:17:00 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/19 15:48:26 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:44:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_token	*new_token_node(char *content)
 		return (NULL);
 	new_node->value = ft_strdup(content);
 	new_node->type = define_types(new_node->value);
+	new_node->prev = NULL;
 	new_node->next = NULL;
 	return (new_node);
 }
@@ -40,6 +41,7 @@ void	add_token(t_token **head, char *content)
 		temp = *head;
 		while (temp->next)
 			temp = temp->next;
+		new_node->prev = temp;
 		temp->next = new_node;
 	}
 }

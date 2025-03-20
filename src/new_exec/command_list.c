@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_list.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/19 12:07:57 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 12:50:32 by cabo-ram         ###   ########.fr       */
+/*   Created: 2025/03/19 16:47:38 by ailbezer          #+#    #+#             */
+/*   Updated: 2025/03/20 15:15:28 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,36 @@ void	append_cmd(char **args, t_command **head, int pipe_in, int pipe_out)
 	if (!*head)
 		*head = new;
 	else
+	{
+		new->prev = last_cmd_node(*head);
 		last_cmd_node(*head)->next = new;
+	}
+}
+
+t_command	*creat_cmd_list(t_token *tmp_token)
+{
+	t_command	*cmd_list;
+	char		**args;
+	int			pipe_in;
+	int			pipe_out;
+	int			cmd_qtd;
+
+	pipe_in = 0;
+	cmd_list = NULL;
+	cmd_qtd = count_pipes(get_ms()->tokens) + 1;
+	while (tmp_token)
+	{
+		pipe_out = (cmd_qtd - 1 > 0);
+		args = prepare_command(tmp_token);
+		append_cmd(args, &cmd_list, pipe_in, pipe_out);
+		pipe_in++;
+		while (tmp_token && tmp_token->type != PIPE)
+			tmp_token = tmp_token->next;
+		if (tmp_token)
+		{
+			tmp_token = tmp_token->next;
+			cmd_qtd--;
+		}
+	}
+	return (cmd_list);
 }

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:09:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/18 11:53:39 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:00:58 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*delimiter(t_token *tokens)
 	t_token	*temp;
 	
 	temp = tokens;
-	while (temp)
+	while (temp->next)
 	{
 		if (temp->type == HERE_DOC)
 			break ;
@@ -62,7 +62,6 @@ void	hd_routine(t_token *tokens)
 	
 	hd = get_ms()->hd;
 	dlmt = delimiter(tokens);
-	// remove_outer_quotes(dlmt, 0, 0);
 	filename = ft_strjoin("here_doc", ft_itoa(get_ms()->hd->start_fd));
 	append_hd(filename, &hd->arr_hds[hd->cmd_index]);
 	fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);

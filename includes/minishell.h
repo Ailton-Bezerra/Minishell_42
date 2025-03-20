@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 15:03:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:14:36 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ typedef struct s_command
 	char				*path;
 	int					pipe_in;
 	int					pipe_out;
-	
+	int					pipe_fd[2];
+	struct s_command	*prev;
 	struct s_command	*next;
 }						t_command;
 
@@ -69,9 +70,12 @@ typedef struct s_minishell
 	t_env		*env_list;
 	t_token		*tokens;
 	t_hd		*hd;
+	t_command	*cmd_list;
 	int			exit_status;
 	int			input_save;
 	int			output_save;
+	int			*child_pids;
+	int			count_pids;
 }				t_minishell;
 
 // ============== /builtin/builtin.c ==============
@@ -137,8 +141,8 @@ void			fork_error(char *path, char **args);
 t_token			*get_cmd_tokens(t_token *tokens);
 
 // ============== exec/execute_command.c ==============
-void			execute_command(t_token *tokens, t_env *env_list,
-					char **t_env);
+// void			execute_command(t_token *tokens, t_env *env_list,
+// 					char **t_env);
 char			**prepare_command(t_token *tokens);
 
 // ============== exec/find_path.c ==============
@@ -229,14 +233,15 @@ int				delimiter_quotes(char *dlmt);
 // ============== exec.c ==============
 void			exec(void);
 t_command	*creat_cmd_list(t_token *tmp_token);
-int				count_pipes(t_token *tokens);
 void	cmd_pipeline(t_command *cmd_list);
 
 // ============== command_list.c ==============
 void	append_cmd(char **args, t_command **head, int pipe_in, int pipe_out);
-t_command *last_cmd_node(t_command *head);
-t_command	*new_cmd_node(char **args, int pipe_in, int pipe_out);
-void	exec_cmds(t_command *cmd_list, int is_builtin);
+
+// ============== exec_utils.c ==============
 void	exec_external(t_command *cmd_list);
+void 	wait_for_children(void);
+int				count_pipes(t_token *tokens);
+
 
 #endif

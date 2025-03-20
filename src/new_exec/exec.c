@@ -3,117 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/19 14:56:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:12:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	count_pipes(t_token *tokens)
+static void handle_redirections(t_command *cmd, int input, int output)
 {
-	t_token	*tmp;
-	int		count;
-
-	tmp = tokens;
-	count = 0;
-	while (tmp)
+	if (cmd->pipe_in)
 	{
-		if (tmp->type == PIPE)
-			count++;
-		tmp = tmp->next;
+		dup2(input, STDIN_FILENO);
+		close(input);
 	}
-	return (count);
+	if (cmd->pipe_out)
+	{
+		dup2(output, STDOUT_FILENO);
+		close(output);
+	}
+	if (input != -1)
+		close(input);
+	if (output != -1)
+		close(output);
 }
 
-t_command	*creat_cmd_list(t_token *tmp_token)
-{
-	t_command	*cmd_list;
-	char		**args;
-	int			pipe_in;
-	int			pipe_out;
-	int			cmd_qtd;
-
-	pipe_in = 0;
-	cmd_list = NULL;
-	cmd_qtd = count_pipes(get_ms()->tokens) + 1;
-	while (tmp_token)
-	{
-		pipe_out = (cmd_qtd - 1 > 0);
-		args = prepare_command(tmp_token);
-		append_cmd(args, &cmd_list, pipe_in, pipe_out);
-		pipe_in++;
-		while (tmp_token && tmp_token->type != PIPE)
-			tmp_token = tmp_token->next;
-		if (tmp_token)
-		{
-			tmp_token = tmp_token->next;
-			cmd_qtd--;
-		}
-	}
-	return (cmd_list);
-}
-
-void	exec_external(t_command *cmd_list)
-{
-	if (execve(cmd_list->path, cmd_list->args, get_ms()->env_list->var) == -1)
-	{
-		perror("execve error");
-		gc_cleanup();
-		close_fds();
-		rl_clear_history();
-		exit(127);
-	}
-}
-
-void	exec_cmds(t_command *cmd_node, int is_builtin)
+static void execute_command(t_command *cmd, int input, int output)
 {
 	int	pid;
-	int	status;
-	int	fd[2];
 	
-	pipe(fd);
-	if(is_builtin)
-		execute_builtin(cmd_node->args, get_ms()->env_list);
-	else
+	pid = fork();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			if (cmd_node->pipe_in)
-				dup2(fd[0], STDIN_FILENO);
-			if (cmd_node->pipe_out)
-				dup2(fd[1], STDOUT_FILENO);
-			exec_external(cmd_node);
-		}
-		close(fd[0]);
-		close(fd[1]);
-		waitpid(pid, &status, 0);
+		handle_redirections(cmd, input, output);
+			if (!ft_strncmp(cmd->path, "builtin", 8))
+			execute_builtin(cmd->args, get_ms()->env_list);
+		else
+			exec_external(cmd);
 	}
+	else
+		get_ms()->child_pids[get_ms()->count_pids++] = pid;
 }
 
 void	cmd_pipeline(t_command *cmd_list)
 {
-	t_command *tmp;
-
+	t_command	*tmp;
+	int			prev_pipe_in;
+	int			output_fd;
+	
 	tmp = cmd_list;
+	prev_pipe_in = -1;
+	output_fd = -1;
+	get_ms()->count_pids = 0;
+	get_ms()->child_pids = malloc(sizeof(int) * (count_pipes(get_ms()->tokens) + 1));
+	creat_pipes(*cmd_list);
 	while (tmp)
 	{
-		if(!ft_strncmp(cmd_list->path, "builtin", 8))
-			exec_cmds(tmp, 1);
-		else
-			exec_cmds(tmp, 0);
+		execute_command(tmp, prev_pipe_in, output_fd);
 		tmp = tmp->next;
 	}
+	wait_for_children();
+}
+
+static void	exec_cmds(t_command *cmd_node, int is_builtin)
+{
+	if (is_builtin && !cmd_node->pipe_in && !cmd_node->pipe_out)
+		execute_builtin(cmd_node->args, get_ms()->env_list);
+	else
+		cmd_pipeline(cmd_node);
+	
 }
 
 void	exec(void)
 {
-	t_command	*cmd_list;
-
-	cmd_list = creat_cmd_list(get_ms()->tokens);
-	// print_cmd_list(cmd_list);
-	cmd_pipeline(cmd_list);
+		t_command	*cmd_list;
+	
+		cmd_list = creat_cmd_list(get_ms()->tokens);
+		get_ms()->cmd_list = cmd_list;
+		print_cmd_list(cmd_list);
+		if (cmd_list->path && !ft_strncmp(cmd_list->path, "builtin", 8) && !cmd_list->pipe_in && !cmd_list->pipe_out)
+			exec_cmds(cmd_list, 1);
+		else
+			cmd_pipeline(cmd_list);
 }

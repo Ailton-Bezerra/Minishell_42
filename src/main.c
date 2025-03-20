@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 15:03:47 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 15:02:04 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ void	init_minishell(t_env *env_list)
 	get_ms()->hd = init_hd(get_ms()->tokens);
 	get_ms()->input_save = dup(STDIN_FILENO);
 	get_ms()->output_save = dup(STDOUT_FILENO);
+	get_ms()->child_pids = NULL;
+	get_ms()->count_pids = 0;
+	get_ms()->cmd_list = NULL;
 }
 
 static int	read_input(char **input)
@@ -61,10 +64,9 @@ static void	main_loop(t_env *env_list)
 				exec();
 				// check_hd(tokens);
 				// process_pipes(tokens, env_list, t_env);
-				// dup2(get_ms()->input_save, STDIN_FILENO);
-				// dup2(get_ms()->output_save, STDOUT_FILENO);
+				dup2(get_ms()->input_save, STDIN_FILENO);
+				dup2(get_ms()->output_save, STDOUT_FILENO);
 			}
-			// print_hdlist();
 			free(input);
 		}
 	}
