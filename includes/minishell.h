@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/20 15:33:06 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:56:47 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,5 +237,9 @@ void	exec_external(t_command *cmd_list);
 void 	wait_for_children(void);
 int				count_pipes(t_token *tokens);
 
+// ============== pipes.c ==============
+void	creat_pipes(t_command *cmd_list);
+void 	close_pipes(t_command *cmd_list, t_command *curr);
+void	redirect_pipes(t_command *cmd);
 
 #endif

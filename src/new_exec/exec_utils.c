@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:30 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 12:32:15 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:57:59 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	exec_external(t_command *cmd_list)
 		perror("execve error");
 		gc_cleanup();
 		close_fds();
-		rl_clear_history();
+		rl_clear_history(); 
 		exit(127);
 	}
 }

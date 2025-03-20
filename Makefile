@@ -20,7 +20,7 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list
 				expansion/ft_getenv.c expansion/dollar_question.c signals/signal.c \
 				redirects/output.c redirects/n2_check_command.c garbage_collector/close_fds.c \
 				redirects/here_doc.c redirects/here_doc_utils.c redirects/here_doc_list.c \
-				new_exec/command_list.c new_exec/exec.c new_exec/exec_utils.c)
+				new_exec/command_list.c new_exec/exec.c new_exec/exec_utils.c new_exec/pipes.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
