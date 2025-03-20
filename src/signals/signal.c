@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:52:05 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/06 16:36:58 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:31:31 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	receive_signal(void)
 {
 	struct sigaction	ctrl_c;
 	struct sigaction	ctrl_backslash;
- 
+
 	ft_memset(&ctrl_c, 0, sizeof(ctrl_c));
 	ft_memset(&ctrl_backslash, 0, sizeof(ctrl_backslash));
 	ctrl_c.sa_sigaction = handle_ctrl_c;

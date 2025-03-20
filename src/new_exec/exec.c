@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/19 14:56:59 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:32:09 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ void	exec_cmds(t_command *cmd_node, int is_builtin)
 	int	pid;
 	int	status;
 	int	fd[2];
-	
+
 	pipe(fd);
-	if(is_builtin)
+	if (is_builtin)
 		execute_builtin(cmd_node->args, get_ms()->env_list);
 	else
 	{
@@ -96,12 +96,12 @@ void	exec_cmds(t_command *cmd_node, int is_builtin)
 
 void	cmd_pipeline(t_command *cmd_list)
 {
-	t_command *tmp;
+	t_command	*tmp;
 
 	tmp = cmd_list;
 	while (tmp)
 	{
-		if(!ft_strncmp(cmd_list->path, "builtin", 8))
+		if (!ft_strncmp(cmd_list->path, "builtin", 8))
 			exec_cmds(tmp, 1);
 		else
 			exec_cmds(tmp, 0);

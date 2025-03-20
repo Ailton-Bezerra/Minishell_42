@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 15:01:55 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 09:17:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,10 @@ int	ft_export(t_env *env, char *arg)
 	char	*value;
 
 	if (!arg)
-		arg = NULL;
-	if (arg == "export")
-		ft_xp(env->var);
+	{
+		ft_xp(env);
+		return (0);
+	}
 	if (!check_valid_env_name(arg, "export"))
 		return (1);
 	if (!separate_key_and_value(arg, &key, &value))

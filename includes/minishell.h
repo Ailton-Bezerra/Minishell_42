@@ -6,7 +6,7 @@
 /*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 15:03:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 14:21:14 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,16 +92,9 @@ void			ft_exit(char **cmd);
 
 // ============== /builtin/export_utils_2.c ==============
 int				ft_strcmp(const char *s1, const char *s2);
-int				env_list_count(t_env *env_list);
-t_env			*new_env_list_node(char *var);
-void			append_env_list(char *var, t_env **env_list);
-void			print_sort(t_env *env_list);
-t_env			*last_env_node(t_env *head);
-t_env			*get_sorted_env(char **envp);
-t_env			*partition(t_env *low, t_env *high);
-void			quick_sort(t_env *low, t_env *high);
-void			ft_xp(char **envp);
-
+void			ft_swap(char **a, char **b);
+void			sort_env_list(t_env *env_list);
+void			ft_xp(t_env *env_list);
 
 // ============== /builtin/export_utils.c ==============
 int				check_valid_env_name(const char *arg, const char *cmd);
