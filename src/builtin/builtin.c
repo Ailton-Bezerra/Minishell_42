@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:58:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	builtin(char *cmd)
 
 void	execute_builtin(char **cmd, t_env *env_list)
 {
-	int	*status;
+	// int	*status;
 	
-	status = &get_ms()->exit_status;
+	// status = &get_ms()->exit_status;
 	if (!cmd[0])
 		return ;
 	if (!ft_strncmp(cmd[0], "echo", 4))
@@ -36,7 +36,7 @@ void	execute_builtin(char **cmd, t_env *env_list)
 	else if (!ft_strncmp(cmd[0], "pwd", 3))
 		ft_pwd();
 	else if (!ft_strncmp(cmd[0], "export", 6))
-		*status = ft_export(env_list, cmd[1]);
+		ft_export(env_list, cmd[1]);
 	else if (!ft_strncmp(cmd[0], "unset", 5))
 	{
 		if (cmd[1])

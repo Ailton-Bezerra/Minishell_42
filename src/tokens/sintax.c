@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:49:27 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 15:01:12 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 17:17:33 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_pipe(enum e_token type, t_token *next, t_token *first)
 {
 	if ((((type == PIPE && next && next->type != WORD))
 			|| (type == PIPE && !next)) || first->type == PIPE)
-		return (printf("syntax error near unexpected token `|'\n"), 0);
+				return (printf("syntax error near unexpected token `|'\n"), 0);
 	return (1);
 }
 
@@ -45,9 +45,15 @@ int	chek_sintax(t_token *tokens)
 	while (tmp)
 	{
 		if (!check_redirect(tmp->type, tmp->next))
+		{
+			get_ms()->exit_status = 1;
 			return (0);
+		}
 		else if (!check_pipe(tmp->type, tmp->next, tokens))
+		{
+			get_ms()->exit_status = 1;
 			return (0);
+		}
 		if (ft_strchr(tmp->value, '$') && tmp->prev && tmp->prev->type != HERE_DOC)
 			tmp->value = handle_expansion(tmp->value);
 		if (tmp->prev && tmp->prev->type != HERE_DOC)

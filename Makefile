@@ -12,9 +12,9 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c tokens/tokenizer.c tokens/token_list
 				tokens/types.c tokens/quotes.c \
 				builtin/builtin.c builtin/cd.c builtin/env.c \
 				tokens/sintax.c expansion/expansion.c debug/print_lists.c \
-				 builtin/echo.c builtin/exit.c\
+				builtin/echo.c builtin/exit.c \
 				builtin/export_utils.c builtin/export.c builtin/pwd.c builtin/unset.c \
-				exec/execute_command_utils.c builtin/builtin_utils.c \
+				exec/execute_command_utils.c builtin/builtin_utils.c  builtin/export_utils_2.c\
 				exec/execute_command.c exec/find_path.c exec/pipe.c exec/exec_utils.c \
 				garbage_collector/garbage_collector.c garbage_collector/gc_utils.c\
 				expansion/ft_getenv.c expansion/dollar_question.c signals/signal.c \

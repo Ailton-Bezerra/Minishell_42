@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 15:12:13 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:34:58 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	cmd_pipeline(t_command *cmd_list)
 	output_fd = -1;
 	get_ms()->count_pids = 0;
 	get_ms()->child_pids = malloc(sizeof(int) * (count_pipes(get_ms()->tokens) + 1));
-	creat_pipes(*cmd_list);
+	// creat_pipes(*cmd_list);
 	while (tmp)
 	{
 		execute_command(tmp, prev_pipe_in, output_fd);
@@ -82,7 +82,7 @@ void	exec(void)
 	
 		cmd_list = creat_cmd_list(get_ms()->tokens);
 		get_ms()->cmd_list = cmd_list;
-		print_cmd_list(cmd_list);
+		// print_cmd_list(cmd_list);
 		if (cmd_list->path && !ft_strncmp(cmd_list->path, "builtin", 8) && !cmd_list->pipe_in && !cmd_list->pipe_out)
 			exec_cmds(cmd_list, 1);
 		else

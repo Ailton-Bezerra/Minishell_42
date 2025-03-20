@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 11:34:02 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:56:24 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	check_valid_env_name(const char *arg, const char *cmd)
 	{
 		ft_putstr_fd((char *)cmd, 2);
 		ft_putstr_fd(": not an identifier\n", 2);
+		get_ms()->exit_status = 1;
 		return (0);
 	}
 	i = 0;
@@ -34,6 +35,7 @@ int	check_valid_env_name(const char *arg, const char *cmd)
 		{
 			ft_putstr_fd((char *)cmd, 2);
 			ft_putstr_fd(": not an identifier\n", 2);
+			get_ms()->exit_status = 1;
 			return (0);
 		}
 		i++;

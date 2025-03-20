@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/19 15:12:39 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/20 16:59:49 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,18 @@ static int	separate_key_and_value(const char *arg, char **key, char **value)
 
 	equal_sign = ft_strchr(arg, '=');
 	if (!equal_sign)
+	{
+		// get_ms()->exit_status = 1;
 		return (0);
+	}
 	name_len = equal_sign - arg;
 	*key = ft_strndup(arg, name_len);
 	*value = ft_strdup(equal_sign + 1);
 	if (!*key || !*value)
+	{
+		get_ms()->exit_status = 1;
 		return (0);
+	}
 	return (1);
 }
 
@@ -83,10 +89,12 @@ int	ft_export(t_env *env, char *arg)
 	char	*key;
 	char	*value;
 
+	get_ms()->exit_status = 0;
 	if (!arg)
-		arg = NULL;
-	// if (arg == "export")
-		// ft_xp(env->var);
+	{
+		ft_xp(env);
+		return (0);
+	}
 	if (!check_valid_env_name(arg, "export"))
 		return (1);
 	if (!separate_key_and_value(arg, &key, &value))
