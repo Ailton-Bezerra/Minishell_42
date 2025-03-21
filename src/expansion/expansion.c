@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/08 11:55:11 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/14 15:57:29 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 16:09:30 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ex_init(t_expand *ex)
 	ex->index = 0;
 }
 
-static void	change_quote_flag(char *result, t_expand *ex, int *i)
+void	change_quote_flag(const char *result, t_expand *ex, int *i)
 {
 	if (result[*i] == '\'' && !ex->double_quote)
 	{

@@ -6,13 +6,13 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/21 14:39:15 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:02:29 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	add_space(char **str, char **new_str, size_t *i, int flag)
+static void	add_space(char **str, char **new_str, int *i, int flag)
 {	
 	*new_str = ft_strjoin(*new_str, ft_substr(*str, 0, *i));
 	*new_str = ft_strjoin(*new_str, ft_strdup(" "));
@@ -22,36 +22,44 @@ static void	add_space(char **str, char **new_str, size_t *i, int flag)
 	*i = 0;
 }
 
-/**
- * @brief   Separates special symbols by adding spaces around them.
- * 
- * @param   input  The input string containing commands and operators.
- * 
- * @return  A new string where the operators '<<', '>>', '<', '>', and '|'
- *          are separated by spaces or NULL in case of malloc failure.
- */
+static void change_qflag(const char *input, t_expand *ex, int i)
+{
+	if (input[i] == '\"' && !ex->double_quote)
+		ex->double_quote = 1;
+	else if (input[i] == '\"' && ex->double_quote)
+		ex->double_quote = 0;
+	if (input[i] == '\'' && !ex->quote)
+		ex->quote = 1;
+	else if (input[i] == '\'' && ex->quote)
+		ex->quote = 0;
+}
+
+
 static char	*separe_simbols(const char *input)
 {
-	size_t	i;
+	// size_t	i;
 	char	*str;
 	char	*new_str;
+	t_expand	ex;
 
-	i = 0;
+	ex_init(&ex);
+	// i = 0;
 	str = ft_strdup(input);
 	new_str = ft_strdup("");
-	while (str && str[i])
+	while (str && str[ex.index])
 	{
-		if (!ft_strncmp(str + i, "<<", 2) || !ft_strncmp(str + i, ">>", 2))
-			add_space(&str, &new_str, &i, 2);
-		else if (
-			(str[i] == '>' && (i == 0 || str[i - 1] != '>')
-				&& (str[i + 1] != '>'))
-			|| (str[i] == '<' && (i == 0 || str[i - 1] != '<')
-				&& (str[i + 1] != '<')) || (str[i] == '|')
+		if (str[ex.index] == '\'' || str[ex.index] == '\"')
+			change_qflag(input, &ex, ex.index);
+		if ((!ft_strncmp(str + ex.index, "<<", 2) || !ft_strncmp(str + ex.index, ">>", 2)) && (!ex.quote && !ex.double_quote))
+			add_space(&str, &new_str, &ex.index, 2);
+		else if ((((str[ex.index] == '>' && (ex.index == 0 || str[ex.index - 1] != '>')
+				&& (str[ex.index + 1] != '>'))
+			|| (str[ex.index] == '<' && (ex.index == 0 || str[ex.index - 1] != '<')
+				&& (str[ex.index + 1] != '<')) || (str[ex.index] == '|')) && (!ex.quote && !ex.double_quote))
 		)
-			add_space(&str, &new_str, &i, 1);
+			add_space(&str, &new_str, &ex.index, 1);
 		else
-			i++;
+			ex.index++;
 	}
 	new_str = ft_strjoin(new_str, str);
 	return (new_str);

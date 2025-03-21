@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 18:00:07 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 15:51:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ static void execute_command(t_command *cmd)
 	{
 		redirect_pipes(cmd);
 		close_pipes(get_ms()->cmd_list, cmd);
-		if (!ft_strncmp(cmd->path, "builtin", 8))
+		if (builtin(cmd->args[0]))
+		{
 			execute_builtin(cmd->args, get_ms()->env_list);
+			exit (get_ms()->exit_status);
+		}
 		else
 			exec_external(cmd);
 	}
@@ -54,7 +57,7 @@ void	exec(void)
 		cmd_list = creat_cmd_list(get_ms()->tokens);
 		get_ms()->cmd_list = cmd_list;
 		// print_cmd_list(cmd_list);
-		if (cmd_list->path && !ft_strncmp(cmd_list->path, "builtin", 8)
+		if (builtin(cmd_list->args[0])
 			&& !cmd_list->pipe_in && !cmd_list->pipe_out)
 			execute_builtin(cmd_list->args, get_ms()->env_list);
 		else

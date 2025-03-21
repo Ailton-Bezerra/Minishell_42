@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/20 17:56:47 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 17:26:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void			sort_env_list(t_env *env_list);
 void			ft_xp(t_env *env_list);
 
 // ============== /builtin/export_utils.c ==============
+int				is_valid_env(char c, int first_char);
 int				check_valid_env_name(const char *arg, const char *cmd);
 void			free_env_list(t_env *env_list);
 void			free_var(char *var_name, char *var_value);
@@ -181,6 +182,7 @@ int				chek_sintax(t_token *tokens);
 char			*handle_expansion(char *input);
 void			ex_init(t_expand *ex);
 char			*expand_variable(char *result, t_expand *ex);
+void	change_quote_flag(const char *result, t_expand *ex, int *i);
 
 // ============== tokens/ft_getenv.c ==============
 char			*ft_getenv(t_env *env, const char *name);

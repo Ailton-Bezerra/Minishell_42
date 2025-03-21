@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:38 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 15:15:28 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:20:39 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ t_command	*new_cmd_node(char **args, int pipe_in, int pipe_out)
 
 	new = gc_malloc(sizeof(t_command));
 	new->args = args;
-	if (builtin(args[0]))
-		new->path = "builtin";
-	else
-		new->path = get_command_path(args[0], get_ms()->env_list->var);
+	// if (builtin(args[0]))
+	// 	new->path = "builtin";
+	// else
+	new->path = get_command_path(args[0], get_ms()->env_list->var);
 	new->pipe_in = pipe_in;
 	new->pipe_out = pipe_out;
 	new->next = NULL;

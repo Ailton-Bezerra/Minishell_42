@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 17:01:36 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 14:46:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	error(void)
 
 void	print_error(char *cmd)
 {
-	get_ms()->exit_status = 127;
-	ft_putstr_fd("minishell: \n", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(": command not found\n", 2);
 }
