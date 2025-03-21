@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:19:01 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/12 11:36:06 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:54:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,10 @@ static int	apply_redirection(t_token *token)
 	fd = -1;
 	if (token->type == APPEND || token->type == TRUNC)
 	{
-		// handle_output_redirection(filename, 1);
 		if (token->type == APPEND)
 			handle_output_redirection(filename, 1);
-		// 	fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		else if (token->type == TRUNC)
 			handle_output_redirection(filename, 0);
-		// 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		// if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-		// {
-		// 	perror("minishell");
-		// 	close(fd);
-		// 	return (0);
-		// }
 	} 
 	else if (token->type == INPUT)
 	{
@@ -112,7 +103,18 @@ int redirects(t_token *t, t_env *env)
 	(void)env;
 	if (!process_redirections(&t))
 	{
-		get_ms()->exit_status = 1;
+		int pipe = 0;
+		t_token *tmp = get_ms()->tokens;
+		while(tmp)
+		{
+			if (tmp->type == PIPE)
+				pipe = 1;
+			tmp = tmp->next;
+		}
+		if (pipe)
+			get_ms()->exit_status = 0;
+		else
+			get_ms()->exit_status = 1;
 		return (1);
 	}
 	return (0);

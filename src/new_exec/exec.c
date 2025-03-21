@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/21 15:51:05 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:43:10 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,13 @@ static void execute_command(t_command *cmd)
 	int	pid;
 	
 	pid = fork();
+	cmd_signal();
 	if (pid == 0)
 	{
 		redirect_pipes(cmd);
 		close_pipes(get_ms()->cmd_list, cmd);
+		// if (redirects(get_ms()->tokens, get_ms()->env_list))
+		// 	exit(1); 
 		if (builtin(cmd->args[0]))
 		{
 			execute_builtin(cmd->args, get_ms()->env_list);
