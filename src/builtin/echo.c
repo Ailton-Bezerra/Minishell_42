@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:46:08 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/28 11:25:04 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 14:36:51 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,14 @@ void	ft_echo(char **cmd)
 		i++;
 	while (cmd[i])
 	{
-		printf("%s", cmd[i]);
+		ft_putstr_fd(cmd[i], 1);
+		// printf("%s", cmd[i]);
 		if (cmd[i + 1])
-			printf(" ");
+			ft_putchar_fd(' ', 1);
+			// printf(" ");
 		i++;
 	}
 	if (i == 1 || !check_flag(cmd[1]))
-		printf("\n");
+		ft_putchar_fd('\n', 1);
+		// printf("\n");
 }

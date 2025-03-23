@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:30 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/21 15:39:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 13:17:44 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,19 @@ void wait_for_children(void)
 			get_ms()->exit_status = WEXITSTATUS(status);
 		i++;
 	}
-	free(get_ms()->child_pids);
 }
 
-void	exec_external(t_command *cmd_list)
+void	exec_external(t_command *cmd)
 {
-	// if (!cmd_list->path)
-	// {
-	// 	print_error(cmd_list->args[0]);
-	// 	gc_cleanup();
-	// 	close_fds();
-	// 	rl_clear_history();
-	// 	exit(127);
-	// }
-	if (execve(cmd_list->path, cmd_list->args, get_ms()->env_list->var) == -1)
+	if (!cmd->path)
+	{
+		print_error(cmd->args[0]);
+		gc_cleanup();
+		close_fds();
+		rl_clear_history();
+		exit(127);
+	}
+	if (execve(cmd->path, cmd->args, get_ms()->env_list->var) == -1)
 	{
 		perror("execve error");
 		gc_cleanup();

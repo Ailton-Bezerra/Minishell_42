@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_lists.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:08:56 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/19 12:33:14 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:39:23 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,12 @@ void	print_cmd_list(t_command *cmd_list)
 			j++;
 		}
 		printf("cmd[%d] path: %s\n", i, temp->path);
-		printf("cmd[%d] pipe_in: %d\n", i, temp->pipe_in);
-		printf("cmd[%d] pipe_out: %d\n", i++, temp->pipe_out);
-		temp = temp->next;
+		printf("cmd[%d] pipe_out: %d\n", i, temp->pipe_out);		
+		printf("cmd[%d] infile: %s\n", i, temp->infile);
+		printf("cmd[%d] infile_fd: %d\n", i, temp->infile_fd);
+		printf("cmd[%d] outfile: %s\n", i, temp->outfile);
+		printf("cmd[%d] outfile_fd: %d\n", i++, temp->outfile_fd);
 		printf("\001\033[1;32m\002========================="END"\n");
+		temp = temp->next;
 	}
 }

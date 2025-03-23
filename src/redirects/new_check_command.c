@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 11:19:01 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/06 15:57:33 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/22 21:09:55 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,26 +20,25 @@
 // 	return (*saved != -1);
 // }
 
-static int	apply_redirection(t_token *token)
-{
-	int		fd;
-	char	*filename;
+// static int	apply_redirection(t_token *token)
+// {
+// 	int		fd;
+// 	char	*filename;
 
-	filename = token->next->value;
-	fd = -1;
-	if (token->type == APPEND)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else if (token->type == TRUNC)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("minishell");
-		close(fd);
-		return (0);
-	}
-	close(fd);
-	return (1);
-}
+// 	filename = token->next->value;
+// 	fd = -1;
+// 	if (token->type == APPEND)
+// 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+// 	else if (token->type == TRUNC)
+// 		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+// 	if (fd == -1 || dup2(fd, STDOUT_FILENO) == -1)
+// 	{
+// 		perror("minishell");
+// 		return (0);
+// 	}
+// 	close(fd);
+// 	return (1);
+// }
 
 static void	remove_redirection(t_token **t, t_token *prev, t_token *curr)
 {

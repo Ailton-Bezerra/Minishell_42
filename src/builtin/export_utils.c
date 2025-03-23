@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/21 18:06:30 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:54:02 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,24 @@ int	is_valid_env(char c, int first_char)
 int	check_valid_env_name(const char *arg, const char *cmd)
 {
 	int	i;
-	// int debug;
 
 	(void)cmd;
-
 	if (!arg || *arg == '=' || ft_isdigit(*arg) || !is_valid_env(*arg, 1))
 	{
-		ft_putstr_fd("export: ", 2);
+		ft_putstr_fd("export: \'", 2);
 		ft_putstr_fd((char *)arg, 2);
-		ft_putstr_fd(": not a valid identifier\n", 2);
+		ft_putstr_fd("\': not a valid identifier\n", 2);
 		get_ms()->exit_status = 1;
 		return (0);
 	}
 	i = 1;
 	while (arg[i] && arg[i] != '=')
 	{
-		// printf("%c\n", arg[i]);
-		// debug = is_valid_env(arg[i], 0);
-		// printf("%d\n", debug);
 		if (!is_valid_env(arg[i++], 0))
 		{
-			ft_putstr_fd("export: ", 2);
+			ft_putstr_fd("export: \'", 2);
 			ft_putstr_fd((char *)arg, 2);
-			ft_putstr_fd(": not a valid identifier\n", 2);
+			ft_putstr_fd("\': not a valid identifier\n", 2);
 			get_ms()->exit_status = 1;
 			return (0);
 		}

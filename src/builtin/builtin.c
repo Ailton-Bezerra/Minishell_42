@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/20 16:58:13 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:47:05 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,31 @@ int	builtin(char *cmd)
 	return (0);
 }
 
-void	execute_builtin(char **cmd, t_env *env_list)
+void	execute_builtin(char **args, t_env *env_list)
 {
 	// int	*status;
 	
 	// status = &get_ms()->exit_status;
-	if (!cmd[0])
+	// print_cmd_list(get_ms()->cmd_list);
+	// if (!redirect_fds(get_ms()->cmd_list))
+	// 	return ;
+	if (!args[0])
 		return ;
-	if (!ft_strncmp(cmd[0], "echo", 4))
-		ft_echo(cmd);
-	else if (!ft_strncmp(cmd[0], "cd", 2))
-		ft_cd(cmd);
-	else if (!ft_strncmp(cmd[0], "pwd", 3))
+	if (!ft_strncmp(args[0], "echo", 4))
+		ft_echo(args);
+	else if (!ft_strncmp(args[0], "cd", 2))
+		ft_cd(args);
+	else if (!ft_strncmp(args[0], "pwd", 3))
 		ft_pwd();
-	else if (!ft_strncmp(cmd[0], "export", 6))
-		ft_export(env_list, cmd[1]);
-	else if (!ft_strncmp(cmd[0], "unset", 5))
+	else if (!ft_strncmp(args[0], "export", 6))
+		ft_export(env_list, args[1]);
+	else if (!ft_strncmp(args[0], "unset", 5))
 	{
-		if (cmd[1])
-			ft_unset(&env_list, cmd[1]);
+		if (args[1])
+			ft_unset(&env_list, args[1]);
 	}
-	else if (!ft_strncmp(cmd[0], "env", 3))
-		ft_env(env_list, cmd);
-	else if (!ft_strncmp(cmd[0], "exit", 4))
-		ft_exit(cmd);
+	else if (!ft_strncmp(args[0], "env", 3))
+		ft_env(env_list, args);
+	else if (!ft_strncmp(args[0], "exit", 4))
+		ft_exit(args);
 }

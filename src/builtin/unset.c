@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:48:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/06 15:58:34 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 17:54:17 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ static void	shift_env_var(t_env *curr, int i)
 static void	remove_env_var(t_env **env, const char *var)
 {
 	t_env	*curr;
-	size_t		len;
-	int			i;
+	size_t	len;
+	int		i;
 
 	curr = *env;
 	len = ft_strlen(var);

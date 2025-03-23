@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/21 17:26:06 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 15:24:01 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 typedef struct s_env
 {
 	char			**var;
+	char			**copy;
 	int				count;
 	struct s_env	*next;
 }					t_env;
@@ -58,9 +59,13 @@ typedef struct s_command
 {
 	char				**args;
 	char				*path;
-	int					pipe_in;
-	int					pipe_out;
 	int					pipe_fd[2];
+	int					pipe_out;
+	char				*infile;
+	int					infile_fd;
+	char				*outfile;
+	int					outfile_fd;
+	int					fd_error;
 	struct s_command	*prev;
 	struct s_command	*next;
 }						t_command;
@@ -109,7 +114,6 @@ void			*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 
 // ============== /builtin/export.c ==============
 int				ft_export(t_env *env, char *arg);
-void			ft_xp(t_env *env_list);
 
 // ============== /builtin/pwd.c ==============
 void			ft_pwd(void);
@@ -142,17 +146,17 @@ char			**prepare_command(t_token *tokens);
 
 // ============== exec/find_path.c ==============
 char			*get_path(char *cmd, char **envp);
-void			execute(char *av, char **envp);
+// void			execute(char *av, char **envp);
 
-// ============== exec/pipe.c ==============
-t_token			*find_pipe(t_token *tokens);
-void			child_process(t_token *tokens, char **envp, int input_fd,
-					int fd[2]);
-void			parent_process(t_token *tokens, char **envp, int output_fd,
-					int fd[2]);
-void			run_pipeline(t_token *tokens, char **envp, int input_fd,
-					int output_fd);
-void			process_pipes(t_token *tokens, t_env *env_list, char **envp);
+// // ============== exec/pipe.c ==============
+// t_token			*find_pipe(t_token *tokens);
+// void			child_process(t_token *tokens, char **envp, int input_fd,
+// 					int fd[2]);
+// void			parent_process(t_token *tokens, char **envp, int output_fd,
+// 					int fd[2]);
+// void			run_pipeline(t_token *tokens, char **envp, int input_fd,
+// 					int output_fd);
+// void			process_pipes(t_token *tokens, t_env *env_list, char **envp);
 
 // ============== tokens/tokenizer.c ==============
 t_token			*tokenizer(const char *input);
@@ -231,9 +235,6 @@ void			exec(void);
 t_command	*creat_cmd_list(t_token *tmp_token);
 void	cmd_pipeline(t_command *cmd_list);
 
-// ============== command_list.c ==============
-void	append_cmd(char **args, t_command **head, int pipe_in, int pipe_out);
-
 // ============== exec_utils.c ==============
 void	exec_external(t_command *cmd_list);
 void 	wait_for_children(void);
@@ -243,5 +244,11 @@ int				count_pipes(t_token *tokens);
 void	creat_pipes(t_command *cmd_list);
 void 	close_pipes(t_command *cmd_list, t_command *curr);
 void	redirect_pipes(t_command *cmd);
+
+// ============== redirects.c ==============
+int		get_infile_fd(t_token *token, char *filename);
+int		get_outfile_fd(t_token *token, char *filename);
+int	redirect_fds(t_command *cmd);
+void	close_redirects(t_command *cmd);
 
 #endif
