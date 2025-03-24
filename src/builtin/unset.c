@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:48:12 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/23 17:54:17 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ static void	remove_env_var(t_env **env, const char *var)
 
 	curr = *env;
 	len = ft_strlen(var);
-	// while (curr)
-	// {
 	i = 0;
 	while (i < curr->count)
 	{
@@ -57,8 +55,6 @@ static void	remove_env_var(t_env **env, const char *var)
 		}
 		i++;
 	}
-	// 	curr = curr->next;
-	// }
 }
 
 void	ft_unset(t_env **env, const char *var)

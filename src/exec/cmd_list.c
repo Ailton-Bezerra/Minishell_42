@@ -6,119 +6,106 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:38 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 15:19:51 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:31:10 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_command	*new_cmd_node(int pipe_out, t_token *tmp_token)
+static int	set_input(t_command *last, t_token **tmp)
 {
-	t_command	*new;
-
-	(void)tmp_token;
-	new = gc_malloc(sizeof(t_command));
-	new->args = NULL;
-	new->path = NULL;
-	new->pipe_out = pipe_out;
-	new->infile = NULL;
-	new->outfile = NULL;
-	new->infile_fd = -1;
-	new->outfile_fd = -1;
-	new->fd_error = 0;
-	new->next = NULL;
-	new->prev = NULL;
-	return (new);
-}
-
-t_command	*last_cmd_node(t_command *head)
-{
-	if (!head)
-		return (NULL);
-	while (head && head->next)
-		head = head->next;
-	return (head);
-}
-
-static void	append_cmd(t_command **head, int pipe_out, t_token *tmp_token)
-{
-	t_command	*new;
-
-	new = new_cmd_node(pipe_out, tmp_token);
-	if (!*head)
-		*head = new;
-	else
+	last->infile = infile(*tmp);
+	if (last->infile && !ft_strncmp(last->infile, "error", 6))
 	{
-		new->prev = last_cmd_node(*head);
-		last_cmd_node(*head)->next = new;
+		last->infile_fd = -1;
+		while (*tmp && (*tmp)->type != PIPE)
+		{
+			if ((*tmp)->type == APPEND
+				|| (*tmp)->type == TRUNC || (*tmp)->type == INPUT)
+			remove_redirection((*tmp)->prev, *tmp);
+			*tmp = (*tmp)->next;
+		}
+		return (0) ;
+	}
+	last->infile_fd = get_infile_fd(*tmp, last->infile);
+	return (1);
+}
+
+static int	set_output(t_command *last, t_token **tmp)
+{
+	last->outfile = outfile(*tmp);
+	if (last->outfile && !ft_strncmp(last->outfile, "error", 6))
+	{
+		last->outfile_fd = -1;
+		while (*tmp && (*tmp)->type != PIPE)
+		{
+			if ((*tmp)->type == APPEND
+				|| (*tmp)->type == TRUNC || (*tmp)->type == INPUT)
+			remove_redirection((*tmp)->prev, *tmp);
+			*tmp = (*tmp)->next;
+		}
+		return (0);
+	}
+	last->outfile_fd = get_outfile_fd(*tmp, last->outfile);
+	return (1);
+}
+
+static int handle_redirects(t_token **tmp, t_command *cmd_list)
+{
+	t_command	*last;
+	
+	last = last_cmd_node(cmd_list);
+	if ((*tmp)->type == INPUT)
+	{
+		if (!set_input(last, tmp))
+			return (0);
+	}
+	else if ((*tmp)->type == APPEND || (*tmp)->type == TRUNC)
+	{
+		if (!set_output(last, tmp))
+			return (0);
+	}
+	return (1);
+}
+
+static void process_cmd(t_token **tmp, t_command *cmd_list)
+{
+	while (*tmp && (*tmp)->type != PIPE)
+	{
+		if ((*tmp)->type == INPUT
+			|| (*tmp)->type == APPEND || (*tmp)->type == TRUNC)
+		{
+			if (!handle_redirects(tmp, cmd_list))
+				break ;
+			remove_redirection((*tmp)->prev, *tmp);
+		}
+		if (*tmp)
+			*tmp = (*tmp)->next;
 	}
 }
 
-t_command	*creat_cmd_list(t_token *tmp_token)
+t_command	*creat_cmd_list(t_token *tmp)
 {
 	t_command	*cmd_list;
 	int			pipe_out;
 	int			cmd_qtd;
 	t_token		*init;
+	t_command   *last;
 
 	cmd_list = NULL;
 	cmd_qtd = count_pipes(get_ms()->tokens) + 1;
-	while (tmp_token)
+	while (tmp)
 	{
-		init = tmp_token;
-		pipe_out = (cmd_qtd - 1 > 0);
-		if (!ft_strncmp(tmp_token->value, "", 1))
-		{
-			tmp_token = tmp_token->next;
+		init = tmp;
+		pipe_out = (cmd_qtd-- - 1 > 0);
+		if(!new_cmd(&tmp, &cmd_list, pipe_out))
 			continue ;
-		}
-		append_cmd(&cmd_list, pipe_out, tmp_token);
-		while (tmp_token && tmp_token->type != PIPE)
-		{
-			if (tmp_token->type == INPUT)
-			{
-				last_cmd_node(cmd_list)->infile = infile(tmp_token);
-				if (last_cmd_node(cmd_list)->infile && !ft_strncmp(last_cmd_node(cmd_list)->infile, "error", 6))
-				{
-					last_cmd_node(cmd_list)->infile_fd = -1;
-					while (tmp_token && tmp_token->type != PIPE)
-					{
-						if (tmp_token->type == APPEND || tmp_token->type == TRUNC || tmp_token->type == INPUT)
-						remove_redirection(tmp_token->prev, tmp_token);
-						tmp_token = tmp_token->next;
-					}
-					break ;
-				}
-				last_cmd_node(cmd_list)->infile_fd = get_infile_fd(tmp_token, last_cmd_node(cmd_list)->infile);
-				remove_redirection(tmp_token->prev, tmp_token);
-			}
-			else if (tmp_token->type == APPEND || tmp_token->type == TRUNC)
-			{
-				last_cmd_node(cmd_list)->outfile = outfile(tmp_token);
-				if (last_cmd_node(cmd_list)->outfile && !ft_strncmp(last_cmd_node(cmd_list)->outfile, "error", 6))
-				{
-					last_cmd_node(cmd_list)->outfile_fd = -1;
-					while (tmp_token && tmp_token->type != PIPE)
-					{
-						if (tmp_token->type == APPEND || tmp_token->type == TRUNC || tmp_token->type == INPUT)
-						remove_redirection(tmp_token->prev, tmp_token);
-						tmp_token = tmp_token->next;
-					}
-					break ;
-				}
-				last_cmd_node(cmd_list)->outfile_fd = get_outfile_fd(tmp_token, last_cmd_node(cmd_list)->outfile); 
-				remove_redirection(tmp_token->prev, tmp_token);
-			}
-			if (tmp_token)
-				tmp_token = tmp_token->next;
-		}
-		last_cmd_node(cmd_list)->args = prepare_command(init);
-		last_cmd_node(cmd_list)->path = get_command_path(last_cmd_node(cmd_list)->args[0], get_ms()->env_list->var);
-		if (tmp_token)
-		{
-			tmp_token = tmp_token->next;
-			cmd_qtd--;
-		}
+		process_cmd(&tmp, cmd_list);
+		last = last_cmd_node(cmd_list);
+		last->args = prepare_command(init);
+		last->path = get_command_path(last->args[0], get_ms()->env_list->var);
+		if (tmp)
+			tmp = tmp->next;
 	}
 	// print_tokens(get_ms()->tokens);
 	return (cmd_list);

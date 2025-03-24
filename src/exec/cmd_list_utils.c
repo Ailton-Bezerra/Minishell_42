@@ -5,59 +5,61 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/24 15:13:06 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 15:14:41 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/03/24 18:14:26 by ailbezer          #+#    #+#             */
+/*   Updated: 2025/03/24 18:42:34 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*infile(t_token *token)
+t_command	*new_cmd_node(int pipe_out, t_token *tmp_token)
 {
-	char	*infile;
-	
-	infile = token->next->value;
-	if (open(infile, O_RDONLY) == -1)
-	{
-		perror("minishell");
-		return ("error");
-	}
-	return (infile);
+	t_command	*new;
+
+	(void)tmp_token;
+	new = gc_malloc(sizeof(t_command));
+	new->args = NULL;
+	new->path = NULL;
+	new->pipe_out = pipe_out;
+	new->infile = NULL;
+	new->outfile = NULL;
+	new->infile_fd = -1;
+	new->outfile_fd = -1;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }
 
-char	*outfile(t_token *token)
+t_command	*last_cmd_node(t_command *head)
 {
-	char	*outfile;
-	
-	outfile = token->next->value;
-	if (token->type == APPEND)
-	{
-		if (open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644) == -1)
-		{
-			perror("minishell");
-			return ("error") ;
-		}
-	}
-	else
-	{
-		if (open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644) == -1)
-		{
-			perror("minishell");
-			return ("error");
-		}
-	}
-	return (outfile);
+	if (!head)
+		return (NULL);
+	while (head && head->next)
+		head = head->next;
+	return (head);
 }
 
-void	remove_redirection(t_token *prev, t_token *curr)
+void	append_cmd(t_command **head, int pipe_out, t_token *tmp_token)
 {
-	t_token	*file;
-	t_token **t;
-	
-	t = &get_ms()->tokens;
-	file = curr->next;
-	if (prev)
-		prev->next = file->next;
+	t_command	*new;
+
+	new = new_cmd_node(pipe_out, tmp_token);
+	if (!*head)
+		*head = new;
 	else
-		*t = file->next;
+	{
+		new->prev = last_cmd_node(*head);
+		last_cmd_node(*head)->next = new;
+	}
+}
+
+int new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out)
+{
+	if (!ft_strncmp((*tmp)->value, "", 1))
+	{
+		(*tmp) = (*tmp)->next;
+		return (0);
+	}
+	append_cmd(cmd_list, pipe_out, *tmp);
+	return (1);
 }

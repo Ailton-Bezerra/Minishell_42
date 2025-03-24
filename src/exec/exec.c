@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:25:43 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 20:14:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,10 @@ void	exec(void)
 		if (!cmd_list)
 			return ;
 		get_ms()->cmd_list = cmd_list;
-			if (builtin(cmd_list->args[0]) && !cmd_list->pipe_out && cmd_list->infile && ft_strncmp(cmd_list->infile, "error", 6))
-				execute_builtin(cmd_list->args, get_ms()->env_list);
-			else
-				cmd_pipeline(cmd_list);
+		if ((builtin(cmd_list->args[0]) && !cmd_list->pipe_out
+			&& (cmd_list->infile && ft_strncmp(cmd_list->infile, "error", 6))) || (builtin(cmd_list->args[0]) && !cmd_list->pipe_out
+			&& !cmd_list->infile && !cmd_list->outfile))
+			execute_builtin(cmd_list->args, get_ms()->env_list);
+		else
+			cmd_pipeline(cmd_list);
 }

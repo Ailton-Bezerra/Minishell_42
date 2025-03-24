@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:36:14 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:15:57 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:49:57 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_error(char *cmd)
 	ft_putstr_fd(": command not found\n", 2);
 }
 
-void clear_all(void)
+void	clear_all(void)
 {
 	gc_cleanup();
 	close_fds();

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/24 16:16:17 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 19:25:20 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,16 @@ typedef struct s_command
 
 typedef struct s_minishell
 {
-	t_env		*env_list;
-	t_token		*tokens;
-	t_hd		*hd;
-	t_command	*cmd_list;
-	int			exit_status;
-	int			input_save;
-	int			output_save;
-	int			*child_pids;
-	int			count_pids;
+	t_env			*env_list;
+	t_token			*tokens;
+	t_hd			*hd;
+	t_command		*cmd_list;
+	int				exit_status;
+	// int				input_save;
+	// int				output_save;
+	int				*child_pids;
+	int				count_pids;
+	struct termios	original_term;
 }				t_minishell;
 
 // ============== /builtin/builtin_utils.c ==============
@@ -229,11 +230,18 @@ void		init_minishell(t_env *env_list);
 void		print_tokens(t_token *token);
 void		print_cmd_list(t_command *cmd_list);
 
-// ============== cmd_list_utils.c ==============
+// ============== redirects_utils.c ==============
 char	*infile(t_token *token);
 char	*outfile(t_token *token);
 void	remove_redirection(t_token *prev, t_token *curr);
 
+// ============== errors_and_exit.c ==============
 void clear_all(void);
+
+// ============== cmd_list_utils.c ==============
+t_command	*new_cmd_node(int pipe_out, t_token *tmp_token);
+t_command	*last_cmd_node(t_command *head);
+void	append_cmd(t_command **head, int pipe_out, t_token *tmp_token);
+int new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out);
 
 #endif

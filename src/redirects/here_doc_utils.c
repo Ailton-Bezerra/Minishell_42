@@ -6,13 +6,13 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:08:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:29:37 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:53:26 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		delimiter_quotes(char *dlmt)
+int	delimiter_quotes(char *dlmt)
 {
 	int	i;
 	int	single_quote;
@@ -33,13 +33,13 @@ int		delimiter_quotes(char *dlmt)
 		else if (dlmt[i] == '\"' && !single_quote)
 		{
 			double_quote = !double_quote;
-			has_quotes = 1;	
+			has_quotes = 1;
 		}
 		i++;
 	}
 	if (has_quotes)
 		return (1);
-	return (0);	
+	return (0);
 }
 
 char	*handle_expansion_hd(char *input)

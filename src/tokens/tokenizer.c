@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 15:01:27 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:58:31 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	add_space(char **str, char **new_str, int *i, int flag)
 	*i = 0;
 }
 
-static void change_qflag(const char *input, t_expand *ex, int i)
+static void	change_qflag(const char *input, t_expand *ex, int i)
 {
 	if (input[i] == '\"' && !ex->double_quote)
 		ex->double_quote = 1;
@@ -36,8 +36,8 @@ static void change_qflag(const char *input, t_expand *ex, int i)
 
 static char	*separe_simbols(const char *input)
 {
-	char	*str;
-	char	*new_str;
+	char		*str;
+	char		*new_str;
 	t_expand	ex;
 
 	ex_init(&ex);

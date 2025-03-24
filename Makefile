@@ -16,12 +16,12 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c \
 				exec/args.c \
 				expansion/dollar_question.c expansion/expansion.c expansion/ft_getenv.c \
 				cleaner/errors_and_exit.c cleaner/garbage_collector.c \
-				cleaner/gc_utils.c\
+				cleaner/gc_utils.c redirects/redirects_utils.c\
 				exec/cmd_list.c exec/cmd_list_utils.c tokens/tokenizer.c tokens/token_list.c \
 				tokens/types.c tokens/quotes.c \
 				tokens/sintax.c signals/signal.c \
 				redirects/here_doc.c redirects/here_doc_utils.c redirects/here_doc_list.c \
-				exec/exec.c exec/exec_utils.c exec/pipes.c exec/redirects.c)
+				exec/exec.c exec/exec_utils.c exec/pipes.c redirects/redirects.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 

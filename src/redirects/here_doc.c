@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:09:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 15:00:58 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:51:32 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*delimiter(t_token *tokens)
 {	
 	t_token	*temp;
-	
+
 	temp = tokens;
 	while (temp->next)
 	{
@@ -29,7 +29,7 @@ char	*delimiter(t_token *tokens)
 void	hd_loop(t_token *tokens, char *dlmt, int fd)
 {
 	char	*input;
-	
+
 	(void)tokens;
 	while (1)
 	{
@@ -59,7 +59,7 @@ void	hd_routine(t_token *tokens)
 	char		*filename;
 	char		*dlmt;
 	t_hd		*hd;
-	
+
 	hd = get_ms()->hd;
 	dlmt = delimiter(tokens);
 	filename = ft_strjoin("here_doc", ft_itoa(get_ms()->hd->start_fd));
@@ -73,7 +73,7 @@ void	execute_hd(t_token *tokens)
 {
 	int		pid;
 	int		status;
-	
+
 	pid = fork();
 	if (pid == 0)
 		hd_routine(tokens);
@@ -88,7 +88,7 @@ void	execute_hd(t_token *tokens)
 void	check_hd(t_token *tokens)
 {
 	t_token	*temp;
-		
+
 	init_hd(tokens);
 	temp = tokens;
 	while (temp)
