@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 11:08:56 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/23 15:39:23 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:28:50 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,6 @@ void	print_tokens(t_token *token)
 		printf("\001\033[1;32m\002========================="END"\n");
 	}
 }
-
-// void print_hdlist(void)
-// {
-// 	t_hd_list *temp;
-
-// 	temp = get_ms()
-	
-// }
 
 void	print_cmd_list(t_command *cmd_list)
 {

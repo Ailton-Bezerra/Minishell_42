@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:08:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/18 12:28:26 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:29:37 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ int		delimiter_quotes(char *dlmt)
 		}
 		i++;
 	}
-	// if (single_quote || double_quote)
-	// 	// return error message
 	if (has_quotes)
 		return (1);
 	return (0);	

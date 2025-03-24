@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 12:23:19 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/23 18:01:30 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/23 18:09:48 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_exit(char **cmd)
 {
 	if (!cmd[1])
 		exit(get_ms()->exit_status);
-	if (!check_args(cdm[1]))
+	if (!check_args(cmd[1]))
 	{
 		gc_cleanup();
 		close_fds();

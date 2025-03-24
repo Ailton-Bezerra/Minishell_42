@@ -5,81 +5,50 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/10 18:14:41 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/21 14:46:16 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/03/19 16:47:30 by ailbezer          #+#    #+#             */
+/*   Updated: 2025/03/24 16:29:14 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	count_args(t_token *tokens)
-{
-	int	count;
-
-	count = 0;
-	while (tokens && tokens->type == WORD)
-	{
-		count++;
-		tokens = tokens->next;
-	}
-	return (count);
-}
-
-char	**get_args(t_token *tokens, int count)
-{
-	char	**args;
-	int		i;
-
-	i = 0;
-	args = gc_malloc(sizeof(char *) * (count + 1));
-	if (!args)
-	{
-		perror("Error");
-		return (NULL);
-	}
-	i = 0;
-	while (tokens && tokens->type == WORD)
-	{
-		args[i] = ft_strdup(tokens->value);
-		if (!args[i])
-		{
-			perror("Error");
-			return (NULL);
-		}
-		tokens = tokens->next;
-		i++;
-	}
-	args[count] = NULL;
-	return (args);
-}
-
-void	free_array(char **arr, int index)
+void	wait_for_children(void)
 {
 	int	i;
-
-	if (!arr)
-		return ;
+	int	status;
+	int	count;
+	
 	i = 0;
-	while (i < index)
+	count = get_ms()->count_pids;
+	while (i < count)
 	{
-		if (arr[i] != NULL)
-		{
-			free(arr[i]);
-			arr[i] = NULL;
-		}
+		waitpid(get_ms()->child_pids[i], &status, 0);
+		if (WIFEXITED(status))
+			get_ms()->exit_status = WEXITSTATUS(status);
 		i++;
 	}
-	free(arr);
 }
 
-void	error(void)
+void	exec_external(t_command *cmd)
 {
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
-
-void	print_error(char *cmd)
-{
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	int	flag;
+	
+	if (!cmd->path)
+	{
+		print_error(cmd->args[0]);
+		clear_all();
+		exit(127);
+	}
+	if (execve(cmd->path, cmd->args, get_ms()->env_list->var) == -1)
+	{
+		perror("execve error");
+		if (access(cmd->args[0], F_OK) < 0)
+			flag = 127;
+		else if (access(cmd->args[0], X_OK) == 0)
+			flag = 126;
+		else
+			flag = 126;
+		clear_all();
+		exit(flag);
+	}
 }

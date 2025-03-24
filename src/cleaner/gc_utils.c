@@ -39,20 +39,3 @@ void	gc_cleanup(void)
 	}
 	*garbage_list = NULL;
 }
-
-int	gc_track(void *ptr)
-{
-	t_garbage_node	*new_node;
-	t_garbage_node	**garbage_list;
-
-	if (!ptr)
-		return (0);
-	new_node = malloc(sizeof(t_garbage_node));
-	if (!new_node)
-		return (0);
-	garbage_list = get_garbage_list();
-	new_node->ptr = ptr;
-	new_node->next = *garbage_list;
-	*garbage_list = new_node;
-	return (1);
-}

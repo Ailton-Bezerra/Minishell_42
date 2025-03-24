@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   output.c                                           :+:      :+:    :+:   */
+/*   errors_and_exit.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/25 12:33:23 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/07 15:38:21 by ailbezer         ###   ########.fr       */
+/*   Created: 2025/02/27 12:36:14 by ailbezer          #+#    #+#             */
+/*   Updated: 2025/03/24 16:15:57 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	handle_output_redirection(char *filename, int append)
+void	close_fds(void)
 {
-	int	fd;
+	int	i;
 
-	if (append)
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	else
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("minishell: open");
-		return (1);
-	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		perror("minishell: dup2");
-		close(fd);
-		return (1);
-	}
-	close(fd);
-	return (0);
+	i = 0;
+	while (i <= 1024)
+		close(i++);
+}
+
+void	print_error(char *cmd)
+{
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+}
+
+void clear_all(void)
+{
+	gc_cleanup();
+	close_fds();
+	rl_clear_history();
 }

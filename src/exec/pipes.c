@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:09:10 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/22 11:41:50 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:10:37 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	creat_pipes(t_command *cmd_list)
 	}
 }
 
-void 	close_pipes(t_command *cmd_list, t_command *curr)
+void	close_pipes(t_command *cmd_list, t_command *curr)
 {
 	while(cmd_list)
 	{
@@ -45,4 +45,20 @@ void	redirect_pipes(t_command *cmd)
 	}
 	if (cmd->prev && cmd->prev->pipe_out)
 		dup2(cmd->prev->pipe_fd[0], STDIN_FILENO);
+}
+
+int	count_pipes(t_token *tokens)
+{
+	t_token	*tmp;
+	int		count;
+
+	tmp = tokens;
+	count = 0;
+	while (tmp)
+	{
+		if (tmp->type == PIPE)
+			count++;
+		tmp = tmp->next;
+	}
+	return (count);
 }

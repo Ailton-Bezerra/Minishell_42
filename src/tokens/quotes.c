@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 11:31:20 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/02/21 14:38:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:02:11 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,6 @@ char	*ft_strndup(const char *s, size_t n)
 	return (new);
 }
 
-/**
- * @brief   Checks for unclosed single or double quotes in a string.
- * 
- * @param   line  The input string to be analyzed.
- * 
- * @return  Returns &line if all quotes are properly closed.
- *			returns NULL & error message if there are unclosed quotes.
- */
 static char	*parse_quotes(char *line)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/21 17:02:29 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 15:01:27 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,13 @@ static void change_qflag(const char *input, t_expand *ex, int i)
 		ex->quote = 0;
 }
 
-
 static char	*separe_simbols(const char *input)
 {
-	// size_t	i;
 	char	*str;
 	char	*new_str;
 	t_expand	ex;
 
 	ex_init(&ex);
-	// i = 0;
 	str = ft_strdup(input);
 	new_str = ft_strdup("");
 	while (str && str[ex.index])
@@ -72,7 +69,7 @@ t_token	*tokenizer(const char *input)
 
 	input_norm = separe_simbols(input);
 	token_list = handle_quotes(input_norm, NULL);
-	if (!chek_sintax(token_list))
+	if (!check_sintax(token_list))
 		return (NULL);
 	return (token_list);
 }

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 17:52:56 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/23 15:47:05 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/24 16:27:49 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ int	builtin(char *cmd)
 
 void	execute_builtin(char **args, t_env *env_list)
 {
-	// int	*status;
-	
-	// status = &get_ms()->exit_status;
-	// print_cmd_list(get_ms()->cmd_list);
-	// if (!redirect_fds(get_ms()->cmd_list))
-	// 	return ;
 	if (!args[0])
 		return ;
 	if (!ft_strncmp(args[0], "echo", 4))
