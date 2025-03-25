@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:38 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 19:31:10 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 10:08:13 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static int	set_input(t_command *last, t_token **tmp)
 		{
 			if ((*tmp)->type == APPEND
 				|| (*tmp)->type == TRUNC || (*tmp)->type == INPUT)
-			remove_redirection((*tmp)->prev, *tmp);
+				remove_redirection((*tmp)->prev, *tmp);
 			*tmp = (*tmp)->next;
 		}
-		return (0) ;
+		return (0);
 	}
 	last->infile_fd = get_infile_fd(*tmp, last->infile);
 	return (1);
@@ -41,7 +41,7 @@ static int	set_output(t_command *last, t_token **tmp)
 		{
 			if ((*tmp)->type == APPEND
 				|| (*tmp)->type == TRUNC || (*tmp)->type == INPUT)
-			remove_redirection((*tmp)->prev, *tmp);
+				remove_redirection((*tmp)->prev, *tmp);
 			*tmp = (*tmp)->next;
 		}
 		return (0);
@@ -50,10 +50,10 @@ static int	set_output(t_command *last, t_token **tmp)
 	return (1);
 }
 
-static int handle_redirects(t_token **tmp, t_command *cmd_list)
+static int	handle_redirects(t_token **tmp, t_command *cmd_list)
 {
 	t_command	*last;
-	
+
 	last = last_cmd_node(cmd_list);
 	if ((*tmp)->type == INPUT)
 	{
@@ -68,7 +68,7 @@ static int handle_redirects(t_token **tmp, t_command *cmd_list)
 	return (1);
 }
 
-static void process_cmd(t_token **tmp, t_command *cmd_list)
+static void	process_cmd(t_token **tmp, t_command *cmd_list)
 {
 	while (*tmp && (*tmp)->type != PIPE)
 	{
@@ -90,7 +90,7 @@ t_command	*creat_cmd_list(t_token *tmp)
 	int			pipe_out;
 	int			cmd_qtd;
 	t_token		*init;
-	t_command   *last;
+	t_command	*last;
 
 	cmd_list = NULL;
 	cmd_qtd = count_pipes(get_ms()->tokens) + 1;
@@ -98,7 +98,7 @@ t_command	*creat_cmd_list(t_token *tmp)
 	{
 		init = tmp;
 		pipe_out = (cmd_qtd-- - 1 > 0);
-		if(!new_cmd(&tmp, &cmd_list, pipe_out))
+		if (!new_cmd(&tmp, &cmd_list, pipe_out))
 			continue ;
 		process_cmd(&tmp, cmd_list);
 		last = last_cmd_node(cmd_list);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 17:58:31 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:20:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,17 @@ static char	*separe_simbols(const char *input)
 	{
 		if (str[ex.index] == '\'' || str[ex.index] == '\"')
 			change_qflag(input, &ex, ex.index);
-		if ((!ft_strncmp(str + ex.index, "<<", 2) || !ft_strncmp(str + ex.index, ">>", 2)) && (!ex.quote && !ex.double_quote))
+		if ((!ft_strncmp(str + ex.index, "<<", 2)
+				|| !ft_strncmp(str + ex.index, ">>", 2))
+			&& (!ex.quote && !ex.double_quote))
 			add_space(&str, &new_str, &ex.index, 2);
-		else if ((((str[ex.index] == '>' && (ex.index == 0 || str[ex.index - 1] != '>')
-				&& (str[ex.index + 1] != '>'))
-			|| (str[ex.index] == '<' && (ex.index == 0 || str[ex.index - 1] != '<')
-				&& (str[ex.index + 1] != '<')) || (str[ex.index] == '|')) && (!ex.quote && !ex.double_quote))
+		else if ((((str[ex.index] == '>'
+						&& (ex.index == 0 || str[ex.index - 1] != '>')
+						&& (str[ex.index + 1] != '>'))
+					|| (str[ex.index] == '<' && (ex.index == 0
+							|| str[ex.index - 1] != '<')
+						&& (str[ex.index + 1] != '<')) || (str[ex.index] == '|'))
+						&& (!ex.quote && !ex.double_quote))
 		)
 			add_space(&str, &new_str, &ex.index, 1);
 		else

@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 20:14:13 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:15:41 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void check_cmd_io(t_command *cmd)
+static void	check_cmd_io(t_command *cmd)
 {
 	if (cmd->infile && cmd->infile_fd < 0)
-			exit(1);
+		exit(1);
 	if (cmd->outfile && cmd->outfile_fd < 0)
-			exit(1);
+		exit(1);
 }
 
-static void execute_command(t_command *cmd)
+static void	execute_command(t_command *cmd)
 {
 	int	pid;
-	
+
 	pid = fork();
 	cmd_signal();
 	if (pid == 0)
@@ -49,16 +49,17 @@ static void execute_command(t_command *cmd)
 void	cmd_pipeline(t_command *cmd_list)
 {
 	t_command	*tmp;
-	
+
 	tmp = cmd_list;
 	get_ms()->count_pids = 0;
-	get_ms()->child_pids = gc_malloc(sizeof(int) * (count_pipes(get_ms()->tokens) + 1));
+	get_ms()->child_pids = gc_malloc(sizeof(int)
+		* (count_pipes(get_ms()->tokens) + 1));
 	creat_pipes(cmd_list);
 	// print_cmd_list(cmd_list);
 	while (tmp)
 	{
-			execute_command(tmp);
-			tmp = tmp->next;
+		execute_command(tmp);
+		tmp = tmp->next;
 	}
 	close_pipes(get_ms()->cmd_list, NULL);
 	wait_for_children();
@@ -66,16 +67,17 @@ void	cmd_pipeline(t_command *cmd_list)
 
 void	exec(void)
 {
-		t_command	*cmd_list;
-	
-		cmd_list = creat_cmd_list(get_ms()->tokens);
-		if (!cmd_list)
-			return ;
-		get_ms()->cmd_list = cmd_list;
-		if ((builtin(cmd_list->args[0]) && !cmd_list->pipe_out
-			&& (cmd_list->infile && ft_strncmp(cmd_list->infile, "error", 6))) || (builtin(cmd_list->args[0]) && !cmd_list->pipe_out
+	t_command	*cmd_list;
+
+	cmd_list = creat_cmd_list(get_ms()->tokens);
+	if (!cmd_list)
+		return ;
+	get_ms()->cmd_list = cmd_list;
+	if ((builtin(cmd_list->args[0]) && !cmd_list->pipe_out
+			&& (cmd_list->infile && ft_strncmp(cmd_list->infile, "error", 6)))
+		|| (builtin(cmd_list->args[0]) && !cmd_list->pipe_out
 			&& !cmd_list->infile && !cmd_list->outfile))
-			execute_builtin(cmd_list->args, get_ms()->env_list);
-		else
-			cmd_pipeline(cmd_list);
+		execute_builtin(cmd_list->args, get_ms()->env_list);
+	else
+		cmd_pipeline(cmd_list);
 }

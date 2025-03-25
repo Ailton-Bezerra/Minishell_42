@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 11:30:06 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/23 18:04:59 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:16:29 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	get_outfile_fd(t_token *token, char *filename)
 {
 	int		fd;
-	
+
 	fd = -1;
 	if (token->type == APPEND)
 		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -27,8 +27,8 @@ int	get_outfile_fd(t_token *token, char *filename)
 int	get_infile_fd(t_token *token, char *filename)
 {
 	int		fd;
-	
-	fd = -1; 
+
+	fd = -1;
 	if (token->type == INPUT && ft_strncmp(filename, "error", 6))
 		fd = open(filename, O_RDONLY);
 	return (fd);
