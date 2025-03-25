@@ -1,7 +1,7 @@
 NAME		:= minishell
 
 CC      := cc
-CFLAGS  := -g3 -Wextra -Wall -Werror #-lreadline
+CFLAGS  := -Wextra -Wall -Werror
 
 LIBFT   := ./libraries/libft
 HEADERS := -I ./include -I $(LIBFT)/include
@@ -10,18 +10,17 @@ LIBS    := $(LIBFT)/libft.a -lreadline
 SRCS_DIR := src/
 SRCS     := $(addprefix $(SRCS_DIR), main.c \
 				builtin/builtin_utils.c builtin/builtin.c builtin/cd.c \
-				builtin/echo.c builtin/env.c builtin/exit.c builtin/export_utils_2.c\
+				builtin/echo.c builtin/env.c builtin/exit.c builtin/export_utils_2.c \
 				builtin/export_utils.c builtin/export.c builtin/pwd.c builtin/unset.c \
-				debug/print_lists.c exec/path.c \
-				exec/args.c \
-				expansion/dollar_question.c expansion/expansion.c expansion/ft_getenv.c \
 				cleaner/errors_and_exit.c cleaner/garbage_collector.c \
-				cleaner/gc_utils.c redirects/redirects_utils.c\
-				exec/cmd_list.c exec/cmd_list_utils.c tokens/tokenizer.c tokens/token_list.c \
-				tokens/types.c tokens/quotes.c \
-				tokens/sintax.c signals/signal.c \
-				redirects/here_doc.c redirects/here_doc_utils.c redirects/here_doc_list.c \
-				exec/exec.c exec/exec_utils.c exec/pipes.c redirects/redirects.c)
+				cleaner/gc_utils.c debug/print_lists.c \
+				exec/args.c exec/cmd_list_utils.c exec/cmd_list.c exec/exec_utils.c \
+				exec/exec.c exec/path.c exec/pipes.c \
+				expansion/dollar_question.c expansion/expansion.c expansion/ft_getenv.c \
+				redirects/here_doc_list.c redirects/here_doc_utils.c redirects/here_doc.c\
+				redirects/redirects_utils.c redirects/redirects.c \
+				signals/signal.c tokens/quotes.c tokens/sintax.c tokens/token_list.c \
+				tokens/tokenizer.c tokens/types.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 

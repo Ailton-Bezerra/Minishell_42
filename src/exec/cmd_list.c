@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:38 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 10:08:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/25 12:56:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,31 @@ static int	set_output(t_command *last, t_token **tmp)
 	return (1);
 }
 
-static int	handle_redirects(t_token **tmp, t_command *cmd_list)
+static int	set_heredoc(t_command *last, t_token **tmp, int cmd_index)
+{
+	t_hd_list **arr_hds;
+	
+	arr_hds = get_ms()->hd->arr_hds;
+	// nome do infile vai ser igual ao ultimo heredoc da lista no indice do comando.
+	last->infile = last_hd_node(get_ms()->hd->arr_hds[cmd_index])->filename;
+	if (last->infile && !ft_strncmp(last->infile, "error", 6))
+	{
+		last->infile_fd = -1;
+		while (*tmp && (*tmp)->type != PIPE)
+		{
+			if ((*tmp)->type == APPEND
+				|| (*tmp)->type == APPEND
+				|| (*tmp)->type == TRUNC || (*tmp)->type == INPUT)
+				remove_redirection((*tmp)->prev, *tmp);
+			*tmp = (*tmp)->next;
+		}
+		return (0);
+	}
+	last->infile_fd = open(last->infile, O_RDONLY);
+	return (1);
+}
+
+static int	handle_redirects(t_token **tmp, t_command *cmd_list, int cmd_index)
 {
 	t_command	*last;
 
@@ -58,6 +82,11 @@ static int	handle_redirects(t_token **tmp, t_command *cmd_list)
 	if ((*tmp)->type == INPUT)
 	{
 		if (!set_input(last, tmp))
+			return (0);
+	}
+	if ((*tmp)->type == HERE_DOC)
+	{
+		if (!set_heredoc(last, tmp, cmd_index))
 			return (0);
 	}
 	else if ((*tmp)->type == APPEND || (*tmp)->type == TRUNC)
@@ -68,14 +97,18 @@ static int	handle_redirects(t_token **tmp, t_command *cmd_list)
 	return (1);
 }
 
-static void	process_cmd(t_token **tmp, t_command *cmd_list)
+static void	process_cmd(t_token **tmp, t_command *cmd_list, int cmd_index)
 {
+	// int		cmd_index;
+
+	// cmd_index = 0;
 	while (*tmp && (*tmp)->type != PIPE)
 	{
 		if ((*tmp)->type == INPUT
+			|| (*tmp)->type == HERE_DOC
 			|| (*tmp)->type == APPEND || (*tmp)->type == TRUNC)
 		{
-			if (!handle_redirects(tmp, cmd_list))
+			if (!handle_redirects(tmp, cmd_list, cmd_index))
 				break ;
 			remove_redirection((*tmp)->prev, *tmp);
 		}
@@ -92,6 +125,9 @@ t_command	*creat_cmd_list(t_token *tmp)
 	t_token		*init;
 	t_command	*last;
 
+	int			cmd_index;
+	cmd_index = 0;
+	
 	cmd_list = NULL;
 	cmd_qtd = count_pipes(get_ms()->tokens) + 1;
 	while (tmp)
@@ -100,12 +136,15 @@ t_command	*creat_cmd_list(t_token *tmp)
 		pipe_out = (cmd_qtd-- - 1 > 0);
 		if (!new_cmd(&tmp, &cmd_list, pipe_out))
 			continue ;
-		process_cmd(&tmp, cmd_list);
+		process_cmd(&tmp, cmd_list, cmd_index);
 		last = last_cmd_node(cmd_list);
 		last->args = prepare_command(init);
 		last->path = get_command_path(last->args[0], get_ms()->env_list->var);
 		if (tmp)
+		{
+			cmd_index++;
 			tmp = tmp->next;
+		}
 	}
 	// print_tokens(get_ms()->tokens);
 	return (cmd_list);

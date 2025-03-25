@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:09:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 17:51:32 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 14:42:44 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,20 @@ void	execute_hd(t_token *tokens)
 	int		pid;
 	int		status;
 
+	int			fd;
+	char		*filename;
+	t_hd		*hd;
+	
+	hd = get_ms()->hd;
+	filename = ft_strjoin("/tmp/here_doc", ft_itoa(get_ms()->hd->start_fd));
+	append_hd(filename, &hd->arr_hds[hd->cmd_index]);
+	fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	
 	pid = fork();
 	if (pid == 0)
+	{
 		hd_routine(tokens);
+	}
 	else
 	{
 		signal(SIGINT, SIG_IGN);
@@ -97,7 +108,7 @@ void	check_hd(t_token *tokens)
 			get_ms()->hd->cmd_index++;
 		else if (temp->type == HERE_DOC)
 		{
-			execute_hd(tokens);
+			execute_hd(temp);
 			get_ms()->hd->start_fd++;
 		}
 		temp = temp->next;
