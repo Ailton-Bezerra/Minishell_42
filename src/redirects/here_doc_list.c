@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:36:05 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 17:51:56 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:46:37 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_hd_list	*last_hd_node(t_hd_list *head)
 void	append_hd(char *filename, t_hd_list **head)
 {
 	t_hd_list	*new;
+
 	new = new_hd_node(filename);
 	if (!*head)
 		*head = new;

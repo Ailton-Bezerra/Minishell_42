@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 17:32:45 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/24 19:36:14 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:58:54 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int	ft_strcmp(const char *s1, const char *s2)
-// {
-// 	while (*s1 && (*s1 == *s2))
-// 	{
-// 		s1++;
-// 		s2++;
-// 	}
-// 	return ((unsigned char)(*s1) - (unsigned char)(*s2));
-// }
 
 void	ft_swap(char **a, char **b)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/24 19:25:20 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 11:08:55 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_env		*init_env(char **envp);
 
 // ============== /builtin/builtin.c ==============
 int			builtin(char *cmd);
-void		execute_builtin(char **cmd, t_env *env_list);
+void		execute_builtin(char **args, t_env *env_list);
 
 // ============== /builtin/cd.c ==============
 void		ft_cd(char **cmd);
@@ -102,7 +102,6 @@ void		ft_env(t_env *env_list, char **cmd);
 void		ft_exit(char **cmd);
 
 // ============== /builtin/export_utils_2.c ==============
-int			ft_strcmp(const char *s1, const char *s2);
 void		ft_swap(char **a, char **b);
 void		sort_env_list(t_env *env_list);
 void		ft_xp(t_env *env_list);
@@ -123,19 +122,57 @@ void		ft_pwd(void);
 // ============== /builtin/unset.c ==============
 void		ft_unset(t_env **env, const char *var);
 
-// ============== exec/exec_utils.c ==============
+// ============== /cleaner/errors_and_exit.c ==============
+void		close_fds(void);
+void		print_error(char *cmd);
+void		clear_all(void);
+
+// ============== /cleaner/garbage_collector.c ==============
+t_garbage_node		**get_garbage_list(void);
+void		init_garbage_collector(void);
+void		*gc_malloc(size_t size);
+t_garbage_node		*gc_dealocate_node(t_garbage_node **garbage_list,
+				void *ptr);
+int			gc_dealocate(void *ptr);
+
+// ============== /cleaner/gc_utils.c ==============
+void		gc_cleanup(void);
+
+// ============== debug/print_list.c ==============
+void		print_tokens(t_token *token);
+void		print_cmd_list(t_command *cmd_list);
+
+// ============== exec/args.c ==============
+char		**prepare_command(t_token *tokens);
 int			count_args(t_token *tokens);
 char		**get_args(t_token *tokens, int count);
-void		print_error(char *cmd);
 
-// ============== exec/check_command_utils.c ==============
-char		*get_command_path(char *cmd, char **envp);
+// ============== exec/cmd_list_utils.c ==============
+t_command	*new_cmd_node(int pipe_out, t_token *tmp_token);
+t_command	*last_cmd_node(t_command *head);
+void		append_cmd(t_command **head, int pipe_out, t_token *tmp_token);
+int			new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out);
 
-// ============== exec/execute_command.c ==============
-char		**prepare_command(t_token *tokens);
+// ============== exec/cmd_list.c ==============
+t_command	*creat_cmd_list(t_token *tmp);
+
+// ============== exec/exec_utils.c ==============
+void		wait_for_children(void);
+void		exec_external(t_command *cmd);
+
+// ============== exec/exec.c ==============
+void		cmd_pipeline(t_command *cmd_list);
+void		exec(void);
 
 // ============== exec/path.c ==============
 char		*get_path(char *cmd, char **envp);
+char		*get_command_path(char *cmd, char **envp);
+
+// ============== exec/pipes.c ==============
+void		creat_pipes(t_command *cmd_list);
+void		close_pipes(t_command *cmd_list, t_command *curr);
+void		redirect_pipes(t_command *cmd);
+int			count_pipes(t_token *tokens);
 
 // ============== expansion/dolar_question.c ==============
 char		*expand_exit_status(char *token);
@@ -149,33 +186,6 @@ char		*handle_expansion(char *input);
 // ============== expansion/ft_getenv.c ==============
 char		*get_value(const char *var);
 char		*ft_getenv(t_env *env, const char *name);
-
-// ============== garbage_collector/close_fds.c ==============
-void		close_fds(void);
-
-// ============== new_exec/command_list.c ==============
-t_command	*last_cmd_node(t_command *head);
-t_command	*creat_cmd_list(t_token *tmp_token);
-
-// ============== new_exec/exec_utils.c ==============
-void		wait_for_children(void);
-void		exec_external(t_command *cmd);
-int			count_pipes(t_token *tokens);
-
-// ============== new_exec/exec.c ==============
-void		cmd_pipeline(t_command *cmd_list);
-void		exec(void);
-
-// ============== new_exec/pipes.c ==============
-void		creat_pipes(t_command *cmd_list);
-void		close_pipes(t_command *cmd_list, t_command *curr);
-void		redirect_pipes(t_command *cmd);
-
-// ============== new_exec/redirects.c ==============
-int			get_outfile_fd(t_token *token, char *filename);
-int			get_infile_fd(t_token *token, char *filename);
-int			redirect_fds(t_command *cmd);
-void		close_redirects(t_command *cmd);
 
 // ============== redirects/here_doc_list.c ==============
 t_hd		*init_hd(t_token *tokens);
@@ -195,6 +205,17 @@ void		hd_loop(t_token *tokens, char *dlmt, int fd);
 void		hd_routine(t_token *tokens);
 void		execute_hd(t_token *tokens);
 void		check_hd(t_token *tokens);
+
+// ============== redirects/redirects_utils.c ==============
+char		*infile(t_token *token);
+char		*outfile(t_token *token);
+void		remove_redirection(t_token *prev, t_token *curr);
+
+// ============== redirects/redirects.c ==============
+int			get_outfile_fd(t_token *token, char *filename);
+int			get_infile_fd(t_token *token, char *filename);
+int			redirect_fds(t_command *cmd);
+void		close_redirects(t_command *cmd);
 
 // ============== signals/signal.c ==============
 void		receive_signal(void);
@@ -225,23 +246,5 @@ enum e_token	define_types(char *type);
 // ============== main.c ==============
 t_minishell	*get_ms(void);
 void		init_minishell(t_env *env_list);
-
-// ============== debug/print_list.c ==============
-void		print_tokens(t_token *token);
-void		print_cmd_list(t_command *cmd_list);
-
-// ============== redirects_utils.c ==============
-char	*infile(t_token *token);
-char	*outfile(t_token *token);
-void	remove_redirection(t_token *prev, t_token *curr);
-
-// ============== errors_and_exit.c ==============
-void clear_all(void);
-
-// ============== cmd_list_utils.c ==============
-t_command	*new_cmd_node(int pipe_out, t_token *tmp_token);
-t_command	*last_cmd_node(t_command *head);
-void	append_cmd(t_command **head, int pipe_out, t_token *tmp_token);
-int new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out);
 
 #endif

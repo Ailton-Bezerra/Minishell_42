@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:08:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 17:53:26 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:24:40 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ int	delimiter_quotes(char *dlmt)
 			single_quote = !single_quote;
 			has_quotes = 1;
 		}
-		else if (dlmt[i] == '\"' && !single_quote)
+		else if (dlmt[i++] == '\"' && !single_quote)
 		{
 			double_quote = !double_quote;
 			has_quotes = 1;
 		}
-		i++;
 	}
 	if (has_quotes)
 		return (1);

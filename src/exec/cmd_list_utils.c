@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 18:14:26 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 18:42:34 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:12:38 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	append_cmd(t_command **head, int pipe_out, t_token *tmp_token)
 	}
 }
 
-int new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out)
+int	new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out)
 {
 	if (!ft_strncmp((*tmp)->value, "", 1))
 	{

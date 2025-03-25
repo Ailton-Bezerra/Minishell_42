@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/24 18:48:02 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:57:21 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_minishell(t_env *env_list)
 	// get_ms()->input_save = dup(STDIN_FILENO);
 	// get_ms()->output_save = dup(STDOUT_FILENO);
 	tcgetattr(STDIN_FILENO, &get_ms()->original_term);
-	
+
 	get_ms()->child_pids = NULL;
 	get_ms()->count_pids = 0;
 	get_ms()->cmd_list = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:09:10 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 16:10:37 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 09:16:05 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	creat_pipes(t_command *cmd_list)
 
 void	close_pipes(t_command *cmd_list, t_command *curr)
 {
-	while(cmd_list)
+	while (cmd_list)
 	{
 		if (cmd_list != curr && cmd_list->pipe_out)
 		{
 			close(cmd_list->pipe_fd[0]);
-			close(cmd_list->pipe_fd[1]);	
+			close(cmd_list->pipe_fd[1]);
 		}
 		cmd_list = cmd_list->next;
 	}
