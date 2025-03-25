@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/19 16:47:30 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 09:16:13 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:27:37 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,7 @@ void	exec_external(t_command *cmd)
 	}
 	if (execve(cmd->path, cmd->args, get_ms()->env_list->var) == -1)
 	{
-		perror("execve error");
-		if (access(cmd->args[0], F_OK) < 0)
-			flag = 127;
-		else if (access(cmd->args[0], X_OK) == 0)
-			flag = 126;
-		else
-			flag = 126;
+		exec_errors(cmd, &flag);
 		clear_all();
 		exit(flag);
 	}

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 16:03:06 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 17:27:53 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void		ft_unset(t_env **env, const char *var);
 void		close_fds(void);
 void		print_error(char *cmd);
 void		clear_all(void);
+void	exec_errors(t_command *cmd, int *flag);
 
 // ============== /cleaner/garbage_collector.c ==============
 t_garbage_node		**get_garbage_list(void);
