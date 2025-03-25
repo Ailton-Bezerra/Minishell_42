@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:09:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 14:42:44 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:06:33 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,13 @@ char	*delimiter(t_token *tokens)
 	return (temp->next->value);
 }
 
-void	hd_loop(t_token *tokens, char *dlmt, int fd)
+void	hd_loop(char *dlmt, int fd)
 {
 	char	*input;
-
-	(void)tokens;
+	int		quotes;
+	
+	quotes = delimiter_quotes(dlmt);
+	dlmt = remove_dlmt_quotes(dlmt);
 	while (1)
 	{
 		signal(SIGINT, ctrl_c_hd);
@@ -45,7 +47,7 @@ void	hd_loop(t_token *tokens, char *dlmt, int fd)
 			free(input);
 			break ;
 		}
-		if (!delimiter_quotes(dlmt))
+		if (!quotes)
 			input = handle_expansion_hd(input);
 		ft_putendl_fd(input, fd);
 		free(input);
@@ -53,19 +55,12 @@ void	hd_loop(t_token *tokens, char *dlmt, int fd)
 	exit(0);
 }
 
-void	hd_routine(t_token *tokens)
+static void	hd_routine(t_token *tokens, int fd)
 {
-	int			fd;
-	char		*filename;
 	char		*dlmt;
-	t_hd		*hd;
 
-	hd = get_ms()->hd;
 	dlmt = delimiter(tokens);
-	filename = ft_strjoin("here_doc", ft_itoa(get_ms()->hd->start_fd));
-	append_hd(filename, &hd->arr_hds[hd->cmd_index]);
-	fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	hd_loop(tokens, dlmt, fd);
+	hd_loop(dlmt, fd);
 	close(fd);
 }
 
@@ -73,7 +68,6 @@ void	execute_hd(t_token *tokens)
 {
 	int		pid;
 	int		status;
-
 	int			fd;
 	char		*filename;
 	t_hd		*hd;
@@ -85,9 +79,7 @@ void	execute_hd(t_token *tokens)
 	
 	pid = fork();
 	if (pid == 0)
-	{
-		hd_routine(tokens);
-	}
+		hd_routine(tokens, fd);
 	else
 	{
 		signal(SIGINT, SIG_IGN);

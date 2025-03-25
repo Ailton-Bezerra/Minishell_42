@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:08:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 09:24:40 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:16:17 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,16 @@ void	ctrl_c_hd(int sig)
 	(void)sig;
 	write(1, "\n", 1);
 	exit(130);
+}
+
+char *remove_dlmt_quotes(char *dlmt)
+{
+	char *new_dlmt;
+	
+	new_dlmt = NULL;
+	if (dlmt[0] == '\'' && dlmt[(int)ft_strlen(dlmt) - 1] == '\'')
+		new_dlmt = ft_strtrim(dlmt, "\'");
+	else if (dlmt[0] == '\"' && dlmt[(int)ft_strlen(dlmt) - 1] == '\"')
+		new_dlmt = ft_strtrim(dlmt, "\"");;
+	return (new_dlmt);
 }

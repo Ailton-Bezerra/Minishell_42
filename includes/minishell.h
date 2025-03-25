@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 11:08:55 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:03:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,11 +198,11 @@ int			delimiter_quotes(char *dlmt);
 char		*handle_expansion_hd(char *input);
 void		hd_eof(char *delimiter);
 void		ctrl_c_hd(int sig);
+char *remove_dlmt_quotes(char *dlmt);
 
 // ============== redirects/here_doc.c ==============
 char		*delimiter(t_token *tokens);
-void		hd_loop(t_token *tokens, char *dlmt, int fd);
-void		hd_routine(t_token *tokens);
+void		hd_loop(char *dlmt, int fd);
 void		execute_hd(t_token *tokens);
 void		check_hd(t_token *tokens);
 
