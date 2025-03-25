@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:46:28 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 12:31:45 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 16:15:57 by cabo-ram         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	ft_cd(char **cmd)
 
 	get_ms()->exit_status = 0;
 	path = getenv("HOME");
+	if (cmd[0][2] != '\0')
+	{
+		get_ms()->exit_status = 127;
+		ft_putstr_fd(cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return ;
+	}
 	if (!cmd[1] || (cmd[1][0] == '~' && cmd[1][1] == '\0'))
 	{
 		if (!path)
