@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 11:30:06 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 12:24:49 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 14:27:33 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	redirect_fds(t_command *cmd)
 
 void	close_redirects(t_command *cmd)
 {
-	if (cmd->outfile_fd > 2)
+	if (cmd->infile_fd > 2)
 		close(cmd->infile_fd);
 	if (cmd->outfile_fd > 2)
 		close(cmd->outfile_fd);

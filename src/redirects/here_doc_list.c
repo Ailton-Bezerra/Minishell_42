@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_list.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 10:36:05 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 09:46:37 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:24:20 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_hd	*init_hd(t_token *tokens)
 
 	cmd_qtd = count_pipes(tokens) + 1;
 	hd = gc_malloc(sizeof(t_hd));
-	hd->arr_hds = gc_malloc(sizeof(t_hd_list) * cmd_qtd);
+	hd->arr_hds = ft_calloc(cmd_qtd + 1, sizeof(t_hd));
 	hd->cmd_index = 0;
 	hd->start_fd = 0;
 	return (hd);

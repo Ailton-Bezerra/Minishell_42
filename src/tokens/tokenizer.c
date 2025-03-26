@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 15:34:36 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 11:20:54 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:41:20 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	add_space(char **str, char **new_str, int *i, int flag)
 
 static void	change_qflag(const char *input, t_expand *ex, int i)
 {
-	if (input[i] == '\"' && !ex->double_quote)
-		ex->double_quote = 1;
-	else if (input[i] == '\"' && ex->double_quote)
-		ex->double_quote = 0;
+	if (input[i] == '\"' && !ex->d_quote)
+		ex->d_quote = 1;
+	else if (input[i] == '\"' && ex->d_quote)
+		ex->d_quote = 0;
 	if (input[i] == '\'' && !ex->quote)
 		ex->quote = 1;
 	else if (input[i] == '\'' && ex->quote)
@@ -36,34 +36,30 @@ static void	change_qflag(const char *input, t_expand *ex, int i)
 
 static char	*separe_simbols(const char *input)
 {
-	char		*str;
+	char		*s;
 	char		*new_str;
 	t_expand	ex;
 
+	s = ft_strdup(input);
 	ex_init(&ex);
-	str = ft_strdup(input);
 	new_str = ft_strdup("");
-	while (str && str[ex.index])
+	while (s && s[ex.i])
 	{
-		if (str[ex.index] == '\'' || str[ex.index] == '\"')
-			change_qflag(input, &ex, ex.index);
-		if ((!ft_strncmp(str + ex.index, "<<", 2)
-				|| !ft_strncmp(str + ex.index, ">>", 2))
-			&& (!ex.quote && !ex.double_quote))
-			add_space(&str, &new_str, &ex.index, 2);
-		else if ((((str[ex.index] == '>'
-						&& (ex.index == 0 || str[ex.index - 1] != '>')
-						&& (str[ex.index + 1] != '>'))
-					|| (str[ex.index] == '<' && (ex.index == 0
-							|| str[ex.index - 1] != '<')
-						&& (str[ex.index + 1] != '<')) || (str[ex.index] == '|'))
-						&& (!ex.quote && !ex.double_quote))
-		)
-			add_space(&str, &new_str, &ex.index, 1);
+		if (s[ex.i] == '\'' || s[ex.i] == '\"')
+			change_qflag(input, &ex, ex.i);
+		if ((!ft_strncmp(s + ex.i, "<<", 2) || !ft_strncmp(s + ex.i, ">>", 2))
+			&& (!ex.quote && !ex.d_quote))
+			add_space(&s, &new_str, &ex.i, 2);
+		else if ((((s[ex.i] == '>' && (ex.i == 0
+							|| s[ex.i - 1] != '>') && (s[ex.i + 1] != '>'))
+					|| (s[ex.i] == '<' && (ex.i == 0 || s[ex.i - 1] != '<')
+						&& (s[ex.i + 1] != '<')) || (s[ex.i] == '|'))
+				&& (!ex.quote && !ex.d_quote)))
+			add_space(&s, &new_str, &ex.i, 1);
 		else
-			ex.index++;
+			ex.i++;
 	}
-	new_str = ft_strjoin(new_str, str);
+	new_str = ft_strjoin(new_str, s);
 	return (new_str);
 }
 

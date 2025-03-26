@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 17:27:53 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:05:03 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ typedef struct s_minishell
 	t_hd			*hd;
 	t_command		*cmd_list;
 	int				exit_status;
-	// int				input_save;
-	// int				output_save;
 	int				*child_pids;
 	int				count_pids;
 	struct termios	original_term;
@@ -125,19 +123,8 @@ void		ft_unset(t_env **env, const char *var);
 // ============== /cleaner/errors_and_exit.c ==============
 void		close_fds(void);
 void		print_error(char *cmd);
+void		exec_errors(t_command *cmd, int *flag);
 void		clear_all(void);
-void	exec_errors(t_command *cmd, int *flag);
-
-// ============== /cleaner/garbage_collector.c ==============
-t_garbage_node		**get_garbage_list(void);
-void		init_garbage_collector(void);
-void		*gc_malloc(size_t size);
-t_garbage_node		*gc_dealocate_node(t_garbage_node **garbage_list,
-				void *ptr);
-int			gc_dealocate(void *ptr);
-
-// ============== /cleaner/gc_utils.c ==============
-void		gc_cleanup(void);
 
 // ============== debug/print_list.c ==============
 void		print_tokens(t_token *token);
@@ -153,9 +140,10 @@ t_command	*new_cmd_node(int pipe_out, t_token *tmp_token);
 t_command	*last_cmd_node(t_command *head);
 void		append_cmd(t_command **head, int pipe_out, t_token *tmp_token);
 int			new_cmd(t_token **tmp, t_command **cmd_list, int pipe_out);
+int			set_heredoc(t_command *last, t_token **tmp, int *cmd_index);
 
 // ============== exec/cmd_list.c ==============
-t_command	*creat_cmd_list(t_token *tmp);
+t_command	*creat_cmd_list(t_token *tmp, int *cmd_index);
 
 // ============== exec/exec_utils.c ==============
 void		wait_for_children(void);
@@ -199,7 +187,7 @@ int			delimiter_quotes(char *dlmt);
 char		*handle_expansion_hd(char *input);
 void		hd_eof(char *delimiter);
 void		ctrl_c_hd(int sig);
-char *remove_dlmt_quotes(char *dlmt);
+char		*remove_dlmt_quotes(char *dlmt);
 
 // ============== redirects/here_doc.c ==============
 char		*delimiter(t_token *tokens);
@@ -242,7 +230,6 @@ t_token		*tokenizer(const char *input);
 
 // ============== tokens/types.c ==============
 void		command_type(t_token *tokens);
-enum e_token	define_types(char *type);
 
 // ============== main.c ==============
 t_minishell	*get_ms(void);

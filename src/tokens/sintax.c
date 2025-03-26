@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:49:27 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/24 17:56:11 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:09:55 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,13 @@ static int	check_redirect(enum e_token type, t_token *next)
 	return (1);
 }
 
+static int	check_pipe(t_token *tmp)
+{
+	if ((tmp->type == PIPE && !tmp->prev) || (tmp->type == PIPE && !tmp->next))
+		return (printf("syntax error near unexpected token `|'\n"), 0);
+	return (1);
+}
+
 int	check_sintax(t_token *tokens)
 {
 	t_token	*tmp;
@@ -36,16 +43,16 @@ int	check_sintax(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (!check_redirect(tmp->type, tmp->next))
+		if (!check_redirect(tmp->type, tmp->next) || !check_pipe(tmp))
 		{
-			get_ms()->exit_status = 1;
+			get_ms()->exit_status = 2;
 			return (0);
 		}
 		if ((ft_strchr(tmp->value, '$') && !tmp->prev)
 			|| (ft_strchr(tmp->value, '$') && tmp->prev
 				&& tmp->prev->type != HERE_DOC))
 			tmp->value = handle_expansion(tmp->value);
-		if (tmp->prev && tmp->prev->type != HERE_DOC)
+		else if (tmp->prev && tmp->prev->type != HERE_DOC)
 			tmp->value = remove_outer_quotes(tmp->value, 0, 0);
 		tmp = tmp->next;
 	}

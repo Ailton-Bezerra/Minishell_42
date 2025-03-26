@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:47:24 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/24 16:28:31 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:27:13 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ static int	separate_key_and_value(const char *arg, char **key, char **value)
 	*key = ft_strndup(arg, name_len);
 	*value = ft_strdup(equal_sign + 1);
 	if (!*key || !*value)
-	{
-		get_ms()->exit_status = 1;
 		return (0);
-	}
 	return (1);
 }
 
@@ -68,7 +65,7 @@ static int	add_new_var(t_env *env, const char *arg)
 	if (!env || !arg)
 		return (0);
 	new_var = ft_realloc(env->var, env->count * sizeof(char *),
-			(env->count + 1) * sizeof(char *));
+			(env->count + 2) * sizeof(char *));
 	if (!new_var)
 		return (0);
 	env->var = new_var;
@@ -76,6 +73,7 @@ static int	add_new_var(t_env *env, const char *arg)
 	if (!env->var[env->count])
 		return (0);
 	ft_strlcpy(env->var[env->count], arg, ft_strlen(arg) + 1);
+	env->var[env->count + 1] = NULL;
 	env->count++;
 	return (1);
 }

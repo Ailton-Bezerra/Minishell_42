@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 14:08:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 16:22:28 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 12:26:24 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@ int	delimiter_quotes(char *dlmt)
 	int	double_quote;
 	int	has_quotes;
 
-	i = 0;
+	i = -1;
 	single_quote = 0;
 	double_quote = 0;
 	has_quotes = 0;
-	while (dlmt[i])
+	while (dlmt[++i])
 	{
 		if (dlmt[i] == '\'' && !double_quote)
 		{
 			single_quote = !single_quote;
 			has_quotes = 1;
 		}
-		else if (dlmt[i++] == '\"' && !single_quote)
+		else if (dlmt[i] == '\"' && !single_quote)
 		{
 			double_quote = !double_quote;
 			has_quotes = 1;
@@ -46,14 +46,14 @@ char	*handle_expansion_hd(char *input)
 	t_expand	ex;
 
 	ex_init(&ex);
-	while (input[ex.index])
+	while (input[ex.i])
 	{
-		if (input[ex.index] == '$' && input[ex.index + 1] == '?')
+		if (input[ex.i] == '$' && input[ex.i + 1] == '?')
 			input = expand_exit_status(input);
-		else if (input[ex.index] == '$')
+		else if (input[ex.i] == '$')
 			input = expand_variable(input, &ex);
 		else
-			ex.index++;
+			ex.i++;
 	}
 	return (input);
 }
@@ -64,24 +64,24 @@ void	hd_eof(char *delimiter)
 	ft_putstr_fd("by end-of-file (wanted `", 2);
 	ft_putstr_fd(delimiter, 2);
 	ft_putstr_fd("')\n", 2);
-	exit(0);
 }
 
 void	ctrl_c_hd(int sig)
 {
 	(void)sig;
 	write(1, "\n", 1);
+	clear_all();
 	exit(130);
 }
 
-char *remove_dlmt_quotes(char *dlmt)
+char	*remove_dlmt_quotes(char *dlmt)
 {
-	char *new_dlmt;
-	
-	new_dlmt = NULL;
+	char	*new_dlmt;
+
+	new_dlmt = dlmt;
 	if (dlmt[0] == '\'' && dlmt[(int)ft_strlen(dlmt) - 1] == '\'')
 		new_dlmt = ft_strtrim(dlmt, "\'");
 	else if (dlmt[0] == '\"' && dlmt[(int)ft_strlen(dlmt) - 1] == '\"')
-		new_dlmt = ft_strtrim(dlmt, "\"");;
+		new_dlmt = ft_strtrim(dlmt, "\"");
 	return (new_dlmt);
 }

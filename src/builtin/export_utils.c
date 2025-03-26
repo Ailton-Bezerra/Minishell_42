@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 15:00:53 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/23 17:54:02 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 11:15:36 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 	size_t	copy_size;
 
 	if (new_size == 0)
+	{
+		free (ptr);
 		return (NULL);
+	}
 	new_ptr = gc_malloc(new_size);
 	if (!new_ptr)
 		return (NULL);

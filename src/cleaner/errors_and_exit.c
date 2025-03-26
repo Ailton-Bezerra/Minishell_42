@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 12:36:14 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 17:28:01 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 18:15:16 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	close_fds(void)
 {
 	int	i;
 
-	i = 0;
+	i = 3;
 	while (i <= 1024)
 		close(i++);
 }
@@ -30,20 +30,20 @@ void	print_error(char *cmd)
 void	exec_errors(t_command *cmd, int *flag)
 {
 	if (access(cmd->args[0], F_OK) < 0)
-		{
-			perror(" ");
-			*flag = 127;
-		}
-		else if (access(cmd->args[0], X_OK) == 0)
-		{
-			ft_putstr_fd(" Is a directory\n", 2);
-			*flag = 126;
-		}
-		else
-		{
-			*flag = 126;
-			perror(" ");
-		}
+	{
+		perror(" ");
+		*flag = 127;
+	}
+	else if (access(cmd->args[0], X_OK) == 0)
+	{
+		ft_putstr_fd(" Is a directory\n", 2);
+		*flag = 126;
+	}
+	else
+	{
+		*flag = 126;
+		perror(" ");
+	}
 }
 
 void	clear_all(void)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 09:15:41 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:03:18 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	execute_command(t_command *cmd)
 		if (builtin(cmd->args[0]))
 		{
 			execute_builtin(cmd->args, get_ms()->env_list);
+			clear_all();
 			exit (get_ms()->exit_status);
 		}
 		else
@@ -55,7 +56,6 @@ void	cmd_pipeline(t_command *cmd_list)
 	get_ms()->child_pids = gc_malloc(sizeof(int)
 		* (count_pipes(get_ms()->tokens) + 1));
 	creat_pipes(cmd_list);
-	// print_cmd_list(cmd_list);
 	while (tmp)
 	{
 		execute_command(tmp);
@@ -65,14 +65,47 @@ void	cmd_pipeline(t_command *cmd_list)
 	wait_for_children();
 }
 
+static void	remove_inner_quotes(t_token *t)
+{
+	int		i;
+	char	*new_str;
+	char	quote;
+
+	new_str = ft_strdup("");
+	while (t)
+	{
+		i = 0;
+		if ((ft_strchr(t->value, '\'') || ft_strchr(t->value, '\"')))
+		{
+			while (t->value[i] && t->value[i] != '\'' && t->value[i] != '\"')
+				new_str = ft_strjoin(new_str, (char []){t->value[i++], '\0'});
+			if (ft_strchr(t->value + i + 1, '\'')
+				|| ft_strchr(t->value + i + 1, '\"'))
+				quote = t->value[i];
+			while (t->value[i])
+			{
+				if ((t->value[i] && t->value[i] != quote))
+					new_str = ft_strjoin(new_str, (char []){t->value[i], '\0'});
+				i++;
+			}
+			t->value = new_str;
+		}
+		t = t->next;
+	}
+}
+
 void	exec(void)
 {
 	t_command	*cmd_list;
+	static int	cmd_index = 0;
 
-	cmd_list = creat_cmd_list(get_ms()->tokens);
+	remove_inner_quotes(get_ms()->tokens);
+	cmd_list = creat_cmd_list(get_ms()->tokens, &cmd_index);
 	if (!cmd_list)
 		return ;
 	get_ms()->cmd_list = cmd_list;
+	if (!cmd_list->args[0])
+		return ;
 	if ((builtin(cmd_list->args[0]) && !cmd_list->pipe_out
 			&& (cmd_list->infile && ft_strncmp(cmd_list->infile, "error", 6)))
 		|| (builtin(cmd_list->args[0]) && !cmd_list->pipe_out

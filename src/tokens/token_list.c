@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:17:00 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 14:44:13 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:20:57 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	process_token(t_token **tokens, char *line, int *i)
 	char	quote;
 
 	final_str = ft_strdup("");
+	quote = '\0';
 	while (line[*i] && !ft_strchr(" \t\n", line[*i]))
 	{
 		if (line[*i] == '\'' || line[*i] == '"')

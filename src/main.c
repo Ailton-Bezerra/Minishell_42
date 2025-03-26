@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 12:16:23 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 14:44:53 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:51:19 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,26 @@ static int	read_input(char **input)
 	return (1);
 }
 
-static void	main_loop(t_env *env_list)
+static void	main_loop(void)
 {
 	char		*input;
 	t_token		*tokens;
 	char		**t_env;
 
-	(void)env_list;
 	t_env = get_ms()->env_list->var;
 	while (1)
 	{
 		receive_signal();
 		if (!read_input(&input))
 			break ;
+		gc_track(input);
 		tokens = tokenizer(input);
-		// print_tokens(tokens);
 		if (tokens)
 		{
 			get_ms()->tokens = tokens;
 			check_hd(tokens);
 			exec();
 			tcsetattr(STDIN_FILENO, TCSANOW, &get_ms()->original_term);
-			free(input);
 		}
 	}
 }
@@ -75,7 +73,7 @@ int	main(void)
 	if (!env_list)
 		return (1);
 	init_minishell(env_list);
-	main_loop(env_list);
+	main_loop();
 	clear_all();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 17:45:47 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/02/14 11:48:34 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:40:57 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	command_type(t_token *tokens)
 {
 	t_token	*temp;
-	int		command;	
+	int		command;
 
 	command = 0;
 	temp = tokens;

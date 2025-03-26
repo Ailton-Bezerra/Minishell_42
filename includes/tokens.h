@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 12:10:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/20 14:44:36 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/25 18:37:10 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ enum e_token
 typedef struct s_expand
 {
 	int		quote;
-	int		double_quote;
+	int		d_quote;
 	char	*var_value;
 	int		var_len;
-	int		index;
+	int		i;
 }			t_expand;
 
 typedef struct s_token
@@ -42,5 +42,7 @@ typedef struct s_token
 	struct s_token	*prev;
 	struct s_token	*next;
 }					t_token;
+
+enum e_token	define_types(char *type);
 
 #endif
