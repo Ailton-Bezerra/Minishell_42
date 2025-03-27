@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 10:57:40 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/26 20:03:18 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:55:22 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,41 +65,11 @@ void	cmd_pipeline(t_command *cmd_list)
 	wait_for_children();
 }
 
-static void	remove_inner_quotes(t_token *t)
-{
-	int		i;
-	char	*new_str;
-	char	quote;
-
-	new_str = ft_strdup("");
-	while (t)
-	{
-		i = 0;
-		if ((ft_strchr(t->value, '\'') || ft_strchr(t->value, '\"')))
-		{
-			while (t->value[i] && t->value[i] != '\'' && t->value[i] != '\"')
-				new_str = ft_strjoin(new_str, (char []){t->value[i++], '\0'});
-			if (ft_strchr(t->value + i + 1, '\'')
-				|| ft_strchr(t->value + i + 1, '\"'))
-				quote = t->value[i];
-			while (t->value[i])
-			{
-				if ((t->value[i] && t->value[i] != quote))
-					new_str = ft_strjoin(new_str, (char []){t->value[i], '\0'});
-				i++;
-			}
-			t->value = new_str;
-		}
-		t = t->next;
-	}
-}
-
 void	exec(void)
 {
 	t_command	*cmd_list;
 	static int	cmd_index = 0;
 
-	remove_inner_quotes(get_ms()->tokens);
 	cmd_list = creat_cmd_list(get_ms()->tokens, &cmd_index);
 	if (!cmd_list)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 17:49:27 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/26 20:09:55 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/27 17:27:55 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,6 @@ int	check_sintax(t_token *tokens)
 			|| (ft_strchr(tmp->value, '$') && tmp->prev
 				&& tmp->prev->type != HERE_DOC))
 			tmp->value = handle_expansion(tmp->value);
-		else if (tmp->prev && tmp->prev->type != HERE_DOC)
-			tmp->value = remove_outer_quotes(tmp->value, 0, 0);
 		tmp = tmp->next;
 	}
 	return (1);

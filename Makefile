@@ -20,7 +20,7 @@ SRCS     := $(addprefix $(SRCS_DIR), main.c \
 				redirects/here_doc_list.c redirects/here_doc_utils.c redirects/here_doc.c\
 				redirects/redirects_utils.c redirects/redirects.c \
 				signals/signal.c tokens/quotes.c tokens/sintax.c tokens/token_list.c \
-				tokens/tokenizer.c tokens/types.c)
+				tokens/tokenizer.c tokens/types.c tokens/clear_quotes.c)
 DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 

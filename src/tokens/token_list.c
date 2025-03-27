@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/05 11:17:00 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/26 17:20:57 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:53:06 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,18 @@ static void	append_char(char **final_str, char *line, int *i)
 
 	temp_str = ft_substr(line, *i, 1);
 	*final_str = ft_strjoin(*final_str, temp_str);
-	(*i)++;
 }
 
-static void	process_quote(char *line, int *i, char **final_str, char quote)
+static void	process_quote(char *line, int *i, char quote, char **final_str)
 {
-	char	*temp_str;
-	int		start;
-
-	temp_str = ft_substr(line, *i, 1);
-	*final_str = ft_strjoin(*final_str, temp_str);
+	append_char(final_str, line, i);
 	(*i)++;
-	start = *i;
 	while (line[*i] && line[*i] != quote)
-		(*i)++;
-	temp_str = ft_substr(line, start, *i - start);
-	*final_str = ft_strjoin(*final_str, temp_str);
-	if (line[*i] == quote)
 	{
-		temp_str = ft_substr(line, *i, 1);
-		*final_str = ft_strjoin(*final_str, temp_str);
+		append_char(final_str, line, i);
 		(*i)++;
 	}
+	append_char(final_str, line, i);
 }
 
 void	process_token(t_token **tokens, char *line, int *i)
@@ -88,10 +78,18 @@ void	process_token(t_token **tokens, char *line, int *i)
 		if (line[*i] == '\'' || line[*i] == '"')
 		{
 			quote = line[*i];
-			process_quote(line, i, &final_str, quote);
+			while (line[*i])
+			{
+				process_quote(line, i, quote, &final_str);
+				if (line[*i] == quote)
+				{
+					break ;
+				}
+			}
 		}
 		else
 			append_char(&final_str, line, i);
+		(*i)++;
 	}
 	add_token(tokens, final_str);
 }

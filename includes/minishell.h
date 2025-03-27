@@ -6,7 +6,7 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 11:51:22 by cabo-ram          #+#    #+#             */
-/*   Updated: 2025/03/25 19:05:03 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:51:08 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,9 @@ t_token		*tokenizer(const char *input);
 
 // ============== tokens/types.c ==============
 void		command_type(t_token *tokens);
+
+// ============== tokens/clear_quotes.c ==============
+void		clear_quotes(t_token *t);
 
 // ============== main.c ==============
 t_minishell	*get_ms(void);
