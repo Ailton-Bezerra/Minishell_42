@@ -25,7 +25,7 @@ DIR_OBJ		:= .objs
 OBJS		:= $(SRCS:$(SRCS_DIR)%.c=$(DIR_OBJ)/%.o)
 
 VALGRIND	:= valgrind --leak-check=full --track-origins=yes --track-fds=yes\
-			--show-leak-kinds=all --suppressions=.readline_supression
+			--show-leak-kinds=all --suppressions=.readline.supp
 NO_PRINT	:= --no-print-directory
 CYAN		:= \033[1;36m
 GREEN		:= \033[1;32m
