@@ -6,24 +6,30 @@
 /*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 15:09:04 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/26 12:24:28 by ailbezer         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:34:38 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*delimiter(t_token *tokens)
+void	handle_input(char *dlmt, int quotes, char **input, int fd)
 {
-	t_token	*temp;
-
-	temp = tokens;
-	while (temp->next)
+	while (1)
 	{
-		if (temp->type == HERE_DOC)
+		signal(SIGINT, ctrl_c_hd);
+		*input = readline(CYAN "> " END);
+		gc_track(*input);
+		if (!*input)
+		{
+			hd_eof(dlmt);
 			break ;
-		temp = temp->next;
+		}
+		if (!ft_strcmp(*input, dlmt))
+			break ;
+		if (!quotes)
+			*input = handle_expansion_hd(*input);
+		ft_putendl_fd(*input, fd);
 	}
-	return (temp->next->value);
 }
 
 void	hd_loop(char *dlmt, int fd)
@@ -33,22 +39,7 @@ void	hd_loop(char *dlmt, int fd)
 
 	quotes = delimiter_quotes(dlmt);
 	dlmt = remove_dlmt_quotes(dlmt);
-	while (1)
-	{
-		signal(SIGINT, ctrl_c_hd);
-		input = readline(CYAN "> " END);
-		if (!input)
-		{
-			hd_eof(dlmt);
-			break ;
-		}
-		gc_track(input);
-		if (!ft_strcmp(input, dlmt))
-			break ;
-		if (!quotes)
-			input = handle_expansion_hd(input);
-		ft_putendl_fd(input, fd);
-	}
+	handle_input(dlmt, quotes, &input, fd);
 	clear_all();
 	exit(0);
 }

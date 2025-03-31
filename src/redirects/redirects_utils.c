@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cabo-ram <cabo-ram@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ailbezer <ailbezer@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 15:13:06 by ailbezer          #+#    #+#             */
-/*   Updated: 2025/03/25 09:17:18 by cabo-ram         ###   ########.fr       */
+/*   Updated: 2025/03/28 15:19:08 by ailbezer         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,18 @@ void	remove_redirection(t_token *prev, t_token *curr)
 		prev->next = file->next;
 	else
 		*t = file->next;
+}
+
+char	*delimiter(t_token *tokens)
+{
+	t_token	*temp;
+
+	temp = tokens;
+	while (temp->next)
+	{
+		if (temp->type == HERE_DOC)
+			break ;
+		temp = temp->next;
+	}
+	return (temp->next->value);
 }
