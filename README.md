@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://github.com/Ailton-Bezerra/Ailton-Bezerra/blob/main/badges/minishelle.png" alt="minishell 42 project badge"/>
 <p align="center">
-  <p align="center">
+<p align="center">
   <strong>101/100</strong> ✅
 </p>
 
